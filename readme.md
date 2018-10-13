@@ -11,7 +11,41 @@ The structure of this repo lies mainly in the `WebRTCTemplate` folder. This fold
 When building your WebGL project, you can now see this folder as a template option.
 Selecting this means that Unity will create the final html/js folder using this template. 
 
+## Interface
+This section details the various ways messages are passed both ways
 
+### From JS to unity
+This is done by using `gameInstance.SendMessage` method. `SendMessage` takes 3 arguments:
+
+e.g `gameInstance.SendMessage('UIManager', 'addPlayer', 'player1name')`
+
+- The first argument is the component name that is receiving the information
+- The second argument is the method to call on the component
+- The last argument is additional information passed to the function (via arguments). This can only be strings and ints because yay Unity
+
+#### JS->Unity interfaces
+
+#####UIManager
+
+- `AddPlayer(playerName)`: creates a player with playerName. Ignores if the game is full. Creates a new player with "z" appended if the player name already exists
+- `RemovePlayer(playerName)`: removes a player with the name if it is in the game
+
+##### GameController
+
+- shake actions 
+  -  `ShakePlayer1()`, `ShakePlayer2()`, `ShakePlayer3()`, `ShakePlayer4()`
+  - sends a shake action for that specific player
+  
+### From Unity to JS
+It is hard to do this because Unity requires JS functions to be added as a `.jslib` plugin in the assets folder.
+Calling these functions then requires a weird DLL injection call thing (refer to Browser scripting in references)
+
+#### Unity->JS interfaces
+For now, we do not pass any messages directly since our interfaces are ill defined. For convenience, there
+are two events that are sent on `window` to indicate if some actions are successful/unsuccessful
+
+- `BrowserSuccess()`: fires a "success" event on `window`
+- `BrowserFailure()`: fires a "failure" event on `window` 
 
 # Controller-client
 This application serves as a client to send messages to the unity application. 
@@ -26,3 +60,5 @@ This application lies in the `ControllerClient` folder.
 - [Networking in Unity WebGL](https://docs.unity3d.com/Manual/webgl-networking.html)
 - [Browser scripting with Unity WebGL](https://docs.unity3d.com/Manual/webgl-interactingwithbrowserscripting.html)
 - [WebGL templates](https://docs.unity3d.com/Manual/webgl-templates.html)
+
+
