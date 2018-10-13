@@ -94,14 +94,6 @@ class SumoClient {
 
 }
 
-function flapBird() {
-    client.player.send(JSON.stringify({ type: "flap", payload: "flapSent" }));
-}
-
-function restartGame() {
-    client.player.send(JSON.stringify({ type: "restart", payload: "restartSent" }));
-}
-
 while (true) {
     var playerName = prompt("Enter your name.");
     if (playerName.trim() === "") continue;
@@ -110,13 +102,19 @@ while (true) {
 }
 
 while (true) {
-    let roomKey = prompt("Enter room key.");
+    var roomKey = prompt("Enter room key.");
     if (roomKey.trim() === "") continue;
 
     if (roomKey) break;
 }
 
-let client = new SumoClient(playerName, roomKey);
+var client = new SumoClient(playerName, roomKey);
 client.start();
+function flapBird() {
+    client.player.send(JSON.stringify({ type: "shake", user: client.playerName, payload: "shakeSent" }));
+}
 
+function restartGame() {
+    client.player.send(JSON.stringify({ type: "restart", user: client.playerName, payload: "restartSent" }));
+}
 onbeforeunload = () => client.close();

@@ -5,12 +5,23 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Unity WebGL Player | flappytutorial</title>
     <script src="%UNITY_WEBGL_LOADER_URL%"></script>
-    <script> var gameInstance = UnityLoader.instantiate("gameContainer", "%UNITY_WEBGL_BUILD_URL%", {onProgress: UnityProgress});</script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/simple-peer/9.1.2/simplepeer.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-firestore.js"></script>
     <script src="display.js"></script>
+    <script>
+        function loadHandler(gameInstance, progress) {
+            // Refer to https://docs.unity3d.com/Manual/webgl-templates.html
+            if (progress == 1) {
+                // Emits an event on window to signal load is complete
+                let event = new CustomEvent('loadComplete');
+                window.dispatchEvent(event);
+            }
+        }
+
+        var gameInstance = UnityLoader.instantiate("gameContainer", "%UNITY_WEBGL_BUILD_URL%", {onProgress: loadHandler});
+    </script>
 </head>
 <body>
 <div class="webgl-content">

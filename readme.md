@@ -6,10 +6,12 @@ This repo contains two separate applications:
 # Unity-webRTC Interface
 Unity3d does not provide WebRTC APIs natively, so we are using JS to create a WebRTC connection, and then pass messages to the Unity application 
 
-The structure of this repo lies mainly in the `WebRTCTemplate` folder. This folder is what you should import directly into your Unity project's assets, under a folder named `WebGLTemplates`.
+The structure of this repo lies mainly in the `WebRTCTemplate` folder. This folder is what you should import directly into your Unity project's assets, under a folder named `WebGLTemplates`. *Unity is finicky about JS. Include only `index.html` to avoid complications*. Add in removed files **AFTER** building
 
 When building your WebGL project, you can now see this folder as a template option.
 Selecting this means that Unity will create the final html/js folder using this template. 
+
+
 
 # Controller-client
 This application serves as a client to send messages to the unity application. 
