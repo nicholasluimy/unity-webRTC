@@ -141,7 +141,7 @@ class SumoDisplay {
 }
 
 while (true) {
-    let roomKey = prompt("Enter your room key.");
+    var roomKey = prompt("Enter your room key.");
     if (roomKey.trim() === "") continue;
 
     if (roomKey) break;
