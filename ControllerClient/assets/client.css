@@ -1,0 +1,63 @@
+@font-face {
+  font-family: "LuckiestGuy";
+  src: url("LuckiestGuy.ttf"); }
+@font-face {
+  font-family: "Fredoka";
+  src: url("FredokaOne-Regular.ttf"); }
+.background-styling {
+  background-color: #FFF8ED; }
+
+.column-content {
+  display: flex;
+  flex-direction: column; }
+
+.centering-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column; }
+
+body img {
+  max-width: 100%; }
+
+.disclaimer {
+  margin-top: 72px; }
+
+.main-menu {
+  display: none; }
+  .main-menu .header-image {
+    max-width: 100%; }
+  .main-menu .sumo-image {
+    max-width: 90%; }
+
+.join-room {
+  display: none;
+  font-family: Fredoka, serif; }
+  .join-room .join-room-header {
+    font-size: 48px;
+    margin-top: 12px; }
+  .join-room .join-room-roomcode {
+    width: 90%;
+    margin-top: 52px;
+    font-size: 20px; }
+    .join-room .join-room-roomcode .roomcode-input {
+      margin-top: 8px;
+      background-color: transparent;
+      border: none black;
+      border-bottom: 2px solid; }
+  .join-room .join-room-usercode {
+    width: 90%;
+    margin-top: 52px;
+    font-size: 20px; }
+    .join-room .join-room-usercode .usercode-input {
+      margin-top: 8px;
+      background-color: transparent;
+      border: none black;
+      border-bottom: 2px solid; }
+  .join-room .join-room-join {
+    margin-top: 40px; }
+
+.in-game {
+  font-family: Fredoka, serif; }
+
+/*# sourceMappingURL=client.css.map */
