@@ -29,6 +29,10 @@ class SumoClient {
 
         this.playerName = playerName;
         this.roomKey = roomKey;
+
+        this.gestureListenerIntervals = {};
+        this.gestureCacheStore = {};
+        this.sensor = null;
     }
 
     joinRoom() {
@@ -92,29 +96,93 @@ class SumoClient {
         return "Player left."
     }
 
+    // client gesture handlers
+    startShakeDetect() {
+        // assign this so we dont lost context in helper functions
+        let clientObj = this;
+        if ('LinearAccelerationSensor' in window) {
+
+            this.sensor = new LinearAccelerationSensor();
+            this.sensor.addEventListener('reading', e => {
+                clientObj.gestureCacheStore['shake'] = accelerometer;
+            });
+            this.sensor.start();
+
+
+        } else if ('DeviceMotionEvent' in window) {
+
+            window.addEventListener('devicemotion', function(eventHandler){
+                clientObj.gestureCacheStore['shake'] = eventHandler.acceleration;
+            }, false);
+        }
+
+        function processShake() {
+            let accVal = clientObj.gestureCacheStore['shake'];
+            let squaredLength = accVal.x * accVal.x + accVal.y * accVal.y + accVal.z * accVal.z;
+            console.log("shake saving", accVal, squaredLength);
+            if (squaredLength >= 25) {
+                console.log("past threshold, sending values");
+                clientObj.player.send(
+                    JSON.stringify(
+                        { type: "shake", user: clientObj.playerName, payload: "shakeSent"})
+                );
+            }
+            // Unity source for reference
+            //if (Input.acceleration.sqrMagnitude >= _sqrShakeDetectionThreshold
+            //    && Time.unscaledTime >= _timeSinceLastShake + _minShakeInterval)
+            //{
+            //    _rb2d.AddForce(new Vector2(0, 1000));
+            //    _timeSinceLastShake = Time.unscaledTime;
+            //    _animator.SetTrigger("Flap");
+            //}
+        }
+
+        this.gestureListenerIntervals['shake'] = setInterval(processShake, 200);
+    }
+
+    stopShakeDetect() {
+        if (this.sensor != null) {
+            this.sensor.stop();
+            this.sensor = null;
+        }
+        clearInterval(this.gestureListenerIntervals['shake']);
+        delete this.gestureListenerIntervals['shake'];
+
+    }
+
 }
 
-while (true) {
-    var playerName = prompt("Enter your name.");
-    if (playerName.trim() === "") continue;
 
-    if (playerName) break;
+// Controller state logic
+let mainMenu = document.getElementById('main-menu');
+let joinRoom = document.getElementById('join-room');
+let inGame = document.getElementById('in-game');
+
+// currently hard coded flow
+function mainMenuPlayClicked() {
+    mainMenu.style.display = "none";
+    joinRoom.style.display = "block";
 }
+document.getElementById('main-menu-play').onclick = mainMenuPlayClicked;
 
-while (true) {
-    var roomKey = prompt("Enter room key.");
-    if (roomKey.trim() === "") continue;
 
-    if (roomKey) break;
+var client = null;
+function joinRoomPlayClicked() {
+    joinRoom.style.display = "none";
+    inGame.style.display = "block";
+
+    var playerName = document.getElementById('usercode-input').value;
+    var roomId = document.getElementById('roomcode-input').value;
+    client = new SumoClient(playerName, roomId);
+    client.start()
+
 }
+document.getElementById('join-room-join').onclick = joinRoomPlayClicked;
 
-var client = new SumoClient(playerName, roomKey);
-client.start();
-function flapBird() {
-    client.player.send(JSON.stringify({ type: "shake", user: client.playerName, payload: "shakeSent" }));
-}
 
-function restartGame() {
-    client.player.send(JSON.stringify({ type: "restart", user: client.playerName, payload: "restartSent" }));
-}
+client.startShakeDetect();
+
 onbeforeunload = () => client.close();
+
+
+

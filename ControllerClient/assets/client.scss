@@ -37,8 +37,7 @@ body {
   margin-top: 72px;
 }
 
-.main-menu {
-  display: none;
+#main-menu {
   .header-image {
     max-width: 100%;
   }
@@ -47,7 +46,7 @@ body {
   }
 }
 
-.join-room {
+#join-room {
   display: none;
   font-family: Fredoka, serif;
   .join-room-header {
@@ -58,7 +57,7 @@ body {
     width: 90%;
     margin-top: 52px;
     font-size: 20px;
-    .roomcode-input {
+    #roomcode-input {
       margin-top: 8px;
       background-color: transparent;
       border: none black;
@@ -69,19 +68,20 @@ body {
     width: 90%;
     margin-top: 52px;
     font-size: 20px;
-    .usercode-input {
+    #usercode-input {
       margin-top: 8px;
       background-color: transparent;
       border: none black;
       border-bottom: 2px solid;
     }
   }
-  .join-room-join {
+  #join-room-join {
     margin-top: 40px;
   }
 }
 
-.in-game {
+#in-game {
+  display:none;
   font-family: Fredoka, serif;
 
 }

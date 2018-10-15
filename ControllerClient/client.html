@@ -10,12 +10,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/simple-peer/9.1.2/simplepeer.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-firestore.js"></script>
-    <!--<script src="client.js"></script> -->
     <link rel="stylesheet" href="assets/client.css">
 </head>
 
 <body class="background-styling">
-<div class="centering-content main-menu">
+<div class="centering-content" id="main-menu">
     <img class="header-image" src="assets/images/main-menu/header.png">
     <img id="main-menu-play" src="assets/images/main-menu/button_play.png">
     <img id="main-menu-about" src="assets/images/main-menu/button_about.png">
@@ -23,21 +22,21 @@
     <img class="sumo-image" src="assets/images/main-menu/sumo.png">
 </div>
 
-<div class="centering-content join-room">
+<div class="centering-content" id="join-room">
     <div class="join-room-header centering-content">
         <span>join your</span>
         <span>friends here!</span>
     </div>
     <div class="column-content join-room-roomcode">
         <span>Room Code</span>
-        <input class="roomcode-input" type="text">
+        <input id="roomcode-input" type="text">
     </div>
     <div class="column-content join-room-usercode">
         <span>Display name (<12 characters)</span>
-        <input class="usercode-input" type="text">
+        <input id="usercode-input" type="text">
     </div>
 
-    <img class="join-room-join" src="assets/images/join-room/button_join.png">
+    <img id="join-room-join" src="assets/images/join-room/button_join.png">
 
     <div class="centering-content disclaimer">
         <span>By clicking PLAY, you are agreeing</span>
@@ -45,7 +44,7 @@
     </div>
 </div>
 
-<div class="centering-content in-game">
+<div class="centering-content" id="in-game">
     <div class="centering-content in-game-header">
         <h1>Game in progress</h1>
         <span>Follow the instructions on the screen</span>
@@ -56,6 +55,8 @@
     </div>
 </div>
 
+
+<script src="client.js"></script>
 </body>
 
 </html>

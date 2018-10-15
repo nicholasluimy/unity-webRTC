@@ -23,41 +23,40 @@ body img {
 .disclaimer {
   margin-top: 72px; }
 
-.main-menu {
-  display: none; }
-  .main-menu .header-image {
-    max-width: 100%; }
-  .main-menu .sumo-image {
-    max-width: 90%; }
+#main-menu .header-image {
+  max-width: 100%; }
+#main-menu .sumo-image {
+  max-width: 90%; }
 
-.join-room {
+#join-room {
   display: none;
   font-family: Fredoka, serif; }
-  .join-room .join-room-header {
+  #join-room .join-room-header {
     font-size: 48px;
     margin-top: 12px; }
-  .join-room .join-room-roomcode {
+  #join-room .join-room-roomcode {
     width: 90%;
     margin-top: 52px;
     font-size: 20px; }
-    .join-room .join-room-roomcode .roomcode-input {
+    #join-room .join-room-roomcode #roomcode-input {
       margin-top: 8px;
       background-color: transparent;
       border: none black;
       border-bottom: 2px solid; }
-  .join-room .join-room-usercode {
+  #join-room .join-room-usercode {
     width: 90%;
     margin-top: 52px;
     font-size: 20px; }
-    .join-room .join-room-usercode .usercode-input {
+    #join-room .join-room-usercode #usercode-input {
       margin-top: 8px;
       background-color: transparent;
       border: none black;
       border-bottom: 2px solid; }
-  .join-room .join-room-join {
+  #join-room #join-room-join {
     margin-top: 40px; }
 
-.in-game {
+#in-game {
+  display: none;
   font-family: Fredoka, serif; }
 
 /*# sourceMappingURL=client.css.map */
