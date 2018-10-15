@@ -104,7 +104,7 @@ class SumoClient {
 
             this.sensor = new LinearAccelerationSensor();
             this.sensor.addEventListener('reading', e => {
-                clientObj.gestureCacheStore['shake'] = accelerometer;
+                clientObj.gestureCacheStore['shake'] = clientObj.sensor;
             });
             this.sensor.start();
 
@@ -174,13 +174,13 @@ function joinRoomPlayClicked() {
     var playerName = document.getElementById('usercode-input').value;
     var roomId = document.getElementById('roomcode-input').value;
     client = new SumoClient(playerName, roomId);
-    client.start()
+    client.start();
+    client.startShakeDetect();
 
 }
 document.getElementById('join-room-join').onclick = joinRoomPlayClicked;
 
 
-client.startShakeDetect();
 
 onbeforeunload = () => client.close();
 
