@@ -34,6 +34,9 @@ class SumoDisplay {
             messagingSenderId: "903886436512"
         });
 
+        // Anonymously login user
+        firebase.auth().signInAnonymously();
+
         // Initialize Cloud Firestore through Firebase
         this.db = firebase.firestore();
 
@@ -58,7 +61,14 @@ class SumoDisplay {
         this.roomKey = "default";
     }
 
+    createRoom() {
+        console.log(`Creating Room with key: ${this.roomKey}.`);
 
+        return this.db.collection('rooms').doc(this.roomKey).set({
+            createTime: Date.now(),
+            uid: firebase.auth().currentUser.uid
+        });
+    }
 
     // playerDoc: the document snapshot in firestore that represents the player.
     // return: SimplePeer object that represents the player.
@@ -87,8 +97,9 @@ class SumoDisplay {
         }
 
         console.log(`Sending offer to ${playerDoc.id}.`);
-        playerDoc.ref.set({
-            offer: data
+        return playerDoc.ref.set({
+            offer: data,
+            offerUid: firebase.auth().currentUser.uid,
         }, { merge: true });
     }
 
@@ -128,7 +139,7 @@ class SumoDisplay {
         console.log(`Disconnected from ${playerDoc.id}`);
         this.players[playerDoc.id].destroy();
 
-        if(playerDoc.exists) playerDoc.ref.delete();
+        if (playerDoc.exists) return playerDoc.ref.delete();
     }
 
     // data: data param from SimplePeer.on('data').
@@ -149,31 +160,47 @@ class SumoDisplay {
         }
     }
 
+    handleListener(snapshot) {
+        snapshot.docChanges().forEach(change => {
+            // new player joined
+            if (change.type === 'added') {
+                var player = this.createPlayer(change.doc);
+                player.on('signal', data => this.sendOffer(change.doc, data));
+                player.on('error', error => this.handleError(error));
+                player.on('connect', () => this.handleConnect(change.doc));
+                player.on('close', () => this.handleDisconnect(change.doc));
+                player.on('data', data => this.handleData(data));
+            }
+            // player answer to offer
+            if (change.type === 'modified') {
+                this.receiveAnswer(change.doc);
+            }
+            // player left
+            if (change.type === 'removed') {
+                this.handleDisconnect(change.doc);
+            }
+        });
+    }
+
     start() {
         console.log(`rooms/${this.roomKey}/players`);
-        this.detachListener = this.db.collection(`rooms/${this.roomKey}/players`).onSnapshot(snapshot => {
-            snapshot.docChanges().forEach(change => {
-                // new player joined
-                if (change.type === 'added') {
-                    var player = display.createPlayer(change.doc);
+        firebase.auth().signInAnonymously().catch(error => {
+            console.error("Fail to initialize display.");
+            console.log(error);
+        });
 
-                    player.on('signal', data => this.sendOffer(change.doc, data));
-                    player.on('error', error => this.handleError(error));
-                    player.on('connect', () => this.handleConnect(change.doc));
-                    player.on('close', () => this.handleDisconnect(change.doc));
-                    player.on('data', data => this.handleData(data));
-                }
+        firebase.auth().onAuthStateChanged(room => {
+            if (room) {
+                console.log(`Initialized display "${this.roomKey}:${room.uid}".`);
 
-                // player answer to offer
-                if (change.type === 'modified') {
-                    display.receiveAnswer(change.doc);
-                }
+                this.createRoom().then(() => {
+                    this.detachListener = this.db.collection(`rooms/${this.roomKey}/players`)
+                        .onSnapshot(snapshot => this.handleListener(snapshot));
+                });
 
-                // player left
-                if (change.type === 'removed') {
-                    this.handleDisconnect(change.doc);
-                }
-            });
+            } else {
+                console.log(`Display has been decommissioned.`);
+            }
         });
     }
 
@@ -201,15 +228,14 @@ function setRoom() {
             console.log(roomId);
             console.log(display.roomKey);
             console.log("room with key " + roomId + " does not exist, creating room...");
-            display.rooms.doc(roomId).set({createTime: Date.now()});
+
             display.roomKey = roomId;
-            console.log(display.roomKey);
+            // Only start here because it is async
+            display.start();
             roomSet = true;
             if (loadComplete) {
                 gameInstance.SendMessage('UIManager', 'SetRoomCode', display.roomKey);
             }
-            // Only start here because it is async
-            display.start();
         }
     });
 }
