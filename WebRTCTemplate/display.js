@@ -1,27 +1,12 @@
 "use strict";
-function generateRoomId() {
-    // Temp fix method to auto-generate roomIDs, until we implement a firebase function
-    // Or game sessions manager server
-    // Use by generating and checking if doc already exists, and regenerate if it does
-    // Collision space is 35^roomIdLength
-    var roomId = "";
-    var charSet = "abcdefghijklmnopqrstuvwxyz0123456789";
-    var charSetLength = charSet.length;
-    var roomIdLength = 5;
-
-    for (var i = 0; i < roomIdLength; i++) {
-        roomId += charSet.charAt(Math.floor(Math.random() * charSetLength));
-    }
-    return roomId;
-}
-
-
 class SumoDisplay {
     /*
         SumoDisplay is the host-client object
         It contains:
             - Setup details for the application's webRTC signalling server
             - Event handlers for managing incoming connections and messages
+            - Game state object reference
+                - (we instantiate through display)
      */
     constructor() {
         // Initialize Firebase
@@ -50,14 +35,7 @@ class SumoDisplay {
         // Initialize a hashmap to keep track of connected players
         this.players = {};
 
-        this.maxGamePlayers = 4;
-        this.inGamePlayers = ["","","",""];
-        this.inGamePlayersHash = {};
-        this.inGamePlayersCount = 0;
-
-        // arrays of unity functions, idx by player num
-        this.unityShakeFunctions = ["ShakePlayer1", "ShakePlayer2", "ShakePlayer3", "ShakePlayer4"];
-
+        this.gameState = GameState();
         this.roomKey = "default";
     }
 
@@ -75,16 +53,11 @@ class SumoDisplay {
     createPlayer(playerDoc) {
         console.log(`Creating player with name: ${playerDoc.id}.`);
         var player = new SimplePeer({ initiator: true, trickle: false });
+
+        // Add players to gameState, and track result
+        // Used to determine if we can disconnect from the game
+        player.isInGame = this.gameState.addPlayer(playerDoc.id);
         this.players[playerDoc.id] = player;
-
-        // to mirror state in unity. We still add players to this.players so that we can handle disconnects
-        if (!(this.inGamePlayersCount == this.maxGamePlayers)) {
-            this.inGamePlayersCount++;
-            var insertIdx = this.inGamePlayers.indexOf("");
-            this.inGamePlayersHash[playerDoc.id] = insertIdx;
-            this.inGamePlayers[insertIdx] = playerDoc.id;
-        }
-
         return player;
     }
 
@@ -119,22 +92,14 @@ class SumoDisplay {
     // playerDoc: the document snapshot in firestore that represents the player.
     handleConnect(playerDoc) {
         console.log(`Connected to ${playerDoc.id}`);
-        gameInstance.SendMessage('UIManager', 'AddPlayer', playerDoc.id);
     }
 
     // playerDoc: the document snapshot in firestore that represents the player.
     handleDisconnect(playerDoc) {
-        // to mirror state in unity. We still add players to this.players so that we can handle disconnects
+        if (this.players[playerDoc.id].isInGame = true) {
+            this.gameState.dropPlayer(playerDoc.id);
 
-        var inGameIdx = this.inGamePlayers.indexOf(playerDoc.id);
-        if (inGameIdx != -1) {
-            this.inGamePlayers[inGameIdx] = "";
-            delete this.inGamePlayersHash[playerDoc.id];
-            this.inGamePlayersCount--;
         }
-
-        gameInstance.SendMessage('UIManager', 'RemovePlayer', playerDoc.id);
-
 
         console.log(`Disconnected from ${playerDoc.id}`);
         this.players[playerDoc.id].destroy();
@@ -147,17 +112,7 @@ class SumoDisplay {
         var d = JSON.parse(String.fromCharCode.apply(null, data));
         console.log("logging data received");
         console.log(d);
-        // Add additional unity hooks here on receiving data. Currently not parsing data,
-        // but logging to be able to see
-        if (d.type === 'shake') {
-            var sendingUser = d.user;
-            console.log(d.user);
-            console.log(this.inGamePlayersHash, this.inGamePlayers);
-            if (this.inGamePlayersHash[sendingUser] != null) {
-                gameInstance.SendMessage('GameController', this.unityShakeFunctions[this.inGamePlayersHash[sendingUser]]);
-            }
-
-        }
+        this.gameState.handleData(d);
     }
 
     handleListener(snapshot) {
@@ -169,7 +124,11 @@ class SumoDisplay {
                 player.on('error', error => this.handleError(error));
                 player.on('connect', () => this.handleConnect(change.doc));
                 player.on('close', () => this.handleDisconnect(change.doc));
-                player.on('data', data => this.handleData(data));
+                player.on('data', function(data){
+                    if (player.isInGame) {
+                        this.gameState.handleData(data);
+                    }
+                });
             }
             // player answer to offer
             if (change.type === 'modified') {
@@ -212,41 +171,3 @@ class SumoDisplay {
         return "Room closed."
     }
 }
-
-var display = new SumoDisplay();
-var roomSet = false;
-var loadComplete = false;
-
-function setRoom() {
-    var roomId = generateRoomId();
-    // check if room exists
-    display.rooms.doc(roomId).get().then(function(doc){
-        if (doc.exists) {
-            console.log("room with key " + roomId + " already exists, trying again...");
-            setRoom();
-        } else {
-            console.log(roomId);
-            console.log(display.roomKey);
-            console.log("room with key " + roomId + " does not exist, creating room...");
-
-            display.roomKey = roomId;
-            // Only start here because it is async
-            display.start();
-            roomSet = true;
-            if (loadComplete) {
-                gameInstance.SendMessage('UIManager', 'SetRoomCode', display.roomKey);
-            }
-        }
-    });
-}
-setRoom();
-
-window.addEventListener("loadComplete", function(e){
-    loadComplete = true;
-    if (roomSet) {
-        gameInstance.SendMessage('UIManager', 'SetRoomCode', display.roomKey);
-    }
-},false);
-
-onbeforeunload = () => display.close();
-

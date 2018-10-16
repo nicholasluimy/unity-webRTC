@@ -10,7 +10,6 @@
     <script src="https://www.gstatic.com/firebasejs/5.5.3/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.5.3/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.5.3/firebase-firestore.js"></script>
-    <script src="display.js"></script>
     <script>
         function loadHandler(gameInstance, progress) {
             // Refer to https://docs.unity3d.com/Manual/webgl-templates.html
@@ -30,11 +29,14 @@
     <div class="footer">
         <div class="webgl-logo"></div>
         <div class="fullscreen" onclick="gameInstance.SetFullscreen(1)"></div>
-        <div class="title">flappytutorial</div>
+        <div class="title">FomoSumo</div>
     </div>
 </div>
 
-
+<!-- Our scripts are after the game content, since we need a reference to gameInstance-->
+<script src="game-state.js"></script>
+<script src="display.js"></script>
+<script src="host-logic.js"></script>
 </body>
 
 </html>
