@@ -35,7 +35,7 @@ class SumoDisplay {
         // Initialize a hashmap to keep track of connected players
         this.players = {};
 
-        this.gameState = GameState();
+        this.gameState = new GameState();
         this.roomKey = "default";
     }
 
