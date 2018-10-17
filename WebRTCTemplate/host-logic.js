@@ -25,7 +25,10 @@ display.onPlayerDisconnected = playerId => {
 }
 
 display.onPlayerData = data => {
-    this.gameState.handleData(data);
+    // remember to parse the json string to js object
+    const playerData = JSON.parse(data);
+
+    this.gameState.handleData(playerData);
 }
 
 display.onRoomCreatedSuccess = roomKey => {

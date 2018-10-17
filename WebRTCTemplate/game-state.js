@@ -40,12 +40,9 @@ class GameState {
 
     handleData(data) {
         console.log("game state received data");
-
-        const playerData = JSON.parse(data);
-        
-        if (playerData.type === 'shake') {
-            var sendingUser = playerData.user;
-            console.log(playerData.user);
+        if (data.type === 'shake') {
+            var sendingUser = data.user;
+            console.log(data.user);
             console.log(this.inGamePlayersHash, this.inGamePlayers);
             if (this.inGamePlayersHash[sendingUser] != null) {
                 gameInstance.SendMessage('GameController', this.unityShakeFunctions[this.inGamePlayersHash[sendingUser]]);
