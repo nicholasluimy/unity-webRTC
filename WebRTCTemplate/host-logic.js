@@ -19,6 +19,30 @@ var display = new SumoDisplay();
 var roomSet = false;
 var loadComplete = false;
 
+display.onPlayerCreated = playerId  => {
+    // Add players to gameState, and track result
+    // Used to determine if we can disconnect from the game
+    // TODO
+    //player.isInGame = this.gameState.addPlayer(playerDoc.id);
+}
+
+display.onPlayerDisconnected = playerId => {
+    // TODO
+    /*
+    if (this.players[playerDoc.id].isInGame = true) {
+        this.gameState.dropPlayer(playerDoc.id);
+    }*/
+}
+
+display.onData = data => {
+    //TODO
+    /*function(data){
+        if (player.isInGame) {
+            this.gameState.handleData(data);
+        }
+    });*/
+}
+
 function setRoom() {
     // recursive function so that we can keep trying until we get a room
     var roomId = generateRoomId();
