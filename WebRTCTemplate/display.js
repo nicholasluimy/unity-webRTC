@@ -31,6 +31,8 @@ class SumoDisplay {
         this.players = {};
 
         this.roomKey = "(not-set)";
+        this.maxRetry = 5;
+        this.retry = 0;
 
         this.onPlayerCreated = new Function();
         this.onPlaterDisconnected = new Function();
@@ -152,9 +154,15 @@ class SumoDisplay {
         });
     }
 
-
-
     start(roomKey) {
+
+        this.retry++;
+
+        if(this.retry >= this.maxRetry ){
+            console.log("Exceeded number of retries to start game room. Aborting.")
+            return;
+        }
+
         console.log("Initializing display.")
 
         firebase.auth().signInAnonymously().catch(error => {

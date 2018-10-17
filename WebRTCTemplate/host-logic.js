@@ -38,7 +38,8 @@ display.onRoomCreatedSuccess = roomKey => {
 }
 
 display.onRoomCreatedFail = roomKey => {
-    //TODO
+    // retry
+    display.start(generateRoomId());
 }
 
 display.start(generateRoomId());
