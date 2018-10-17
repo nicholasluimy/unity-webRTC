@@ -75,7 +75,7 @@ class SumoClient {
     }
 
     handleListener(snapshot) {
-        this.player = new SimplePeer({ initator: false, trickle: false });
+        this.player = new SimplePeer({ initator: false, trickle: false, objectMode: true });
 
         this.receiveOffer(snapshot);
 

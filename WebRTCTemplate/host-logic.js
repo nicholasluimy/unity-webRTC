@@ -1,4 +1,49 @@
 "use strict";
+var display = new SumoDisplay();
+var roomSet = false;
+var loadComplete = false;
+var gameState = new GameState();
+var roomKey = "(not-set)";
+
+window.addEventListener("loadComplete", function(e){
+    loadComplete = true;
+    if (roomSet) {
+        gameInstance.SendMessage('UIManager', 'SetRoomCode', this.roomKey);
+    }
+},false);
+
+window.onbeforeunload = () => display.close();
+
+display.onPlayerCreated = playerId  => {
+    // Add players to gameState, and track result
+    // Used to determine if we can disconnect from the game
+    this.gameState.addPlayer(playerId);
+}
+
+display.onPlayerDisconnected = playerId => {
+    this.gameState.dropPlayer(playerId);
+}
+
+display.onPlayerData = data => {
+    this.gameState.handleData(data);
+}
+
+display.onRoomCreatedSuccess = roomKey => {
+    this.roomKey = roomKey;
+    roomSet = true;
+
+    if (loadComplete) {
+        gameInstance.SendMessage('UIManager', 'SetRoomCode', this.roomKey);
+    }
+}
+
+display.onRoomCreatedFail = roomKey => {
+    //TODO
+}
+
+display.start(generateRoomId());
+
+
 function generateRoomId() {
     // Temp fix method to auto-generate roomIDs, until we implement a firebase function
     // Or game sessions manager server
@@ -15,39 +60,14 @@ function generateRoomId() {
     return roomId;
 }
 
-var display = new SumoDisplay();
-var roomSet = false;
-var loadComplete = false;
-
-display.onPlayerCreated = playerId  => {
-    // Add players to gameState, and track result
-    // Used to determine if we can disconnect from the game
-    // TODO
-    //player.isInGame = this.gameState.addPlayer(playerDoc.id);
-}
-
-display.onPlayerDisconnected = playerId => {
-    // TODO
-    /*
-    if (this.players[playerDoc.id].isInGame = true) {
-        this.gameState.dropPlayer(playerDoc.id);
-    }*/
-}
-
-display.onData = data => {
-    //TODO
-    /*function(data){
-        if (player.isInGame) {
-            this.gameState.handleData(data);
-        }
-    });*/
-}
-
+/*
 function setRoom() {
     // recursive function so that we can keep trying until we get a room
     var roomId = generateRoomId();
+    display.roomKey = roomId;
+
     // check if room exists
-    display.rooms.doc(roomId).get().then(function(doc){
+    display.isRoomExists(roomId).then(function(doc){
         if (doc.exists) {
             console.log("room with key " + roomId + " already exists, trying again...");
             setRoom();
@@ -67,13 +87,5 @@ function setRoom() {
     });
 }
 setRoom();
-
-window.addEventListener("loadComplete", function(e){
-    loadComplete = true;
-    if (roomSet) {
-        gameInstance.SendMessage('UIManager', 'SetRoomCode', display.roomKey);
-    }
-},false);
-
-onbeforeunload = () => display.close();
+*/
 

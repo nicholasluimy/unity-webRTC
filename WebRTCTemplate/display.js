@@ -30,19 +30,19 @@ class SumoDisplay {
         // Initialize a hashmap to keep track of connected players
         this.players = {};
 
-        // TODO
-        //this.gameState = new GameState();
         this.roomKey = "(not-set)";
 
         this.onPlayerCreated = new Function();
         this.onPlaterDisconnected = new Function();
-        this.onData = new Function();
+        this.onPlayerData = new Function();
+        this.onRoomCreatedSuccess = new Function();
+        this.onRoomCreatedFail = new Function();
     }
 
-    isRoomExists(roomKey){
-        console.log(`Checking if room "${roomkey} exists."`)
+    isRoomExists(roomKey) {
+        console.log(`Checking availability of room "${roomKey}".`)
 
-        return this.db.collection('rooms').doc(coomKey).get();
+        return this.db.collection('rooms').doc(roomKey).get();
     }
 
     createRoom(roomKey) {
@@ -60,7 +60,7 @@ class SumoDisplay {
     // return: SimplePeer object that represents the player.
     createPlayer(playerDoc) {
         console.log(`Creating player with name: ${playerDoc.id}.`);
-        var player = new SimplePeer({ initiator: true, trickle: false });
+        var player = new SimplePeer({ initiator: true, trickle: false, objectMode: true });
 
         this.players[playerDoc.id] = player;
 
@@ -78,7 +78,7 @@ class SumoDisplay {
         }
 
         console.log(`Sending offer to ${playerDoc.id}.`);
-        
+
         return playerDoc.ref.set({
             offer: data,
             offerUid: firebase.auth().currentUser.uid,
@@ -108,7 +108,7 @@ class SumoDisplay {
     handleDisconnect(playerDoc) {
         console.log(`Disconnected from ${playerDoc.id}`);
 
-        this.onDisconnect(playerDoc.id);
+        this.onPlayerDisconnected(playerDoc.id);
 
         this.players[playerDoc.id].destroy();
 
@@ -118,51 +118,71 @@ class SumoDisplay {
     // data: data param from SimplePeer.on('data').
     handleData(data) {
         //var d = JSON.parse(String.fromCharCode.apply(null, data));
-        console.log("logging data received");
+        console.log("Received raw data from client.");
         console.log(data);
 
-        this.onData(data);
+        this.onPlayerData(data);
     }
 
-    handleListener(snapshot) {
-        snapshot.docChanges().forEach(change => {
-            // new player joined
-            if (change.type === 'added') {
-                var player = this.createPlayer(change.doc);
-                player.on('signal', data => this.sendOffer(change.doc, data));
-                player.on('error', error => this.handleError(error));
-                player.on('connect', () => this.handleConnect(change.doc));
-                player.on('close', () => this.handleDisconnect(change.doc));
-                player.on('data', data => this.handleData(data));
-            }
-            // player answer to offer
-            if (change.type === 'modified') {
-                this.receiveAnswer(change.doc);
-            }
-            // player left
-            if (change.type === 'removed') {
-                this.handleDisconnect(change.doc);
-            }
+    handleListener() {
+        console.log("Setting up listener for P2P candidates.")
+        this.detachListener = this.db.collection(`rooms/${this.roomKey}/players`).onSnapshot(snapshot => {
+            snapshot.docChanges().forEach(change => {
+                // new player joined
+                if (change.type === 'added') {
+                    console.log(`Player "${change.doc.id}" would like to start a peer connection.`);
+
+                    var player = this.createPlayer(change.doc);
+
+                    player.on('signal', data => this.sendOffer(change.doc, data));
+                    player.on('error', error => this.handleError(error));
+                    player.on('connect', () => this.handleConnect(change.doc));
+                    player.on('close', () => this.handleDisconnect(change.doc));
+                    player.on('data', data => this.handleData(data));
+                }
+                // player answer to offer
+                if (change.type === 'modified') {
+                    this.receiveAnswer(change.doc);
+                }
+                // player left
+                if (change.type === 'removed') {
+                    this.handleDisconnect(change.doc);
+                }
+            });
         });
     }
 
-    start() {
-        console.log(`rooms/${this.roomKey}/players`);
+
+
+    start(roomKey) {
+        console.log("Initializing display.")
 
         firebase.auth().signInAnonymously().catch(error => {
             console.error("Fail to initialize display.");
             console.log(error);
         });
 
-        firebase.auth().onAuthStateChanged(room => {
-            if (room) {
-                console.log(`Initialized display "${this.roomKey}:${room.uid}".`);
+        firebase.auth().onAuthStateChanged(authState => {
+            if (authState) {
+                console.log(`Initialized display "${roomKey}:${authState.uid}".`);
 
-                this.createRoom().then(() => {
-                    this.detachListener = this.db.collection(`rooms/${this.roomKey}/players`)
-                        .onSnapshot(snapshot => this.handleListener(snapshot));
-                });
+                this.isRoomExists(roomKey).then(room => {
+                    if (!room.exists) {
+                        console.log(`Room "${roomKey} is available."`)
+                        this.createRoom(roomKey).then(() => {
+                            this.handleListener();
 
+                            this.onRoomCreatedSuccess(roomKey);
+                        });
+                    } else {
+                        console.log(`Room "${roomKey}" is unavailable.`)
+
+                        this.onRoomCreatedFail(roomKey);
+                    }
+                }).catch(error => {
+                    console.log("Unknown error when creating room.");
+                    console.log(error);
+                })
             } else {
                 console.log(`Display has been decommissioned.`);
             }
@@ -171,7 +191,7 @@ class SumoDisplay {
 
     close() {
         console.log(`Closing room "${this.roomKey}".`);
-        this.rooms.doc(this.roomKey).delete();
+        this.db.collection("rooms").doc(this.roomKey).delete();
         this.detachListener();
 
         return "Room closed."
