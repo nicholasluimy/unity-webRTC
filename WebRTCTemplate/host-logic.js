@@ -64,32 +64,3 @@ function generateRoomId() {
     return roomId;
 }
 
-/*
-function setRoom() {
-    // recursive function so that we can keep trying until we get a room
-    var roomId = generateRoomId();
-    display.roomKey = roomId;
-
-    // check if room exists
-    display.isRoomExists(roomId).then(function(doc){
-        if (doc.exists) {
-            console.log("room with key " + roomId + " already exists, trying again...");
-            setRoom();
-        } else {
-            console.log(roomId);
-            console.log(display.roomKey);
-            console.log("room with key " + roomId + " does not exist, creating room...");
-
-            display.roomKey = roomId;
-            // Only start here because it is async
-            display.start();
-            roomSet = true;
-            if (loadComplete) {
-                gameInstance.SendMessage('UIManager', 'SetRoomCode', display.roomKey);
-            }
-        }
-    });
-}
-setRoom();
-*/
-
