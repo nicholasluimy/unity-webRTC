@@ -22,7 +22,7 @@ class GameState {
             var insertIdx = this.inGamePlayers.indexOf("");
             this.inGamePlayersHash[username] = insertIdx;
             this.inGamePlayers[insertIdx] = username;
-            gameInstance.SendMessage('UIManager', 'AddPlayer', username.id);
+            gameInstance.SendMessage('UIManager', 'AddPlayer', username);
             return true;
         }
         return false;
@@ -39,6 +39,7 @@ class GameState {
     }
 
     handleData(data) {
+        console.log("game state received data");
         if (data.type === 'shake') {
             var sendingUser = data.user;
             console.log(data.user);

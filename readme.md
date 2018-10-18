@@ -54,6 +54,9 @@ It involves some basic user flows, such as entering a roomID
 
 This application lies in the `ControllerClient` folder. 
 
+## Firebase Hosting
+Host: https://fomosumos-unity.firebaseapp.com/host/
+Client: https://fomosumos-unity.firebaseapp.com/client/
 
 
 # References
