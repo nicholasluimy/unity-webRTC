@@ -66,6 +66,7 @@ fabric.properties
 .idea/caches/build_file_checksums.ser
 
 games/**
+!games/README.md
 .firebase/**
 firebase.json
 .firebaserc

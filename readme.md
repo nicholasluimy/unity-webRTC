@@ -56,6 +56,7 @@ This application lies in the `ControllerClient` folder.
 
 ## Firebase Hosting
 Host: https://fomosumos-unity.firebaseapp.com/host/
+
 Client: https://fomosumos-unity.firebaseapp.com/client/
 
 
