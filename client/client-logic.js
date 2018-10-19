@@ -10,7 +10,7 @@ var gestureListenerIntervals = {};
 var gestureCacheStore = {};
 var sensor = null;
 
-
+// Acceleration sensor reference: https://whatwebcando.today/device-motion.html
 var processShake = setInterval(() => {
     let accVal = gestureCacheStore['shake'];
     let squaredLength = accVal.x * accVal.x + accVal.y * accVal.y + accVal.z * accVal.z;
@@ -53,7 +53,7 @@ var startShakeDetect = () => {
     }
 
     gestureListenerIntervals['shake'] = processShake;
-}
+};
 
 var stopShakeDetect = () => {
     if (sensor != null) {
@@ -63,8 +63,38 @@ var stopShakeDetect = () => {
 
     clearInterval(gestureListenerIntervals['shake']);
     delete gestureListenerIntervals['shake'];
-}
+};
 
+// Tilt sensor reference: https://whatwebcando.today/device-position.html
+var processTilt = setInterval(() => {
+    let tiltData = gestureCacheStore['tilt'];
+    var tiltLR = tiltData.gamma;
+    var tiltFB = tiltData.beta;
+    console.log("tilt data polling", tiltLR, tiltFB);
+    console.log("sending tilt data");
+    var jsonPayload = tiltLR.toString() + "|" + tiltFB.toString();
+    console.log("payload", jsonPayload);
+    this.client.player.send(JSON.stringify({
+        type: "tilt",
+        user: playerName,
+        payload: jsonPayload,
+    }));
+}, 200);
+
+var startTiltDetect = () => {
+    if ('DeviceOrientationEvent' in window) {
+        window.addEventListener('deviceorientation', tiltHandler => {
+            gestureCacheStore['tilt'] = tiltHandler;
+        }, false);
+    }
+
+    gestureListenerIntervals['tilt'] = processTilt;
+};
+
+var stopTiltDetect = () => {
+    clearInterval(gestureListenerIntervals['tilt']);
+    delete gestureListenerIntervals['tilt'];
+};
 
 
 
@@ -87,6 +117,7 @@ function joinRoomPlayClicked() {
     client = new SumoClient(playerName, roomId);
     client.start();
 
+    // TODO: Decide what kinda detection mode we are in, based off info from Display
     startShakeDetect();
 
 }
