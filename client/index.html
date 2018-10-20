@@ -8,9 +8,11 @@
     <title>webrtc</title>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/simple-peer/9.1.2/simplepeer.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/6.3.3/rxjs.umd.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.5.3/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.5.3/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.5.3/firebase-firestore.js"></script>
+    <script type="text/javascript" src="./shake.js"></script>
     <link rel="stylesheet" href="assets/client.css">
 </head>
 
@@ -18,7 +20,7 @@
 
 <div class="centering-content" id="main-menu">
     <img class="header-image" src="assets/images/main-menu/header.png">
-    <img class ="menu-button" src="assets/images/main-menu/button_play.png">
+    <img id="main-menu-play" class ="menu-button" src="assets/images/main-menu/button_play.png">
     <img class ="menu-button" src="assets/images/main-menu/button_about.png">
     <img class ="menu-button" src="assets/images/main-menu/button_help.png">
     <img class="sumo-image" src="assets/images/main-menu/sumo.png">

@@ -119,7 +119,6 @@ class SumoDisplay {
 
     // data: data param from SimplePeer.on('data').
     handleData(data) {
-        //var d = JSON.parse(String.fromCharCode.apply(null, data));
         console.log("Received raw data from client.");
         console.log(data);
 
