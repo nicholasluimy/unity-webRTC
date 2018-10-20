@@ -119,10 +119,28 @@ body img {
   max-width: 80%;
 }
 
+#confirmed-in-game {
+  display: none;
+  font-family: Fredoka, serif;
+}
+#confirmed-in-game .confirmed-in-game-header {
+  font-size: 40px;
+  margin-top: 10%;
+  margin-bottom: 20%;
+}
+#confirmed-in-game .confirmed-in-game-header .sub-header {
+  font-size: 20px;
+}
+#confirmed-in-game img {
+  margin-bottom: 10%;
+}
+
 #in-game {
+  display: none;
   font-family: Fredoka, serif;
 }
 #in-game .in-game-header {
+  font-size: 40px;
   margin-top: 10%;
   margin-bottom: 10%;
 }
@@ -131,6 +149,70 @@ body img {
 }
 #in-game .game-icon {
   max-width: 80%;
+}
+
+#game-over {
+  display: none;
+  font-family: Fredoka, serif;
+}
+#game-over .game-over-header {
+  font-size: 40px;
+  margin-top: 10%;
+  margin-bottom: 10%;
+}
+#game-over .player {
+  font-size: 20px;
+}
+#game-over .player img {
+  max-width: 50%;
+  margin-bottom: 5%;
+}
+#game-over table {
+  font-size: 1.5em;
+  margin-top: 20%;
+  margin-bottom: 10%;
+  border-spacing: 50px 0;
+}
+#game-over table .entry {
+  font-size: 2em;
+}
+#game-over .buttons {
+  margin-top: 5%;
+  max-width: 90%;
+}
+
+#about {
+  display: none;
+  font-family: Fredoka, serif;
+}
+#about .about-header {
+  font-size: 40px;
+  margin-top: 10%;
+}
+#about .about-header img {
+  margin-top: 5px;
+  max-width: 20%;
+}
+#about .text {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+#help {
+  font-family: Fredoka, serif;
+}
+#help .help-header {
+  font-size: 40px;
+  margin-top: 10%;
+}
+#help .help-header img {
+  margin-top: 5px;
+  max-width: 20%;
+}
+#help .text {
+  margin-left: 10px;
+  margin-right: 10px;
+  text-align: center;
 }
 
 /*# sourceMappingURL=client.css.map */

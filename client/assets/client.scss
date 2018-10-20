@@ -140,10 +140,31 @@ body {
   }
 }
 
+#confirmed-in-game {
+  display: none;
+  font-family: Fredoka, serif;
+
+  .confirmed-in-game-header {
+    font-size: 40px;
+    margin-top: 10%;
+    margin-bottom: 20%;
+
+    .sub-header {
+      font-size: 20px;
+    }
+  }
+
+  img {
+    margin-bottom: 10%;
+  }
+}
+
 #in-game {
+  display: none;
   font-family: Fredoka, serif;
 
   .in-game-header {
+    font-size: 40px;
     margin-top: 10%;
     margin-bottom: 10%;
   }
@@ -156,4 +177,80 @@ body {
     max-width: 80%;
   }
 
+}
+
+#game-over {
+  display: none;
+  font-family: Fredoka, serif;
+
+  .game-over-header {
+    font-size: 40px;
+    margin-top: 10%;
+    margin-bottom: 10%;
+  }
+
+  .player {
+    font-size: 20px;
+    img {
+      max-width: 50%;
+      margin-bottom: 5%;
+    }
+  }
+
+  table {
+    font-size: 1.5em;
+    margin-top: 20%;
+    margin-bottom: 10%;
+    border-spacing: 50px 0;
+
+    .entry {
+      font-size: 2em;
+    }
+  }
+
+  .buttons {
+      margin-top: 5%;
+      max-width: 90%;
+  }
+}
+
+#about {
+  display: none;
+  font-family: Fredoka, serif;
+
+  .about-header {
+    font-size: 40px;
+    margin-top: 10%;
+
+    img {
+      margin-top: 5px;
+      max-width: 20%;
+    }
+  }
+
+  .text {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+}
+
+#help {
+
+  font-family: Fredoka, serif;
+
+  .help-header {
+    font-size: 40px;
+    margin-top: 10%;
+
+    img {
+      margin-top: 5px;
+      max-width: 20%;
+    }
+  }
+
+  .text {
+    margin-left: 10px;
+    margin-right: 10px;
+    text-align: center;
+  }
 }
