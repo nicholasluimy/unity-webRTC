@@ -29,9 +29,6 @@ body img {
   font-size: 0.8em;
 }
 
-#main-menu {
-  display: none;
-}
 #main-menu .header-image {
   max-width: 100%;
   padding-top: 15%;
@@ -117,6 +114,10 @@ body img {
 #join-room #join-room-join {
   margin-top: 40px;
   max-width: 80%;
+}
+
+#in-game {
+  display: none;
 }
 
 #in-game {

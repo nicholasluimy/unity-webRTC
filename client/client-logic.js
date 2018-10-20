@@ -10,7 +10,7 @@ var gestureListenerIntervals = {};
 var gestureCacheStore = {};
 var sensor = null;
 
-
+/*
 var processShake = setInterval(() => {
     let accVal = gestureCacheStore['shake'];
     let squaredLength = accVal.x * accVal.x + accVal.y * accVal.y + accVal.z * accVal.z;
@@ -32,10 +32,11 @@ var processShake = setInterval(() => {
     //    _animator.SetTrigger("Flap");
     //}
 }, 200);
-
+*/
 // client gesture handlers
 var startShakeDetect = () => {
     // assign this so we dont lost context in helper functions
+    /*
     if ('LinearAccelerationSensor' in window) {
 
         sensor = new LinearAccelerationSensor();
@@ -53,8 +54,25 @@ var startShakeDetect = () => {
     }
 
     gestureListenerIntervals['shake'] = processShake;
-}
+    */
 
+    var myShakeEvent = new Shake({
+        timeout: 100
+    });
+    myShakeEvent.start();
+
+    window.addEventListener('shake', () => {
+        //function to call when shake occurs
+        console.log("shake");
+        this.client.player.send(JSON.stringify({
+            type: "shake",
+            user: playerName,
+            payload: "shakeSent"
+        }));
+    }, false);
+
+}
+/*
 var stopShakeDetect = () => {
     if (sensor != null) {
         sensor.stop();
@@ -64,7 +82,7 @@ var stopShakeDetect = () => {
     clearInterval(gestureListenerIntervals['shake']);
     delete gestureListenerIntervals['shake'];
 }
-
+*/
 
 
 
