@@ -3,6 +3,8 @@ class GameState {
     /*
         GameState is the JS object that tracks the state of the Unity-WebGL application
             - What game is currently being played
+                TODO: What game is currently being played, and the type of sensor data required.
+                - Requires message passing from unity -> display -> client
             - Who is currently in the game
 
      */
@@ -14,6 +16,7 @@ class GameState {
 
         // arrays of unity functions, idx by player num
         this.unityShakeFunctions = ["ShakePlayer1", "ShakePlayer2", "ShakePlayer3", "ShakePlayer4"];
+        this.unityTiltFunctions = ["TiltPlayer1", "TiltPlayer2", "TiltPlayer3", "TiltPlayer4"];
     }
 
     addPlayer(username) {
@@ -48,6 +51,16 @@ class GameState {
                 gameInstance.SendMessage('GameController', this.unityShakeFunctions[this.inGamePlayersHash[sendingUser]]);
             }
 
+        } else if (data.type === 'tilt') {
+            var sendingUser = data.user;
+            console.log(data.user);
+            console.log(this.inGamePlayersHash, this.inGamePlayers);
+            if (this.inGamePlayersHash[sendingUser] != null) {
+                // payload in tilt action is gamma|beta
+                gameInstance.SendMessage('GameController',
+                    this.unityTiltFunctions[this.inGamePlayersHash[sendingUser]],
+                    data.payload);
+            }
         }
     }
 }
