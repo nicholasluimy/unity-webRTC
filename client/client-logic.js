@@ -72,7 +72,7 @@ var startShakeDetect = () => {
         }));
     }, false);
 
-}
+};
 /*
 var stopShakeDetect = () => {
     if (sensor != null) {
@@ -84,7 +84,7 @@ var stopShakeDetect = () => {
     delete gestureListenerIntervals['shake'];
 }
 */
-};
+
 
 // Tilt sensor reference: https://whatwebcando.today/device-position.html
 var processTilt = setInterval(() => {
@@ -139,6 +139,7 @@ function joinRoomPlayClicked() {
     client.start();
 
     // TODO: Decide what kinda detection mode we are in, based off info from Display
+    // TODO: Have a way to stop shake detect when toggling modes
     startShakeDetect();
 
 }
