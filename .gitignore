@@ -70,3 +70,4 @@ games/**
 .firebase/**
 firebase.json
 .firebaserc
+*.log

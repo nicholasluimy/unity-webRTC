@@ -1,62 +1,218 @@
 @font-face {
-  font-family: "LuckiestGuy";
-  src: url("LuckiestGuy.ttf"); }
-@font-face {
   font-family: "Fredoka";
-  src: url("FredokaOne-Regular.ttf"); }
+  src: url("FredokaOne-Regular.ttf");
+}
 .background-styling {
-  background-color: #FFF8ED; }
+  background-color: #FFF8ED;
+}
 
 .column-content {
   display: flex;
-  flex-direction: column; }
+  flex-direction: column;
+}
 
 .centering-content {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column; }
+  flex-direction: column;
+}
 
 body img {
-  max-width: 100%; }
+  max-width: 100%;
+}
 
 .disclaimer {
-  margin-top: 72px; }
+  margin-top: 72px;
+  position: fixed;
+  bottom: 20px;
+  font-size: 0.8em;
+}
 
+#main-menu {
+  display: none;
+}
 #main-menu .header-image {
-  max-width: 100%; }
+  max-width: 100%;
+  padding-top: 15%;
+  padding-bottom: 10%;
+}
+#main-menu .menu-button {
+  padding-bottom: 3%;
+}
 #main-menu .sumo-image {
-  max-width: 90%; }
+  max-width: 90%;
+}
+
+#choose-display {
+  display: none;
+  font-family: Fredoka, serif;
+}
+#choose-display .display-header {
+  font-size: 40px;
+  margin-top: 10%;
+  margin-bottom: 10%;
+}
+#choose-display .display-option {
+  margin-bottom: 20%;
+}
+#choose-display .display-option .display-text {
+  padding-top: 5%;
+  font-size: 1.2em;
+}
+#choose-display .display-option .player {
+  max-width: 45%;
+}
 
 #join-room {
   display: none;
-  font-family: Fredoka, serif; }
-  #join-room .join-room-header {
-    font-size: 48px;
-    margin-top: 12px; }
-  #join-room .join-room-roomcode {
-    width: 90%;
-    margin-top: 52px;
-    font-size: 20px; }
-    #join-room .join-room-roomcode #roomcode-input {
-      margin-top: 8px;
-      background-color: transparent;
-      border: none black;
-      border-bottom: 2px solid; }
-  #join-room .join-room-usercode {
-    width: 90%;
-    margin-top: 52px;
-    font-size: 20px; }
-    #join-room .join-room-usercode #usercode-input {
-      margin-top: 8px;
-      background-color: transparent;
-      border: none black;
-      border-bottom: 2px solid; }
-  #join-room #join-room-join {
-    margin-top: 40px; }
+  font-family: Fredoka, serif;
+}
+#join-room .join-room-header {
+  font-size: 40px;
+  margin-top: 10%;
+}
+#join-room .join-room-roomcode {
+  width: 90%;
+  margin-top: 15%;
+  font-size: 20px;
+}
+#join-room .join-room-roomcode #roomcode-input {
+  font-family: Fredoka, serif;
+  font-size: 30px;
+  color: #E13D61;
+  margin-top: 5%;
+  background-color: transparent;
+  border: none;
+  border-bottom: 2px solid #D8D8D8;
+}
+#join-room .join-room-roomcode #roomcode-input:focus {
+  border: none;
+  border-bottom: 2px solid #E13D61;
+}
+#join-room .join-room-usercode {
+  width: 90%;
+  margin-top: 10%;
+  font-size: 20px;
+}
+#join-room .join-room-usercode #usercode-input {
+  font-family: Fredoka, serif;
+  font-size: 30px;
+  color: #E13D61;
+  margin-top: 5%;
+  background-color: transparent;
+  border: none;
+  border-bottom: 2px solid #D8D8D8;
+}
+#join-room .join-room-usercode #usercode-input:focus {
+  border: none;
+  border-bottom: 2px solid #E13D61;
+}
+#join-room .item-input-error-message {
+  margin-top: 5px;
+  font-size: 0.6em;
+  color: #E13D61;
+  display: none;
+}
+#join-room #join-room-join {
+  margin-top: 40px;
+  max-width: 80%;
+}
+
+#confirmed-in-game {
+  display: none;
+  font-family: Fredoka, serif;
+}
+#confirmed-in-game .confirmed-in-game-header {
+  font-size: 40px;
+  margin-top: 10%;
+  margin-bottom: 20%;
+}
+#confirmed-in-game .confirmed-in-game-header .sub-header {
+  font-size: 20px;
+}
+#confirmed-in-game img {
+  margin-bottom: 10%;
+}
 
 #in-game {
   display: none;
-  font-family: Fredoka, serif; }
+  font-family: Fredoka, serif;
+}
+#in-game .in-game-header {
+  font-size: 40px;
+  margin-top: 10%;
+  margin-bottom: 10%;
+}
+#in-game .in-game-footer {
+  margin-top: 10%;
+}
+#in-game .game-icon {
+  max-width: 80%;
+}
+
+#game-over {
+  display: none;
+  font-family: Fredoka, serif;
+}
+#game-over .game-over-header {
+  font-size: 40px;
+  margin-top: 10%;
+  margin-bottom: 10%;
+}
+#game-over .player {
+  font-size: 20px;
+}
+#game-over .player img {
+  max-width: 50%;
+  margin-bottom: 5%;
+}
+#game-over table {
+  font-size: 1.5em;
+  margin-top: 20%;
+  margin-bottom: 10%;
+  border-spacing: 50px 0;
+}
+#game-over table .entry {
+  font-size: 2em;
+}
+#game-over .buttons {
+  margin-top: 5%;
+  max-width: 90%;
+}
+
+#about {
+  display: none;
+  font-family: Fredoka, serif;
+}
+#about .about-header {
+  font-size: 40px;
+  margin-top: 10%;
+}
+#about .about-header img {
+  margin-top: 5px;
+  max-width: 20%;
+}
+#about .text {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+#help {
+  font-family: Fredoka, serif;
+}
+#help .help-header {
+  font-size: 40px;
+  margin-top: 10%;
+}
+#help .help-header img {
+  margin-top: 5px;
+  max-width: 20%;
+}
+#help .text {
+  margin-left: 10px;
+  margin-right: 10px;
+  text-align: center;
+}
 
 /*# sourceMappingURL=client.css.map */

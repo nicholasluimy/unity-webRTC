@@ -1,8 +1,8 @@
 
-@font-face {
-  font-family: "LuckiestGuy";
-  src: url("LuckiestGuy.ttf");
-}
+// @font-face {
+//   font-family: "LuckiestGuy";
+//   src: url("LuckiestGuy.ttf");
+// }
 
 @font-face {
   font-family: "Fredoka";
@@ -35,14 +35,47 @@ body {
 
 .disclaimer {
   margin-top: 72px;
+  position: fixed;
+  bottom: 20px;
+  font-size: 0.8em;
 }
 
 #main-menu {
+  display: none;
   .header-image {
     max-width: 100%;
+    padding-top: 15%;
+    padding-bottom: 10%;
+  }
+  .menu-button {
+    padding-bottom: 3%;
   }
   .sumo-image {
     max-width: 90%;
+  }
+}
+
+#choose-display {
+  display: none;
+  font-family: Fredoka, serif;
+
+  .display-header {
+    font-size: 40px;
+    margin-top: 10%;
+    margin-bottom: 10%;
+  }
+
+  .display-option {
+    margin-bottom: 20%;
+
+    .display-text {
+      padding-top: 5%;
+      font-size: 1.2em;
+    }
+
+    .player {
+      max-width: 45%;
+    }
   }
 }
 
@@ -50,38 +83,174 @@ body {
   display: none;
   font-family: Fredoka, serif;
   .join-room-header {
-    font-size: 48px;
-    margin-top: 12px;
+    font-size: 40px;
+    margin-top: 10%;
   }
   .join-room-roomcode {
     width: 90%;
-    margin-top: 52px;
+    margin-top: 15%;
     font-size: 20px;
+
     #roomcode-input {
-      margin-top: 8px;
+      font-family: Fredoka, serif;
+      font-size: 30px;
+      color: #E13D61;
+      margin-top: 5%;
       background-color: transparent;
-      border: none black;
-      border-bottom: 2px solid;
+      border: none;
+      border-bottom: 2px solid #D8D8D8;
+    }
+
+    #roomcode-input:focus {
+      border: none;
+      border-bottom: 2px solid #E13D61;
     }
   }
   .join-room-usercode {
     width: 90%;
-    margin-top: 52px;
+    margin-top: 10%;
     font-size: 20px;
+
     #usercode-input {
-      margin-top: 8px;
+      font-family: Fredoka, serif;
+      font-size: 30px;
+      color: #E13D61;
+      margin-top: 5%;
       background-color: transparent;
-      border: none black;
-      border-bottom: 2px solid;
+      border: none;
+      border-bottom: 2px solid #D8D8D8;
+    }
+
+    #usercode-input:focus {
+      border: none;
+      border-bottom: 2px solid #E13D61;
     }
   }
+
+  .item-input-error-message {
+    margin-top: 5px;
+    font-size: 0.6em;
+    color: #E13D61;
+    display: none;
+  }
+
   #join-room-join {
     margin-top: 40px;
+    max-width: 80%;
+  }
+}
+
+#confirmed-in-game {
+  display: none;
+  font-family: Fredoka, serif;
+
+  .confirmed-in-game-header {
+    font-size: 40px;
+    margin-top: 10%;
+    margin-bottom: 20%;
+
+    .sub-header {
+      font-size: 20px;
+    }
+  }
+
+  img {
+    margin-bottom: 10%;
   }
 }
 
 #in-game {
-  display:none;
+  display: none;
   font-family: Fredoka, serif;
 
+  .in-game-header {
+    font-size: 40px;
+    margin-top: 10%;
+    margin-bottom: 10%;
+  }
+
+  .in-game-footer {
+    margin-top: 10%;
+  }
+
+  .game-icon {
+    max-width: 80%;
+  }
+
+}
+
+#game-over {
+  display: none;
+  font-family: Fredoka, serif;
+
+  .game-over-header {
+    font-size: 40px;
+    margin-top: 10%;
+    margin-bottom: 10%;
+  }
+
+  .player {
+    font-size: 20px;
+    img {
+      max-width: 50%;
+      margin-bottom: 5%;
+    }
+  }
+
+  table {
+    font-size: 1.5em;
+    margin-top: 20%;
+    margin-bottom: 10%;
+    border-spacing: 50px 0;
+
+    .entry {
+      font-size: 2em;
+    }
+  }
+
+  .buttons {
+      margin-top: 5%;
+      max-width: 90%;
+  }
+}
+
+#about {
+  display: none;
+  font-family: Fredoka, serif;
+
+  .about-header {
+    font-size: 40px;
+    margin-top: 10%;
+
+    img {
+      margin-top: 5px;
+      max-width: 20%;
+    }
+  }
+
+  .text {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+}
+
+#help {
+
+  font-family: Fredoka, serif;
+
+  .help-header {
+    font-size: 40px;
+    margin-top: 10%;
+
+    img {
+      margin-top: 5px;
+      max-width: 20%;
+    }
+  }
+
+  .text {
+    margin-left: 10px;
+    margin-right: 10px;
+    text-align: center;
+  }
 }
