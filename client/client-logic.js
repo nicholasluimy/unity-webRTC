@@ -133,7 +133,7 @@ function joinRoomPlayClicked() {
     inGame.style.display = "block";
 
     playerName = document.getElementById('usercode-input').value;
-    roomId = document.getElementById('roomcode-input').value;
+    roomId = document.getElementById('roomcode-input').value.toLowerCase();
 
     client = new SumoClient(playerName, roomId);
     client.start();
