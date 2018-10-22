@@ -1,6 +1,11 @@
 # fomosumos-client
 
 ## Project setup
+
+### Prerequisite
+#### macOS
+Check out this link for installing `yarn`: https://yarnpkg.com/lang/en/docs/install/#mac-stable
+
 ```
 yarn install
 ```

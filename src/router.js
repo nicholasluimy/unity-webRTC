@@ -1,6 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
+import MainMenu from './views/MainMenu.vue'
+import ChooseDisplay from './views/ChooseDisplay.vue'
+import JoinRoom from './views/JoinRoom.vue'
+import ConfirmInGame from './views/ConfirmInGame.vue'
+import InGame from './views/InGame.vue'
+import GameOver from './views/GameOver.vue'
+import About from './views/About.vue'
+import Help from './views/Help.vue'
 
 Vue.use(Router)
 
@@ -10,16 +17,43 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: Home
+      name: 'choose-display',
+      component: ChooseDisplay
+    },
+    {
+      path: '/main-menu',
+      name: 'main-menu',
+      component: MainMenu
+    },
+    {
+      path: '/join-room',
+      name: 'join-room',
+      component: JoinRoom
+    },
+    {
+      path: '/confirm-in-game',
+      name: 'confirm-in-game',
+      component: ConfirmInGame
+    },
+    {
+      path: '/in-game',
+      name: 'in-game',
+      component: InGame
+    },
+    {
+      path: '/game-over',
+      name: 'game-over',
+      component: GameOver
     },
     {
       path: '/about',
       name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+      component: About
+    },
+    {
+      path: '/help',
+      name: 'help',
+      component: Help
     }
   ]
 })
