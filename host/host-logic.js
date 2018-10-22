@@ -5,23 +5,34 @@ var loadComplete = false;
 var gameState = new GameState();
 var roomKey = "(not-set)";
 
-window.addEventListener("loadComplete", function(e){
+window.addEventListener("loadComplete", function (e) {
     loadComplete = true;
     if (roomSet) {
         gameInstance.SendMessage('UIManager', 'SetRoomCode', this.roomKey);
     }
-},false);
+}, false);
 
 window.onbeforeunload = () => display.close();
 
-display.onPlayerCreated = playerId  => {
+display.onPlayerCreated = playerId => {
     // Add players to gameState, and track result
     // Used to determine if we can disconnect from the game
     this.gameState.addPlayer(playerId);
 }
 
+display.onPlayerConnected = playerId => {
+    // sample: sending private message to peer
+    display.send(`HOST says: Hello from host to ${playerId}!`, playerId)
+
+    // sample: Broadcast info to all clients about a new player has joined the game
+    display.broadcast(`HOST says: ${playerId} has joined the room.`)
+}
+
 display.onPlayerDisconnected = playerId => {
     this.gameState.dropPlayer(playerId);
+
+    // sample: Broadcast info to all clients about a new player has joined the game
+    display.broadcast(`HOST says: ${playerId} has left the room.`)
 }
 
 display.onPlayerData = data => {

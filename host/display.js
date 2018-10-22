@@ -35,7 +35,8 @@ class SumoDisplay {
         this.retry = 0;
 
         this.onPlayerCreated = new Function();
-        this.onPlaterDisconnected = new Function();
+        this.onPlayerConnected = new Function();
+        this.onPlayerDisconnected = new Function();
         this.onPlayerData = new Function();
         this.onRoomCreatedSuccess = new Function();
         this.onRoomCreatedFail = new Function();
@@ -104,6 +105,8 @@ class SumoDisplay {
     // playerDoc: the document snapshot in firestore that represents the player.
     handleConnect(playerDoc) {
         console.log(`Connected to ${playerDoc.id}`);
+
+        this.onPlayerConnected(playerDoc.id);
     }
 
     // playerDoc: the document snapshot in firestore that represents the player.
@@ -123,6 +126,23 @@ class SumoDisplay {
         console.log(data);
 
         this.onPlayerData(data);
+    }
+
+    broadcast(data) {
+        console.log("Broadcasting data.")
+        console.log(`Sending payload "${data}"`)
+        Object.keys(this.players).forEach((playerId, index) => {
+            console.log(playerId);
+            // key: the name of the object key
+            // index: the ordinal position of the key within the object 
+            this.players[playerId].send(data);
+        });
+    }
+
+    send(data, playerId) {
+        console.log(`Sending data to ${playerId}`);
+        console.log(`Sending payload "${data}"`)
+        this.players[playerId].send(data);
     }
 
     handleListener() {
