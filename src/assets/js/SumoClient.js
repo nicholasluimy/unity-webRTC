@@ -12,18 +12,8 @@ export default class SumoClient {
                 E.g running game X, requires only shake data
      */
     constructor(firebase, playerName, roomKey) {
-        // Initialize Firebase
-        /*
-        firebase.initializeApp({
-            apiKey: "AIzaSyCwsUgjOL08tNrAZ_Mq012YmrUWZ5Z1NAk",
-            authDomain: "fomosumos.firebaseapp.com",
-            databaseURL: "https://fomosumos.firebaseio.com",
-            projectId: "fomosumos",
-            storageBucket: "fomosumos.appspot.com",
-            messagingSenderId: "903886436512"
-        });
-        */
-       this.firebase = firebase;
+
+        this.firebase = firebase;
 
         // Initialize Cloud Firestore through Firebase
         this.db = firebase.firestore();
@@ -35,10 +25,16 @@ export default class SumoClient {
 
         this.playerName = playerName;
         this.roomKey = roomKey;
+
+        this.onJoinedRoom = new Function();
+        this.onConnected = new Function();
+        this.onDisconnected = new Function();
+        this.onHostData = new Function();
     }
 
     joinRoom() {
         console.log(`${this.playerName} joined the room "${this.roomKey}".`);
+        this.onJoinedRoom();
         return this.db.collection(`rooms/${this.roomKey}/players`).doc(this.playerName).set({
             uid: this.firebase.auth().currentUser.uid
         });
@@ -67,27 +63,40 @@ export default class SumoClient {
     // playerDoc: the document snapshot in firestore that represents the player.
     handleConnect() {
         console.log(`Connected to ${this.roomKey}`);
+        this.onConnected();
     }
 
     // playerDoc: the document snapshot in firestore that represents the player.
     handleDisconnect() {
         console.log(`Disconnected from ${this.roomKey}`);
+        this.onDisconnected();
         this.player.destroy();
         return this.db.collection(`rooms/${this.roomKey}/players`).doc(this.playerName).delete();
     }
 
-    handleListener(snapshot) {
-        this.player = new SimplePeer({ initator: false, trickle: false });
+    handleData(data) {
+        console.log("Received raw data from host.");
+        console.log(data);
 
-        this.receiveOffer(snapshot);
+        this.onHostData(data);
+    }
 
-        this.player.on('error', error => this.handleError(error));
-        this.player.on('connect', () => this.handleConnect());
-        this.player.on('close', () => this.handleDisconnect(change.doc));
-        this.player.on('signal', data => {
-            this.sendAnswer(snapshot, data);
-            this.detachListener();
-        });
+    handleListener() {
+        this.detachListener = this.db.collection(`rooms/${this.roomKey}/players`).doc(this.playerName)
+            .onSnapshot(snapshot => {
+                this.player = new SimplePeer({ initator: false, trickle: false, objectMode: true });
+
+                this.receiveOffer(snapshot);
+
+                this.player.on('error', error => this.handleError(error));
+                this.player.on('connect', () => this.handleConnect());
+                this.player.on('close', () => this.handleDisconnect(change.doc));
+                this.player.on('data', data => this.handleData(data));
+                this.player.on('signal', data => {
+                    this.sendAnswer(snapshot, data);
+                    this.detachListener();
+                });
+            });
     }
 
     start() {
@@ -100,10 +109,7 @@ export default class SumoClient {
             if (player) {
                 console.log(`Initialized player "${this.playerName}:${player.uid}".`);
 
-                this.joinRoom().then(() => {
-                    this.detachListener = this.db.collection(`rooms/${this.roomKey}/players`).doc(this.playerName)
-                        .onSnapshot(snapshot => this.handleListener(snapshot));
-                });
+                this.joinRoom().then(() => this.handleListener());
 
             } else {
                 console.log(`Player has been decommissioned.`);
