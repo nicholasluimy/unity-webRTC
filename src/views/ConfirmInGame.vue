@@ -7,12 +7,13 @@
     </div>
     <div class="avatar">
         <!-- IMPT: Image and name will change according to what player is assigned -->
-        <img src="@/assets/join-room/player1.png">
-        <div>{{playerName}}</div>
+        <img :src="playerAvatarUrl" >
+        <div>{{this.playerName}}</div>
     </div>
 
     <div class="disclaimer">
         <span>Once all your players are in, </span>
+        <br/>
         <span>press START GAME on the big screen!</span>
     </div>
 </div>
@@ -44,6 +45,10 @@ img {
 <script>
 import SumoClient from '@/assets/js/SumoClient.js'
 import Shake from 'shake.js'
+import orangeSumo from '@/assets/join-room/player1.png' 
+import greenSumo from '@/assets/join-room/player2.png'
+import blueSumo from '@/assets/join-room/player3.png'
+import purpleSumo from '@/assets/join-room/player4.png'
 
 export default {
   mounted: function() {
@@ -52,6 +57,22 @@ export default {
     this.roomId = this.$store.state.roomId
 
     this.clientConnection = new SumoClient(this.$firebase, this.playerName, this.roomId);
+
+    this.clientConnection.onHostData = data => {
+      const hostData = JSON.parse(data)
+
+      console.log("sumotype: " + hostData.sumoType);
+
+      if(hostData.sumoType){
+        switch(hostData.sumoType){
+          default: case "orange": this.playerAvatarUrl = orangeSumo; break
+          case "green": this.playerAvatarUrl = greenSumo; break
+          case "blue": this.playerAvatarUrl = blueSumo; break
+          case "purple": this.playerAvatarUrl = purpleSumo; break
+        }
+      }
+    }
+
     this.clientConnection.start();
 
     this.$store.state.clientConnection = this.clientConnection
@@ -76,6 +97,12 @@ export default {
               payload: "shakeSent"
           }));
       }, false);
+    }
+  },
+  data: function() {
+    return {
+      playerName: 'Anonymous Sumo',
+      playerAvatarUrl: orangeSumo
     }
   }
 }
