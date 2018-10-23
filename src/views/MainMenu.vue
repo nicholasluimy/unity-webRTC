@@ -9,8 +9,17 @@
 </template>
 
 <style lang="scss" scoped>
+#main-menu {
+  overflow-y: hidden;
+}
+
 .button {
   padding-bottom: 3%;
+  max-width: 70%;
+}
+
+#main-menu-play {
+  padding-top: 10%;
 }
 
 .sumo {

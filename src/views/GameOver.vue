@@ -6,23 +6,14 @@
     <div class="center-vertical player">
         <!-- IMPT: Image will change according to what player is assigned -->
         <img src="@/assets/join-room/player1.png">
-        <div>Name of Player</div>
+        <span>Nice la.</span>
+        <span>But you can do better,</span>
+        <span>nicholas.</span>
     </div>
 
-    <table>
-      <tr>
-        <th>RANK</th>
-        <th>SCORE</th>
-      </tr>
-      <tr class="entry">
-        <th>1</th>
-        <th>12</th>
-      </tr>
-    </table>
-
     <div class="center-vertical">
-        <img class="buttons" src="@/assets/game-over/button5.png">
-        <img class="buttons" src="@/assets/game-over/button6.png">
+        <img class="buttons" src="@/assets/game-over/button5.png" v-on:click="goToConfirmInGame">
+        <img class="buttons" src="@/assets/game-over/button6.png" v-on:click="goToJoinRoom">
     </div>
 </div>
 </template>
@@ -36,20 +27,11 @@
 
 .player {
   font-size: 20px;
+  margin-bottom: 20%;
+  text-align: center;
   img {
-    max-width: 50%;
+    max-width: 80%;
     margin-bottom: 5%;
-  }
-}
-
-table {
-  font-size: 1.5em;
-  margin-top: 20%;
-  margin-bottom: 10%;
-  border-spacing: 50px 0;
-
-  .entry {
-    font-size: 2em;
   }
 }
 

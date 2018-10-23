@@ -6,9 +6,9 @@
         <span class="sub-header">Waiting for your friends...</span>
     </div>
     <div class="avatar">
-        <!-- IMPT: Image will change according to what player is assigned -->
+        <!-- IMPT: Image and name will change according to what player is assigned -->
         <img src="@/assets/join-room/player1.png">
-        <div>Name of Player</div>
+        <div>{{playerName}}</div>
     </div>
 
     <div class="disclaimer">
@@ -28,11 +28,13 @@
   }
 }
 
-.avatar,
+.avatar {
+  text-align: center;
+  margin-top: 10%;
+}
 .disclaimer {
   text-align: center;
-  font-size: 0.8em;
-  margin-top: 10%;
+  margin-top: 50%;
 }
 
 img {
@@ -53,7 +55,7 @@ export default {
     this.clientConnection.start();
 
     this.$store.state.clientConnection = this.clientConnection
-  
+
     this.startShakeDetection();
   },
   methods: {

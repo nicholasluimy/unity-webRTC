@@ -29,13 +29,16 @@
 </template>
 
 <style lang="scss" scoped>
+#join-room {
+  overflow-y: hidden;
+}
 .join-room-header {
   font-size: 40px;
   text-align: center;
 }
 .join-room-roomcode {
   align-items: flex-start;
-  margin-top: 15%;
+  margin-top: 10%;
   font-size: 20px;
 
   #roomcode-input {
@@ -55,7 +58,7 @@
 }
 .join-room-usercode {
   align-items: flex-start;
-  margin-top: 10%;
+  margin-top: 8%;
   font-size: 20px;
 
   #usercode-input {
@@ -86,7 +89,7 @@
 }
 
 .disclaimer {
-  align-items: flex-start;
+  align-items: center;
   font-size: 0.8em;
   margin-top: 10%;
 }

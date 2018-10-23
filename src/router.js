@@ -8,6 +8,7 @@ import InGame from './views/InGame.vue'
 import GameOver from './views/GameOver.vue'
 import About from './views/About.vue'
 import Help from './views/Help.vue'
+import Disconnected from './views/Disconnected.vue'
 
 Vue.use(Router)
 
@@ -54,6 +55,11 @@ export default new Router({
       path: '/help',
       name: 'help',
       component: Help
+    },
+    {
+      path: '/disconnected',
+      name: 'disconnected',
+      component: Disconnected
     }
   ]
 })
