@@ -43,24 +43,28 @@ class GameState {
 
     handleData(data) {
         console.log("game state received data");
-        if (data.type === 'shake') {
+        try {
             var sendingUser = data.user;
             console.log(data.user);
             console.log(this.inGamePlayersHash, this.inGamePlayers);
-            if (this.inGamePlayersHash[sendingUser] != null) {
-                gameInstance.SendMessage('GameController', this.unityShakeFunctions[this.inGamePlayersHash[sendingUser]]);
+            if (data.type === 'shake') {
+                if (this.inGamePlayersHash[sendingUser] != null) {
+                    gameInstance.SendMessage('GameController', this.unityShakeFunctions[this.inGamePlayersHash[sendingUser]]);
+                }
+            } else if (data.type === 'tilt') {
+                if (this.inGamePlayersHash[sendingUser] != null) {
+                    // payload in tilt action is gamma|beta
+                    gameInstance.SendMessage('GameController',
+                        this.unityTiltFunctions[this.inGamePlayersHash[sendingUser]],
+                        data.payload);
+                }
             }
+        }
 
-        } else if (data.type === 'tilt') {
-            var sendingUser = data.user;
-            console.log(data.user);
-            console.log(this.inGamePlayersHash, this.inGamePlayers);
-            if (this.inGamePlayersHash[sendingUser] != null) {
-                // payload in tilt action is gamma|beta
-                gameInstance.SendMessage('GameController',
-                    this.unityTiltFunctions[this.inGamePlayersHash[sendingUser]],
-                    data.payload);
-            }
+        catch (error) {
+            // log error and just not handle
+            console.log(error);
         }
     }
 }
+
