@@ -55,7 +55,7 @@ class GameState {
     }
 
     dropPlayer(username) {
-        if (gameStarted) {
+        if (this.gameStarted) {
             this.removeQueue.append(username);
             return;
         }
