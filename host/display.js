@@ -43,7 +43,7 @@ class SumoDisplay {
     }
 
     isRoomExists(roomKey) {
-        console.log(`Checking availability of room "${roomKey}".`)
+        console.log(`Checking availability of room "${roomKey}".`);
 
         return this.db.collection('rooms').doc(roomKey).get();
     }
@@ -141,12 +141,12 @@ class SumoDisplay {
 
     send(data, playerId) {
         console.log(`Sending data to ${playerId}`);
-        console.log(`Sending payload "${data}"`)
+        console.log(`Sending payload "${data}"`);
         this.players[playerId].send(data);
     }
 
     handleListener() {
-        console.log("Setting up listener for P2P candidates.")
+        console.log("Setting up listener for P2P candidates.");
         this.detachListener = this.db.collection(`rooms/${this.roomKey}/players`).onSnapshot(snapshot => {
             snapshot.docChanges().forEach(change => {
                 // new player joined
@@ -178,11 +178,11 @@ class SumoDisplay {
         this.retry++;
 
         if(this.retry >= this.maxRetry ){
-            console.log("Exceeded number of retries to start game room. Aborting.")
+            console.log("Exceeded number of retries to start game room. Aborting.");
             return;
         }
 
-        console.log("Initializing display.")
+        console.log("Initializing display.");
 
         firebase.auth().signInAnonymously().catch(error => {
             console.error("Fail to initialize display.");
@@ -195,14 +195,14 @@ class SumoDisplay {
 
                 this.isRoomExists(roomKey).then(room => {
                     if (!room.exists) {
-                        console.log(`Room "${roomKey} is available."`)
+                        console.log(`Room "${roomKey} is available."`);
                         this.createRoom(roomKey).then(() => {
                             this.handleListener();
 
                             this.onRoomCreatedSuccess(roomKey);
                         });
                     } else {
-                        console.log(`Room "${roomKey}" is unavailable.`)
+                        console.log(`Room "${roomKey}" is unavailable.`);
 
                         this.onRoomCreatedFail(roomKey);
                     }
@@ -214,6 +214,11 @@ class SumoDisplay {
                 console.log(`Display has been decommissioned.`);
             }
         });
+    }
+
+    restart(roomKey) {
+        this.retry = 0;
+        this.start(roomKey);
     }
 
     close() {

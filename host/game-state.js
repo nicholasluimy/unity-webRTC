@@ -1,18 +1,14 @@
 "use strict";
 class GameState {
-    /*
-        GameState is the JS object that tracks the state of the Unity-WebGL application
-            - What game is currently being played
-                TODO: What game is currently being played, and the type of sensor data required.
-                - Requires message passing from unity -> display -> client
-            - Who is currently in the game
 
-     */
     constructor() {
         this.maxGamePlayers = 4;
         this.inGamePlayers = ["","","",""];
         this.inGamePlayersHash = {};
         this.inGamePlayersCount = 0;
+
+        this.gameStarted = false;
+        this.removeQueue = [];
 
         // arrays of unity functions, idx by player num
         this.unityShakeFunctions = ["ShakePlayer1", "ShakePlayer2", "ShakePlayer3", "ShakePlayer4"];
@@ -20,12 +16,22 @@ class GameState {
     }
 
     addPlayer(username) {
+        if (this.gameStarted) {
+            // Do not allow adding players while game is ongoing
+            return {
+                success: false,
+                index: -1,
+            }
+        }
         if (this.inGamePlayers.indexOf(username) != -1) {
             // If username is already connected, silently allow it
             // This handles case when a player reconnects with same name
             // Also handles when multiple players have same name
             // in which case we just let both players control same avatar
-            return true;
+            return {
+                success: true,
+                index: this.inGamePlayers.indexOf(username),
+            };
         }
 
         if (!(this.inGamePlayersCount == this.maxGamePlayers)) {
@@ -34,12 +40,24 @@ class GameState {
             this.inGamePlayersHash[username] = insertIdx;
             this.inGamePlayers[insertIdx] = username;
             gameInstance.SendMessage('UIManager', 'AddPlayer', username);
-            return true;
+            return {
+                success: true,
+                index: insertIdx,
+            }
         }
-        return false;
+
+        return {
+            success: false,
+            index: -1,
+        };
     }
 
     dropPlayer(username) {
+        if (gameStarted) {
+            this.removeQueue.append(username);
+            return;
+        }
+
         var inGameIdx = this.inGamePlayers.indexOf(username);
         if (inGameIdx != -1) {
             this.inGamePlayers[inGameIdx] = "";
@@ -73,6 +91,27 @@ class GameState {
             // log error and just not handle
             console.log(error);
         }
+    }
+
+    blockAddPlayers() {
+        this.gameStarted = true;
+    }
+
+    unblockAddPlayers() {
+        this.gameStarted = false;
+        while (!this.removeQueue.empty()) {
+            this.dropPlayer(this.removeQueue.pop());
+        }
+    }
+
+    restart() {
+        this.maxGamePlayers = 4;
+        this.inGamePlayers = ["","","",""];
+        this.inGamePlayersHash = {};
+        this.inGamePlayersCount = 0;
+
+        this.gameStarted = false;
+        this.removeQueue = [];
     }
 }
 

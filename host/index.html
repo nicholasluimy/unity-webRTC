@@ -19,12 +19,6 @@
                 window.dispatchEvent(event);
             }
         }
-        window.addEventListener('success', function(e){console.log("windowSuccess", e)}, false);
-        window.addEventListener('failure', function(e){console.log("windowFailure", e)}, false);
-        window.addEventListener('restartRoom', function(e){console.log("windowRestartRoom", e)}, false);
-        window.addEventListener('gameStart', function(e){console.log("windowGameStart", e)}, false);
-        window.addEventListener('gameStop', function(e){console.log("windowGameStop", e)}, false);
-        window.addEventListener('gameChanged', function(e){console.log("windowGameChanged", e)}, false);
 
         var gameInstance = UnityLoader.instantiate("gameContainer", "%UNITY_WEBGL_BUILD_URL%", {onProgress: loadHandler});
     </script>
