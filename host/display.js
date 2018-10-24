@@ -129,8 +129,8 @@ class SumoDisplay {
     }
 
     broadcast(data) {
-        console.log("Broadcasting data.")
-        console.log(`Sending payload "${data}"`)
+        console.log("Broadcasting data.");
+        console.log(`Sending payload "${data}"`);
         Object.keys(this.players).forEach((playerId, index) => {
             console.log(playerId);
             // key: the name of the object key

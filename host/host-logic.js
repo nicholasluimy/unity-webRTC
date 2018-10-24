@@ -21,10 +21,10 @@ display.onPlayerCreated = playerId => {
 
 display.onPlayerConnected = playerId => {
     // sample: sending private message to peer
-    display.send(`HOST says: Hello from host to ${playerId}!`, playerId);
+    display.send(JSON.stringify(`HOST says: Hello from host to ${playerId}!`, playerId));
 
     // sample: Broadcast info to all clients about a new player has joined the game
-    display.broadcast(`HOST says: ${playerId} has joined the room.`);
+    display.broadcast(JSON.stringify(`HOST says: ${playerId} has joined the room.`));
 
     // **Let the player know current game mode, and player's game status (isConnected?)**
 
@@ -46,7 +46,7 @@ display.onPlayerDisconnected = playerId => {
     this.gameState.dropPlayer(playerId);
 
     // sample: Broadcast info to all clients about a new player has joined the game
-    display.broadcast(`HOST says: ${playerId} has left the room.`)
+    display.broadcast(JSON.stringify(`HOST says: ${playerId} has left the room.`));
 };
 
 display.onPlayerData = data => {
