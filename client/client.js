@@ -33,7 +33,10 @@ class SumoClient {
         this.onJoinedRoom = new Function();
         this.onConnected = new Function();
         this.onDisconnected = new Function();
-        this.onHostData = new Function();
+        this.onHostData = data => {
+            console.log("client received message from host");
+            console.log(data);
+        };
     }
 
     joinRoom() {
@@ -88,7 +91,9 @@ class SumoClient {
         this.detachListener = this.db.collection(`rooms/${this.roomKey}/players`).doc(this.playerName)
             .onSnapshot(snapshot => {
                 this.player = new SimplePeer({ initator: false, trickle: false, objectMode: true });
+
                 this.receiveOffer(snapshot);
+
                 this.player.on('error', error => this.handleError(error));
                 this.player.on('connect', () => this.handleConnect());
                 this.player.on('close', () => this.handleDisconnect(change.doc));
@@ -110,10 +115,7 @@ class SumoClient {
             if (player) {
                 console.log(`Initialized player "${this.playerName}:${player.uid}".`);
 
-                this.joinRoom().then(() => {
-                    this.detachListener = this.db.collection(`rooms/${this.roomKey}/players`).doc(this.playerName)
-                        .onSnapshot(snapshot => this.handleListener(snapshot));
-                });
+                this.joinRoom().then(() => this.handleListener());
 
             } else {
                 console.log(`Player has been decommissioned.`);
