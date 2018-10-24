@@ -3,9 +3,9 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Unity WebGL Player | flappytutorial</title>
+    <title>FomoSumo</title>
     <script src="%UNITY_WEBGL_LOADER_URL%"></script>
-
+    <link rel='shortcut icon' type='image/x-icon' href='/favicon.ico' />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/simple-peer/9.1.2/simplepeer.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.5.3/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.5.3/firebase-auth.js"></script>
@@ -23,13 +23,13 @@
         var gameInstance = UnityLoader.instantiate("gameContainer", "%UNITY_WEBGL_BUILD_URL%", {onProgress: loadHandler});
     </script>
 </head>
-<body>
+<body style="display:flex;align-items:center;justify-content:center;align-content:center;height:100vh;background-color:#fff8ec;">
 <div class="webgl-content">
     <div id="gameContainer" style="width: 960px; height: 600px"></div>
     <div class="footer">
         <div class="webgl-logo"></div>
-        <div class="fullscreen" onclick="gameInstance.SetFullscreen(1)"></div>
-        <div class="title">FomoSumo</div>
+        <div class="fullscreen"><img src="TemplateData/fullscreen.png" width="38" height="38" alt="Fullscreen" title="Fullscreen" onclick="SetFullscreen(1);" /></div>
+        <div class="title"></div>
     </div>
 </div>
 
