@@ -87,35 +87,35 @@ var stopShakeDetect = () => {
 
 
 // Tilt sensor reference: https://whatwebcando.today/device-position.html
-var processTilt = setInterval(() => {
-    let tiltData = gestureCacheStore['tilt'];
-    var tiltLR = tiltData.gamma;
-    var tiltFB = tiltData.beta;
-    console.log("tilt data polling", tiltLR, tiltFB);
-    console.log("sending tilt data");
-    var jsonPayload = tiltLR.toString() + "|" + tiltFB.toString();
-    console.log("payload", jsonPayload);
-    this.client.player.send(JSON.stringify({
-        type: "tilt",
-        user: playerName,
-        payload: jsonPayload,
-    }));
-}, 200);
+// var processTilt = setInterval(() => {
+//     let tiltData = gestureCacheStore['tilt'];
+//     var tiltLR = tiltData.gamma;
+//     var tiltFB = tiltData.beta;
+//     console.log("tilt data polling", tiltLR, tiltFB);
+//     console.log("sending tilt data");
+//     var jsonPayload = tiltLR.toString() + "|" + tiltFB.toString();
+//     console.log("payload", jsonPayload);
+//     this.client.player.send(JSON.stringify({
+//         type: "tilt",
+//         user: playerName,
+//         payload: jsonPayload,
+//     }));
+// }, 200);
 
-var startTiltDetect = () => {
-    if ('DeviceOrientationEvent' in window) {
-        window.addEventListener('deviceorientation', tiltHandler => {
-            gestureCacheStore['tilt'] = tiltHandler;
-        }, false);
-    }
-
-    gestureListenerIntervals['tilt'] = processTilt;
-};
-
-var stopTiltDetect = () => {
-    clearInterval(gestureListenerIntervals['tilt']);
-    delete gestureListenerIntervals['tilt'];
-};
+// var startTiltDetect = () => {
+//     if ('DeviceOrientationEvent' in window) {
+//         window.addEventListener('deviceorientation', tiltHandler => {
+//             gestureCacheStore['tilt'] = tiltHandler;
+//         }, false);
+//     }
+//
+//     gestureListenerIntervals['tilt'] = processTilt;
+// };
+//
+// var stopTiltDetect = () => {
+//     clearInterval(gestureListenerIntervals['tilt']);
+//     delete gestureListenerIntervals['tilt'];
+// };
 
 
 

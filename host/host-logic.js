@@ -15,24 +15,32 @@ window.addEventListener("loadComplete", function (e) {
 window.onbeforeunload = () => display.close();
 
 display.onPlayerCreated = playerId => {
-    // Add players to gameState, and track result
-    // Used to determine if we can disconnect from the game
-    let addPlayerResult = this.gameState.addPlayer(playerId);
-
-    display.send({
-            type: "playerAdded",
-            payload: addPlayerResult
-        }
-        , playerId);
-
+    // We used to insert player into game here. However, this would result in
+    // sending error when sending message to client, since client handshake is incomplete
 };
 
 display.onPlayerConnected = playerId => {
     // sample: sending private message to peer
-    display.send(`HOST says: Hello from host to ${playerId}!`, playerId)
+    display.send(`HOST says: Hello from host to ${playerId}!`, playerId);
 
     // sample: Broadcast info to all clients about a new player has joined the game
-    display.broadcast(`HOST says: ${playerId} has joined the room.`)
+    display.broadcast(`HOST says: ${playerId} has joined the room.`);
+
+    // **Let the player know current game mode, and player's game status (isConnected?)**
+
+    // Add players to gameState, and track result
+    // Used to determine if we can disconnect from the game
+    let addPlayerResult = this.gameState.addPlayer(playerId);
+    display.send({
+            type: "playerAdded",
+            payload: addPlayerResult,
+        }
+        , playerId);
+
+    display.send({
+        type: "gameChanged",
+        payload: gameState.getCurrentGame(),
+    }, playerId);
 };
 
 display.onPlayerDisconnected = playerId => {
@@ -59,7 +67,7 @@ display.onRoomCreatedSuccess = roomKey => {
 };
 
 display.onRoomCreatedFail = roomKey => {
-    // retry
+    // retryConnected to
     display.start(generateRoomId());
 };
 
@@ -114,6 +122,7 @@ window.addEventListener('gameChanged', function(e){
 		}
     */
     let gameChangeDetails = e.detail;
+    gameState.setCurrentGame(gameChangeDetails);
     display.broadcast({
         type: "gameChanged",
         payload: gameChangeDetails

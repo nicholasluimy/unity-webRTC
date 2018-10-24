@@ -10,6 +10,8 @@ class GameState {
         this.gameStarted = false;
         this.removeQueue = [];
 
+        this.currentGame = null;
+
         // arrays of unity functions, idx by player num
         this.unityShakeFunctions = ["ShakePlayer1", "ShakePlayer2", "ShakePlayer3", "ShakePlayer4"];
         this.unityTiltFunctions = ["TiltPlayer1", "TiltPlayer2", "TiltPlayer3", "TiltPlayer4"];
@@ -112,6 +114,21 @@ class GameState {
 
         this.gameStarted = false;
         this.removeQueue = [];
+    }
+
+    setCurrentGame(gameChangeDetails) {
+        this.currentGame = gameChangeDetails;
+    }
+    getCurrentGame() {
+        if (this.currentGame === null) {
+            // If we try to get without setting, return error object
+            return {
+                game: "??Game",
+                mode: "ERROR",
+            }
+        }
+
+        return this.currentGame;
     }
 }
 
