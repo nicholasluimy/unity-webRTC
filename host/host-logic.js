@@ -31,12 +31,12 @@ display.onPlayerConnected = playerId => {
     // Add players to gameState, and track result
     // Used to determine if we can disconnect from the game
     let addPlayerResult = this.gameState.addPlayer(playerId);
-    display.send(JSON.parse({
+    display.send(JSON.stringify({
             type: "playerAdded",
             payload: addPlayerResult,
     }), playerId);
 
-    display.send(JSON.parse({
+    display.send(JSON.stringify({
         type: "gameChanged",
         payload: gameState.getCurrentGame(),
     }), playerId);
@@ -122,7 +122,7 @@ window.addEventListener('gameChanged', function(e){
     */
     let gameChangeDetails = e.detail;
     gameState.setCurrentGame(gameChangeDetails);
-    display.broadcast(JSON.parse({
+    display.broadcast(JSON.stringify({
         type: "gameChanged",
         payload: gameChangeDetails
     }))
