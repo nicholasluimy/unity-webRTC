@@ -57,9 +57,12 @@ export default {
     this.clientConnection = new SumoClient(this.$firebase, this.playerName, this.roomId);
 
     this.clientConnection.onHostData = data => {
-        let json = JSON.parse(data);
 
-        switch(json.type) {
+      try{
+        const json = JSON.parse(data)
+        const type = json.type
+        const payload = json.payload
+        switch(type) {
             case "gameChanged":
                 // json.payload is in form below.
                 // TODO: Set sensor polling mode, display game
@@ -69,7 +72,15 @@ export default {
                         mode: "shake / tilt",
                     }
                  */
-                console.log("Game was changed to", json.payload.game);
+                if(payload.game === "Flappy Sumo" && payload.mode === "shake") {
+                  this.startShakeDetection();
+                }
+
+                if(payload.game === "Sumo Ring" && payload.mode === "tilt") {
+                  // start tilt detection
+                }
+                
+                console.log("Game was changed to", payload.game);
                 break;
             case "playerAdded":
                 // json.payload is in form below.
@@ -84,15 +95,30 @@ export default {
                         }
                     }
                  */
+                if(payload.success){
+                  const avatars = [orangeSumo, greenSumo, blueSumo, purpleSumo]
+                  this.playerAvatar = avatars[payload.index]
+                }
+
                 console.log("didGetAddedToGame:", json.payload.success.toString());
                 break;
             case "restartRoom":
                 // no payload
                 // TODO: Handle room closed and new room opened, prompt to re-enter roomKey
+                this.roomId = null
+                
+                goToJoinRoom()
+                
+                this.clientConnection.close()
+                this.clientConnection = null
+
                 break;
             default:
                 break;
         }
+      } catch (e) {
+        console.log("cannot parse json:" + data );
+      }
         // const hostData = JSON.parse(data);
       //
       // console.log("sumotype: " + hostData.sumoType);
@@ -108,10 +134,11 @@ export default {
     };
 
     this.clientConnection.start();
-
-    this.startShakeDetection();
   },
   methods: {
+    goToJoinRoom: function(event) {
+      this.$router.push('join-room')
+    },
     startShakeDetection: function() {
       var self = this
       var myShakeEvent = new Shake({
@@ -136,7 +163,8 @@ export default {
         get() { return this.$store.state.playerName }
       },
       roomId: {
-        get() { return this.$store.state.roomId }
+        get() { return this.$store.state.roomId },
+        set(value) { this.$store.commit('updateRoomId', value) }
       },
       clientConnection: {
         get() { return this.$store.state.clientConnection },
