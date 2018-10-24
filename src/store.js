@@ -10,7 +10,8 @@ export default new Vuex.Store({
     clientConnection: null
   },
   mutations: {
-
+    updateRoomId(state, value) { state.roomId = value },
+    updatePlayerName(state, value) { state.playerName = value}
   },
   actions: {
 
