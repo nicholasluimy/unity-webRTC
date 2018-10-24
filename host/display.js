@@ -113,11 +113,11 @@ class SumoDisplay {
     handleDisconnect(playerDoc) {
         console.log(`Disconnected from ${playerDoc.id}`);
 
-        this.onPlayerDisconnected(playerDoc.id);
-
         this.players[playerDoc.id].destroy();
 
         if (playerDoc.exists) return playerDoc.ref.delete();
+        // Do callback after removing, otherwise will try to broadcast to disconnected player
+        this.onPlayerDisconnected(playerDoc.id);
     }
 
     // data: data param from SimplePeer.on('data').
