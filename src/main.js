@@ -11,7 +11,7 @@ import store from './store'
 
 Vue.use(Vuelidate)
 Vue.use(VueAnalytics, {
-  id: 'UA-128043214-1',
+  id: 'UA-128076363-1',
   router, 
   store
 })
