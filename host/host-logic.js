@@ -21,7 +21,7 @@ display.onPlayerCreated = playerId => {
 
 display.onPlayerConnected = playerId => {
     // sample: sending private message to peer
-    display.send(JSON.stringify(`HOST says: Hello from host to ${playerId}!`, playerId));
+    display.send(JSON.stringify(`HOST says: Hello from host to ${playerId}!`), playerId);
 
     // sample: Broadcast info to all clients about a new player has joined the game
     display.broadcast(JSON.stringify(`HOST says: ${playerId} has joined the room.`));
