@@ -31,16 +31,15 @@ display.onPlayerConnected = playerId => {
     // Add players to gameState, and track result
     // Used to determine if we can disconnect from the game
     let addPlayerResult = this.gameState.addPlayer(playerId);
-    display.send({
+    display.send(JSON.parse({
             type: "playerAdded",
             payload: addPlayerResult,
-        }
-        , playerId);
+    }), playerId);
 
-    display.send({
+    display.send(JSON.parse({
         type: "gameChanged",
         payload: gameState.getCurrentGame(),
-    }, playerId);
+    }), playerId);
 };
 
 display.onPlayerDisconnected = playerId => {
@@ -123,10 +122,10 @@ window.addEventListener('gameChanged', function(e){
     */
     let gameChangeDetails = e.detail;
     gameState.setCurrentGame(gameChangeDetails);
-    display.broadcast({
+    display.broadcast(JSON.parse({
         type: "gameChanged",
         payload: gameChangeDetails
-    })
+    }))
     }, false
 );
 
