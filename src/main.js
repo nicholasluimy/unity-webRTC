@@ -1,4 +1,6 @@
 import Vue from 'vue'
+import Vuex from 'vuex'
+import Vuelidate from 'vuelidate'
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/auth'
@@ -6,6 +8,9 @@ import App from './App.vue'
 import router from './router'
 import './registerServiceWorker'
 import store from './store'
+
+Vue.use(Vuex)
+Vue.use(Vuelidate)
 
 /*
 Read this SO because it is OKAY to expose this 'apiKey'

@@ -118,19 +118,9 @@ export default {
         }
       } catch (e) {
         console.log("cannot parse json:" + data );
+
       }
-        // const hostData = JSON.parse(data);
-      //
-      // console.log("sumotype: " + hostData.sumoType);
-      //
-      // if(hostData.sumoType){
-      //   switch(hostData.sumoType){
-      //     default: case "orange": this.playerAvatar = orangeSumo; break;
-      //     case "green": this.playerAvatar = greenSumo; break;
-      //     case "blue": this.playerAvatar = blueSumo; break;
-      //     case "purple": this.playerAvatar = purpleSumo; break;
-      //   }
-      // }
+
     };
 
     this.clientConnection.start();
