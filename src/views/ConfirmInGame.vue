@@ -7,7 +7,7 @@
     </div>
     <div class="avatar">
         <!-- IMPT: Image and name will change according to what player is assigned -->
-        <img :src="playerAvatarUrl" >
+        <img :src="playerAvatar" >
         <div>{{this.playerName}}</div>
     </div>
 
@@ -53,8 +53,6 @@ import purpleSumo from '@/assets/join-room/player4.png'
 export default {
   mounted: function() {
     console.log("mounted")
-    this.playerName = this.$store.state.playerName
-    this.roomId = this.$store.state.roomId
 
     this.clientConnection = new SumoClient(this.$firebase, this.playerName, this.roomId);
 
@@ -101,17 +99,15 @@ export default {
       //
       // if(hostData.sumoType){
       //   switch(hostData.sumoType){
-      //     default: case "orange": this.playerAvatarUrl = orangeSumo; break;
-      //     case "green": this.playerAvatarUrl = greenSumo; break;
-      //     case "blue": this.playerAvatarUrl = blueSumo; break;
-      //     case "purple": this.playerAvatarUrl = purpleSumo; break;
+      //     default: case "orange": this.playerAvatar = orangeSumo; break;
+      //     case "green": this.playerAvatar = greenSumo; break;
+      //     case "blue": this.playerAvatar = blueSumo; break;
+      //     case "purple": this.playerAvatar = purpleSumo; break;
       //   }
       // }
     };
 
     this.clientConnection.start();
-
-    this.$store.state.clientConnection = this.clientConnection
 
     this.startShakeDetection();
   },
@@ -135,11 +131,21 @@ export default {
       }, false);
     }
   },
-  data: function() {
-    return {
-      playerName: 'Anonymous Sumo',
-      playerAvatarUrl: orangeSumo
-    }
+  computed: {
+      playerName: {
+        get() { return this.$store.state.playerName }
+      },
+      roomId: {
+        get() { return this.$store.state.roomId }
+      },
+      clientConnection: {
+        get() { return this.$store.state.clientConnection },
+        set(value) { this.$store.commit('updateClientConnection', value) }
+      },
+      playerAvatar: {
+        get() { return this.$store.state.playerAvatar },
+        set(value) { this.$store.commit('updatePlayerAvatar', value) }
+      }
   }
 }
 </script>

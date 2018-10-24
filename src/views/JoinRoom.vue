@@ -99,9 +99,6 @@
 export default {
   methods: {
     goToConfirmInGame: function(event) {
-      this.$store.state.roomId = this.roomId
-      this.$store.state.playerName = this.playerName
-
       this.$router.push('confirm-in-game')
     },
     validateRoomCode: function() {
@@ -111,10 +108,14 @@ export default {
       console.log("validatePlayerName")
     }
   },
-  data() {
-    return {
-      roomId: '',
-      playerName: ''
+  computed: {
+    roomId: {
+      get() { return this.$store.state.roomId },
+      set(value) { this.$store.commit('updateRoomId', value) }
+    },
+    playerName: {
+      get() { return this.$store.state.playerName },
+      set(value) { this.$store.commit('updatePlayerName', value) }
     }
   }
 }
