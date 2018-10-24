@@ -20,6 +20,14 @@ class GameState {
     }
 
     addPlayer(username) {
+        if (this.inGamePlayers.indexOf(username) != -1) {
+            // If username is already connected, silently allow it
+            // This handles case when a player reconnects with same name
+            // Also handles when multiple players have same name
+            // in which case we just let both players control same avatar
+            return true;
+        }
+
         if (!(this.inGamePlayersCount == this.maxGamePlayers)) {
             this.inGamePlayersCount++;
             var insertIdx = this.inGamePlayers.indexOf("");
