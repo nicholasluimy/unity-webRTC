@@ -101,7 +101,7 @@ class GameState {
 
     unblockAddPlayers() {
         this.gameStarted = false;
-        while (!this.removeQueue.empty()) {
+        while (!this.removeQueue.length == 0) {
             this.dropPlayer(this.removeQueue.pop());
         }
     }
