@@ -59,19 +59,55 @@ export default {
     this.clientConnection = new SumoClient(this.$firebase, this.playerName, this.roomId);
 
     this.clientConnection.onHostData = data => {
-      const hostData = JSON.parse(data)
+        let json = JSON.parse(data);
 
-      console.log("sumotype: " + hostData.sumoType);
-
-      if(hostData.sumoType){
-        switch(hostData.sumoType){
-          default: case "orange": this.playerAvatarUrl = orangeSumo; break
-          case "green": this.playerAvatarUrl = greenSumo; break
-          case "blue": this.playerAvatarUrl = blueSumo; break
-          case "purple": this.playerAvatarUrl = purpleSumo; break
+        switch(json.type) {
+            case "gameChanged":
+                // json.payload is in form below.
+                // TODO: Set sensor polling mode, display game
+                /*
+                    {
+                        game: "Flappy Sumo / Sumo Ring",
+                        mode: "shake / tilt",
+                    }
+                 */
+                console.log("Game was changed to", json.payload.game);
+                break;
+            case "playerAdded":
+                // json.payload is in form below.
+                // TODO: Change state from connecting to connected/rejected
+                // 0-4 int indicates player number. Use this to set player assets (color)
+                /*
+                    {
+                        type: "playerAdded"
+                        payload: {
+                            success: true/false,
+                            index: 0-4 int,
+                        }
+                    }
+                 */
+                console.log("didGetAddedToGame:", json.payload.success.toString());
+                break;
+            case "restartRoom":
+                // no payload
+                // TODO: Handle room closed and new room opened, prompt to re-enter roomKey
+                break;
+            default:
+                break;
         }
-      }
-    }
+        // const hostData = JSON.parse(data);
+      //
+      // console.log("sumotype: " + hostData.sumoType);
+      //
+      // if(hostData.sumoType){
+      //   switch(hostData.sumoType){
+      //     default: case "orange": this.playerAvatarUrl = orangeSumo; break;
+      //     case "green": this.playerAvatarUrl = greenSumo; break;
+      //     case "blue": this.playerAvatarUrl = blueSumo; break;
+      //     case "purple": this.playerAvatarUrl = purpleSumo; break;
+      //   }
+      // }
+    };
 
     this.clientConnection.start();
 
