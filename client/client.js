@@ -29,10 +29,16 @@ class SumoClient {
 
         this.playerName = playerName;
         this.roomKey = roomKey;
+
+        this.onJoinedRoom = new Function();
+        this.onConnected = new Function();
+        this.onDisconnected = new Function();
+        this.onHostData = new Function();
     }
 
     joinRoom() {
         console.log(`${this.playerName} joined the room "${this.roomKey}".`);
+        this.onJoinedRoom();
         return this.db.collection(`rooms/${this.roomKey}/players`).doc(this.playerName).set({
             uid: firebase.auth().currentUser.uid
         });
@@ -61,27 +67,37 @@ class SumoClient {
     // playerDoc: the document snapshot in firestore that represents the player.
     handleConnect() {
         console.log(`Connected to ${this.roomKey}`);
+        this.onConnected();
     }
 
     // playerDoc: the document snapshot in firestore that represents the player.
     handleDisconnect() {
         console.log(`Disconnected from ${this.roomKey}`);
+        this.onDisconnected();
         this.player.destroy();
         return this.db.collection(`rooms/${this.roomKey}/players`).doc(this.playerName).delete();
     }
 
+    handleData(data) {
+        console.log("Received raw data from host.");
+        console.log(data);
+        this.onHostData(data);
+    }
+
     handleListener(snapshot) {
-        this.player = new SimplePeer({ initator: false, trickle: false });
-
-        this.receiveOffer(snapshot);
-
-        this.player.on('error', error => this.handleError(error));
-        this.player.on('connect', () => this.handleConnect());
-        this.player.on('close', () => this.handleDisconnect(change.doc));
-        this.player.on('signal', data => {
-            this.sendAnswer(snapshot, data);
-            this.detachListener();
-        });
+        this.detachListener = this.db.collection(`rooms/${this.roomKey}/players`).doc(this.playerName)
+            .onSnapshot(snapshot => {
+                this.player = new SimplePeer({ initator: false, trickle: false, objectMode: true });
+                this.receiveOffer(snapshot);
+                this.player.on('error', error => this.handleError(error));
+                this.player.on('connect', () => this.handleConnect());
+                this.player.on('close', () => this.handleDisconnect(change.doc));
+                this.player.on('data', data => this.handleData(data));
+                this.player.on('signal', data => {
+                    this.sendAnswer(snapshot, data);
+                    this.detachListener();
+                });
+            });
     }
 
     start() {
