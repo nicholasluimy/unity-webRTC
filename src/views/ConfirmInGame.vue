@@ -8,7 +8,7 @@
     <div class="avatar">
         <!-- IMPT: Image and name will change according to what player is assigned -->
         <img src="@/assets/join-room/player1.png">
-        <div>{{playerName}}</div>
+        <div>{{this.playerName}}</div>
     </div>
 
     <div class="disclaimer">
