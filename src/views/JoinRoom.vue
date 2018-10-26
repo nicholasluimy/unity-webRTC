@@ -119,7 +119,7 @@ export default {
   computed: {
     roomId: {
       get() { return this.$store.state.roomId },
-      set(value) { this.$store.commit('updateRoomId', value) }
+      set(value) { this.$store.commit('updateRoomId', value.toLowerCase()) }
     },
     playerName: {
       get() { return this.$store.state.playerName },

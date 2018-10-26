@@ -70,8 +70,8 @@ export default class SumoClient {
     handleDisconnect() {
         console.log(`Disconnected from ${this.roomKey}`);
         this.onDisconnected();
-        this.player.destroy();
-        return this.db.collection(`rooms/${this.roomKey}/players`).doc(this.playerName).delete();
+        if(this.player) this.player.destroy();
+        //return this.db.collection(`rooms/${this.roomKey}/players`).doc(this.playerName).delete();
     }
 
     handleData(data) {
@@ -84,7 +84,13 @@ export default class SumoClient {
     handleListener() {
         this.detachListener = this.db.collection(`rooms/${this.roomKey}/players`).doc(this.playerName)
             .onSnapshot(snapshot => {
-                this.player = new SimplePeer({ initator: false, trickle: false, objectMode: true });
+                this.player = new SimplePeer({ initator: false, trickle: false, objectMode: true,
+                    channelConfig: {
+                        //maxPacketLifeTime: 50,
+                        maxRetransmits: 0,
+                        ordered: false
+                    }
+                });
 
                 this.receiveOffer(snapshot);
 
@@ -118,7 +124,7 @@ export default class SumoClient {
     }
 
     close() {
-        this.db.collection(`rooms/${this.roomKey}/players`).doc(this.playerName).delete();
+        //this.db.collection(`rooms/${this.roomKey}/players`).doc(this.playerName).delete();
 
         return "Player left."
     }

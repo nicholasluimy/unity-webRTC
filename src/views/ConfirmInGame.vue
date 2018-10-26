@@ -121,6 +121,11 @@ export default {
                 this.clientConnection = null
 
                 break;
+            case "gameStart":
+                this.$router.push("in-game")
+                break;
+            case "gameStop":
+                this.$router.push('game-over')
             default:
                 break;
         }
