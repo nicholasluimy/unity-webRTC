@@ -126,7 +126,14 @@ function mainMenuPlayClicked() {
 }
 document.getElementById('main-menu-play').onclick = mainMenuPlayClicked;
 
-
+function buttonPressShakeAlias() {
+    console.log("sending shake");
+    client.player.send(JSON.stringify({
+        type: "shake",
+        user: playerName,
+        payload: "shakeSent",
+    }))
+}
 
 function joinRoomPlayClicked() {
     joinRoom.style.display = "none";
@@ -140,7 +147,7 @@ function joinRoomPlayClicked() {
 
     // TODO: Decide what kinda detection mode we are in, based off info from Display
     // TODO: Have a way to stop shake detect when toggling modes
-    startShakeDetect();
+    // startShakeDetect();
 
 }
 document.getElementById('join-room-join').onclick = joinRoomPlayClicked;
