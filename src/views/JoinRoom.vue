@@ -73,7 +73,7 @@
     margin-top: 5%;
     background-color: transparent;
     border: none;
-    border-bottom: 2px solid #f51c1c;
+    border-bottom: 2px solid #d8d8d8;
     width: 100%;
   }
 
