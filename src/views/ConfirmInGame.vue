@@ -10,7 +10,9 @@
         <img :src="playerAvatar" >
         <div>{{this.playerName}}</div>
     </div>
-
+    <div class="room-code">
+      <span>Room Code: {{this.roomId}}</span>
+    </div>
     <div class="disclaimer">
         <span>Once all your players are in, </span>
         <br/>
@@ -29,13 +31,19 @@
   }
 }
 
+.room-code {
+  font-size: 1.2em;
+  margin-top: 40%;
+  color: #e13d61;
+}
+
 .avatar {
   text-align: center;
   margin-top: 10%;
 }
 .disclaimer {
   text-align: center;
-  margin-top: 50%;
+  margin-top: 10%;
 }
 
 img {
