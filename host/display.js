@@ -217,8 +217,16 @@ class SumoDisplay {
     }
 
     restart(roomKey) {
-        this.retry = 0;
-        this.start(roomKey);
+        firebase.auth().signOut().then(() => {
+            this.retry = 0;
+            Object.keys(this.players).forEach((key, index) => {
+                this.players[key].close();
+            });
+            this.players = {};
+            this.roomKey = "(not-set)";
+            this.start(roomKey);
+        })
+
     }
 
     close() {
