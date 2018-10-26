@@ -1,4 +1,6 @@
 import Vue from 'vue'
+import Vuelidate from 'vuelidate'
+import VueAnalytics from 'vue-analytics'
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/auth'
@@ -6,6 +8,13 @@ import App from './App.vue'
 import router from './router'
 import './registerServiceWorker'
 import store from './store'
+
+Vue.use(Vuelidate)
+Vue.use(VueAnalytics, {
+  id: 'UA-128076363-1',
+  router, 
+  store
+})
 
 /*
 Read this SO because it is OKAY to expose this 'apiKey'

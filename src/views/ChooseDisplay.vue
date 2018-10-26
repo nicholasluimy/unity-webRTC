@@ -68,7 +68,7 @@ export default {
       this.$router.push('main-menu')
     },
     launchHost: function(event){
-      this.$router.push('#tba')
+        window.location.href = "https://host.fomosumo.com";
     }
   }
 }
