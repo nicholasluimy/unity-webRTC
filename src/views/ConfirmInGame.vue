@@ -7,11 +7,7 @@
     </div>
     <div class="avatar">
         <!-- IMPT: Image and name will change according to what player is assigned -->
-<<<<<<< HEAD
-        <img src="@/assets/join-room/player1.png">
-=======
         <img :src="playerAvatar" >
->>>>>>> 2a290b22becada033dc9bb9a5de283dbe5162500
         <div>{{this.playerName}}</div>
     </div>
 
@@ -49,7 +45,7 @@ img {
 <script>
 import SumoClient from '@/assets/js/SumoClient.js'
 import Shake from 'shake.js'
-import orangeSumo from '@/assets/join-room/player1.png' 
+import orangeSumo from '@/assets/join-room/player1.png'
 import greenSumo from '@/assets/join-room/player2.png'
 import blueSumo from '@/assets/join-room/player3.png'
 import purpleSumo from '@/assets/join-room/player4.png'
@@ -83,7 +79,7 @@ export default {
                 if(payload.game === "Sumo Ring" && payload.mode === "tilt") {
                   // start tilt detection
                 }
-                
+
                 console.log("Game was changed to", payload.game);
                 break;
             case "playerAdded":
@@ -110,9 +106,9 @@ export default {
                 // no payload
                 // TODO: Handle room closed and new room opened, prompt to re-enter roomKey
                 this.roomId = null
-                
+
                 goToJoinRoom()
-                
+
                 this.clientConnection.close()
                 this.clientConnection = null
 
