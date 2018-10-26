@@ -15,6 +15,25 @@ class GameState {
         // arrays of unity functions, idx by player num
         this.unityShakeFunctions = ["ShakePlayer1", "ShakePlayer2", "ShakePlayer3", "ShakePlayer4"];
         this.unityTiltFunctions = ["TiltPlayer1", "TiltPlayer2", "TiltPlayer3", "TiltPlayer4"];
+
+        // actionsSemaphore functions like a semaphore for each player
+        // Each internal array is a queue that we dequeue at a constant rate
+        // If it hits a limit (limit depends on rate of dequeue and desired max input rate), then
+        // any further inputs will be rejected
+        this.actionsSemaphore  = [
+            [],
+            [],
+            [],
+            []
+        ];
+        this.numSemaphores = 2;
+        this.semaphoreReleaseRate = 200; // This is in ms
+
+        setInterval(() => {
+            this.actionsSemaphore.forEach(function(playerSemaphoreQueue){
+               playerSemaphoreQueue.pop();
+            });
+        }, this.semaphoreReleaseRate);
     }
 
     addPlayer(username) {
@@ -74,17 +93,21 @@ class GameState {
         try {
             var sendingUser = data.user;
             console.log(data.user);
-            console.log(this.inGamePlayersHash, this.inGamePlayers);
+            var sendingUserIdx = this.inGamePlayersHash[sendingUser];
+
             if (data.type === 'shake') {
-                if (this.inGamePlayersHash[sendingUser] != null) {
-                    gameInstance.SendMessage('GameController', this.unityShakeFunctions[this.inGamePlayersHash[sendingUser]]);
+                console.log(this.actionsSemaphore[sendingUserIdx]);
+                if ( sendingUserIdx != null && this.actionsSemaphore[sendingUserIdx].length < this.numSemaphores) {
+                    gameInstance.SendMessage('GameController', this.unityShakeFunctions[sendingUserIdx]);
+                    this.actionsSemaphore[sendingUserIdx].push(1);
                 }
             } else if (data.type === 'tilt') {
-                if (this.inGamePlayersHash[sendingUser] != null) {
+                if ( sendingUserIdx != null && this.actionsSemaphore[sendingUserIdx].length < this.numSemaphores) {
                     // payload in tilt action is gamma|beta
                     gameInstance.SendMessage('GameController',
-                        this.unityTiltFunctions[this.inGamePlayersHash[sendingUser]],
+                        this.unityTiltFunctions[sendingUserIdx],
                         data.payload);
+                    this.actionsSemaphore[sendingUserIdx].push(1);
                 }
             }
         }
