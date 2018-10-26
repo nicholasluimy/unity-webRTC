@@ -103,11 +103,19 @@ window.addEventListener('restartRoom', function(e){
 );
 
 window.addEventListener('gameStart', function(e){
+    display.broadcast(JSON.stringify({
+        type: "gameStart"
+    }));
+
     gameState.blockAddPlayers();
     }, false
 );
 
 window.addEventListener('gameStop', function(e){
+    display.broadcast(JSON.stringify({
+        type: "gameStop"
+    }));
+
     gameState.unblockAddPlayers();
     }, false
 );
