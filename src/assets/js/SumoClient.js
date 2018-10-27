@@ -70,7 +70,7 @@ export default class SumoClient {
     handleDisconnect() {
         console.log(`Disconnected from ${this.roomKey}`);
         this.onDisconnected();
-        if(this.player) this.player.destroy();
+        if (this.player) this.player.destroy();
         //return this.db.collection(`rooms/${this.roomKey}/players`).doc(this.playerName).delete();
     }
 
@@ -84,16 +84,21 @@ export default class SumoClient {
     handleListener() {
         this.detachListener = this.db.collection(`rooms/${this.roomKey}/players`).doc(this.playerName)
             .onSnapshot(snapshot => {
-                this.player = new SimplePeer({ 
-                    initator: false, 
-                    trickle: false, 
+                this.player = new SimplePeer({
+                    initator: false,
+                    trickle: false,
                     objectMode: true,
-                    iceServers: [ 
-                        { url: 'stun:stun.l.google.com:19302' },
-                        { url: "turn:178.128.27.249:3478",
-                          username: "test",
-                          credential: "test" },
-                    ],
+                    config: {
+                        iceServers: [
+                            { url: 'stun:stun.l.google.com:19302' },
+                            { urls: 'stun:global.stun.twilio.com:3478?transport=udp' },
+                            {
+                                urls: "turn:178.128.27.249:3478",
+                                username: "test",
+                                credential: "test"
+                            },
+                        ]
+                    },
                     channelConfig: {
                         //maxPacketLifeTime: 50,
                         maxRetransmits: 0,
