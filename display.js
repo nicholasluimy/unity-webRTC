@@ -63,7 +63,22 @@ class SumoDisplay {
     // return: SimplePeer object that represents the player.
     createPlayer(playerDoc) {
         console.log(`Creating player with name: ${playerDoc.id}.`);
-        var player = new SimplePeer({ initiator: true, trickle: false, objectMode: true });
+        var player = new SimplePeer({ 
+            initiator: true, 
+            trickle: false, 
+            objectMode: true,
+            iceServers: [ 
+                { url: 'stun:stun.l.google.com:19302' },
+                { url: "turn:178.128.27.249:3478",
+                  username: "test",
+                  credential: "test" },
+            ],
+            channelConfig: {
+                //maxPacketLifeTime: 50,
+                maxRetransmits: 0,
+                ordered: false
+            }
+        });
 
         this.players[playerDoc.id] = player;
 
