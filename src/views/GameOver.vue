@@ -5,10 +5,10 @@
     </div>
     <div class="center-vertical player">
         <!-- IMPT: Image will change according to what player is assigned -->
-        <img src="@/assets/join-room/player1.png">
+        <img :src="playerAvatar" >
         <span>Nice la.</span>
         <span>But you can do better,</span>
-        <span>nicholas.</span>
+        <span>{{ this.playerName }}.</span>
     </div>
 
     <div class="center-vertical">
@@ -40,3 +40,43 @@
   max-width: 90%;
 }
 </style>
+
+<script>
+export default {
+  methods: {
+    goToConfirmInGame: function(event) {
+      this.$router.replace('confirm-in-game')
+    },
+    goToJoinRoom: function(event) {
+      // clean up
+      this.clientConnection.close()
+      this.shakeListener.stop()
+
+      this.roomId = null
+      this.clientConnection = null
+      this.shakeListener = null
+    
+      this.$router.replace('join-room')
+    }
+  },
+  computed: {
+      playerName: {
+        get() { return this.$store.state.playerName }
+      },
+      roomId: {
+        set(value) { this.$store.commit('updateRoomId', value) }
+      },
+      clientConnection: {
+        get() { return this.$store.state.clientConnection },
+        set(value) { this.$store.commit('updateClientConnection', value) }
+      },
+      playerAvatar: {
+        set(value) { this.$store.commit('updatePlayerAvatar', value) }
+      },
+      shakeListener: {
+        get() { return this.$store.state.shakeListener },
+        set(value) { this.$store.commit('updateShakeListener', value) }
+      }
+  }
+}
+</script>

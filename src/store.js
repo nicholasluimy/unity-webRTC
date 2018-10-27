@@ -8,13 +8,15 @@ export default new Vuex.Store({
     playerName: null,
     playerAvatar: null,
     roomId: null,
-    clientConnection: null
+    clientConnection: null,
+    shakeListener: null
   },
   mutations: {
     updateRoomId(state, value) { state.roomId = value },
     updatePlayerName(state, value) { state.playerName = value},
     updateClientConnection(state, value) { state.clientConnection = value },
-    updatePlayerAvatar(state, value) { state.playerAvatar = value }
+    updatePlayerAvatar(state, value) { state.playerAvatar = value },
+    updateShakeListener(state, value) { state.shakeListener = value }
   },
   actions: {
 

@@ -62,6 +62,9 @@ export default {
   mounted: function() {
     console.log("mounted")
 
+    // has existing connection already
+    if(this.clientConnection) return
+
     this.clientConnection = new SumoClient(this.$firebase, this.playerName, this.roomId);
 
     this.clientConnection.onHostData = data => {
@@ -113,19 +116,20 @@ export default {
             case "restartRoom":
                 // no payload
                 // TODO: Handle room closed and new room opened, prompt to re-enter roomKey
-                this.roomId = null
+                this.roomId = payload.roomId
 
-                goToJoinRoom()
+                this.goToJoinRoom()
 
                 this.clientConnection.close()
                 this.clientConnection = null
 
                 break;
             case "gameStart":
-                this.$router.push("in-game")
+                this.goToInGame()
                 break;
             case "gameStop":
-                this.$router.push('game-over')
+                this.goToGameOver();
+                break;
             default:
                 break;
         }
@@ -140,20 +144,28 @@ export default {
   },
   methods: {
     goToJoinRoom: function(event) {
-      this.$router.push('join-room')
+      this.$router.replace('join-room')
+    },
+    goToInGame: function(event) {
+      this.$router.replace("in-game")
+    },
+    goToGameOver: function(event) {
+      this.$router.replace('game-over')
     },
     startShakeDetection: function() {
       var self = this
-      var myShakeEvent = new Shake({
+
+      if(this.shakeListener) return
+
+      this.shakeListener = new Shake({
           timeout: 100
       });
-
-      myShakeEvent.start();
+      this.shakeListener.start();
 
       window.addEventListener('shake', function() {
           //function to call when shake occurs
           console.log("shake");
-          self.$store.state.clientConnection.player.send(JSON.stringify({
+          self.$store.state.clientConnection.send(JSON.stringify({
               type: "shake",
               user: self.playerName,
               payload: "shakeSent"
@@ -176,6 +188,10 @@ export default {
       playerAvatar: {
         get() { return this.$store.state.playerAvatar },
         set(value) { this.$store.commit('updatePlayerAvatar', value) }
+      },
+      shakeListener: {
+        get() { return this.$store.state.shakeListener },
+        set(value) { this.$store.commit('updateShakeListener', value) }
       }
   }
 }

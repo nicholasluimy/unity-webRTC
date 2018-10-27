@@ -70,8 +70,12 @@ export default class SumoClient {
     handleDisconnect() {
         console.log(`Disconnected from ${this.roomKey}`);
         this.onDisconnected();
-        if (this.player) this.player.destroy();
-        //return this.db.collection(`rooms/${this.roomKey}/players`).doc(this.playerName).delete();
+
+        this.player = null;
+
+        return this.db.collection(`rooms/${this.roomKey}/players`).doc(this.playerName)
+                .delete()
+                .then(() => this.firebase.auth().signOut());
     }
 
     handleData(data) {
@@ -79,6 +83,12 @@ export default class SumoClient {
         console.log(data);
 
         this.onHostData(data);
+    }
+
+    send(data) {
+        console.log("Sending data to host")
+
+        this.player.send(data)
     }
 
     handleListener() {
@@ -110,7 +120,7 @@ export default class SumoClient {
 
                 this.player.on('error', error => this.handleError(error));
                 this.player.on('connect', () => this.handleConnect());
-                this.player.on('close', () => this.handleDisconnect(change.doc));
+                this.player.on('close', () => this.handleDisconnect());
                 this.player.on('data', data => this.handleData(data));
                 this.player.on('signal', data => {
                     this.sendAnswer(snapshot, data);
@@ -138,7 +148,7 @@ export default class SumoClient {
     }
 
     close() {
-        //this.db.collection(`rooms/${this.roomKey}/players`).doc(this.playerName).delete();
+        this.player.destroy();
 
         return "Player left."
     }

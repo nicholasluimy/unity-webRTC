@@ -18,13 +18,13 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'choose-display',
-      component: ChooseDisplay
-    },
-    {
-      path: '/main-menu',
       name: 'main-menu',
       component: MainMenu
+    },
+    {
+      path: '/choose-display',
+      name: 'choose-display',
+      component: ChooseDisplay
     },
     {
       path: '/join-room',

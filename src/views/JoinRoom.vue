@@ -108,12 +108,6 @@ export default {
   methods: {
     goToConfirmInGame: function(event) {
       this.$router.push('confirm-in-game')
-    },
-    validateRoomCode: function() {
-      console.log("validateRoomCode")
-    },
-    validatePlayerName: function() {
-      console.log("validatePlayerName")
     }
   },
   computed: {

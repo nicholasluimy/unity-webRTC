@@ -36,7 +36,7 @@
 export default {
   methods: {
     goToJoinRoom: function(event) {
-      this.$router.push('join-room')
+      this.$router.push('choose-display')
     },
     goToAbout: function(event) {
       this.$router.push('about')
