@@ -43,7 +43,7 @@ class SumoDisplay {
     }
 
     isRoomExists(roomKey) {
-        console.log(`Checking availability of room "${roomKey}".`)
+        console.log(`Checking availability of room "${roomKey}".`);
 
         return this.db.collection('rooms').doc(roomKey).get();
     }
@@ -63,27 +63,8 @@ class SumoDisplay {
     // return: SimplePeer object that represents the player.
     createPlayer(playerDoc) {
         console.log(`Creating player with name: ${playerDoc.id}.`);
-        var player = new SimplePeer({ 
-            initiator: true, 
-            trickle: false, 
-            objectMode: true,
-            config: {
-                iceServers: [
-                    { url: 'stun:stun.l.google.com:19302' },
-                    { urls: 'stun:global.stun.twilio.com:3478?transport=udp' },
-                    {
-                        urls: "turn:178.128.27.249:3478",
-                        username: "test",
-                        credential: "test"
-                    },
-                ]
-            },
-            channelConfig: {
-                //maxPacketLifeTime: 50,
-                maxRetransmits: 0,
-                ordered: false
-            }
-        });
+        var player = new SimplePeer({ initiator: true, trickle: false, objectMode: true });
+        player.name = playerDoc.id
 
         this.players[playerDoc.id] = player;
 
@@ -133,11 +114,18 @@ class SumoDisplay {
     handleDisconnect(playerDoc) {
         console.log(`Disconnected from ${playerDoc.id}`);
 
+        // destroy peer connection
+        if (this.players[playerDoc.id]) {
+            this.players[playerDoc.id].destroy()
+            this.players[playerDoc.id] = null
+            delete this.players[playerDoc.id]
+        }
+
+        // delete firebase entry
+        if (playerDoc.exists) playerDoc.ref.delete()
+
+        // Do callback after removing, otherwise will try to broadcast to disconnected player
         this.onPlayerDisconnected(playerDoc.id);
-
-        this.players[playerDoc.id].destroy();
-
-        if (playerDoc.exists) return playerDoc.ref.delete();
     }
 
     // data: data param from SimplePeer.on('data').
@@ -149,8 +137,8 @@ class SumoDisplay {
     }
 
     broadcast(data) {
-        console.log("Broadcasting data.")
-        console.log(`Sending payload "${data}"`)
+        console.log("Broadcasting data.");
+        console.log(`Sending payload "${data}"`);
         Object.keys(this.players).forEach((playerId, index) => {
             console.log(playerId);
             // key: the name of the object key
@@ -161,12 +149,12 @@ class SumoDisplay {
 
     send(data, playerId) {
         console.log(`Sending data to ${playerId}`);
-        console.log(`Sending payload "${data}"`)
+        console.log(`Sending payload "${data}"`);
         this.players[playerId].send(data);
     }
 
     handleListener() {
-        console.log("Setting up listener for P2P candidates.")
+        console.log("Setting up listener for P2P candidates.");
         this.detachListener = this.db.collection(`rooms/${this.roomKey}/players`).onSnapshot(snapshot => {
             snapshot.docChanges().forEach(change => {
                 // new player joined
@@ -197,32 +185,32 @@ class SumoDisplay {
 
         this.retry++;
 
-        if(this.retry >= this.maxRetry ){
-            console.log("Exceeded number of retries to start game room. Aborting.")
+        if (this.retry >= this.maxRetry) {
+            console.log("Exceeded number of retries to start game room. Aborting.");
             return;
         }
 
-        console.log("Initializing display.")
+        console.log("Initializing display.");
 
         firebase.auth().signInAnonymously().catch(error => {
             console.error("Fail to initialize display.");
             console.log(error);
         });
 
-        firebase.auth().onAuthStateChanged(authState => {
+        this.detachAuthStateListener = firebase.auth().onAuthStateChanged(authState => {
             if (authState) {
                 console.log(`Initialized display "${roomKey}:${authState.uid}".`);
 
                 this.isRoomExists(roomKey).then(room => {
                     if (!room.exists) {
-                        console.log(`Room "${roomKey} is available."`)
+                        console.log(`Room "${roomKey} is available."`);
                         this.createRoom(roomKey).then(() => {
                             this.handleListener();
 
                             this.onRoomCreatedSuccess(roomKey);
                         });
                     } else {
-                        console.log(`Room "${roomKey}" is unavailable.`)
+                        console.log(`Room "${roomKey}" is unavailable.`);
 
                         this.onRoomCreatedFail(roomKey);
                     }
@@ -238,9 +226,24 @@ class SumoDisplay {
 
     close() {
         console.log(`Closing room "${this.roomKey}".`);
-        this.db.collection("rooms").doc(this.roomKey).delete();
-        this.detachListener();
+
+        this.removeAllPlayers()
+        this.detachListener()
+        this.detachAuthStateListener()
+        this.db.collection("rooms").doc(this.roomKey).delete()
+        firebase.auth().signOut()
 
         return "Room closed."
+    }
+
+    removeAllPlayers() {
+        Object.keys(this.players).forEach((player, index) => {
+            console.log(`Closing connection to ${player}`)
+            this.players[player].destroy()
+            this.players[player] = null
+            delete this.players[player]
+        })
+
+        this.players = {}
     }
 }
