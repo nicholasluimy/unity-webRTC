@@ -5,20 +5,20 @@
         </div>
         <div class="join-room-roomcode center-vertical">
             <span>Room Code</span>
-            <input id="roomcode-input" type="text" tabindex="1" v-model="roomId">
+            <input id="roomcode-input" type="text" tabindex="1" v-model="roomId" spellcheck="false">
             <div class="item-input-error-message">
-              <p v-if="!$v.roomId.required">This field is required!</p>
-              <p v-if="!$v.roomId.minLength || !$v.roomId.maxLength">This field must be exactly 5 characters!</p>
-              <p v-if="!$v.roomId.alphaNum">This field must contain only alphanumeric characters!</p>
+              <p class="input-error" v-if="!$v.roomId.required">This field is required!</p>
+              <p class="input-error" v-if="!$v.roomId.minLength || !$v.roomId.maxLength">The room code is 5 characters!</p>
+              <p class="input-error" v-if="!$v.roomId.alphaNum">The room code is alphanumeric!</p>
             </div>
         </div>
         <div class="join-room-usercode center-vertical">
             <span>Display name (&lt;12 characters)</span>
             <input id="usercode-input" type="text" tabindex="2" v-model="playerName">
             <div class="item-input-error-message">
-              <p v-if="!$v.playerName.required">This field is required!</p>
-              <p v-if="!$v.playerName.maxLength">This field must be less than 12 characters!</p>
-              <p v-if="!$v.playerName.alphaNum">This field must contain only alphanumeric characters!</p>
+              <p class="input-error" v-if="!$v.playerName.required">This field is required!</p>
+              <p class="input-error" v-if="!$v.playerName.maxLength">This field must be less than 12 characters!</p>
+              <p class="input-error" v-if="!$v.playerName.alphaNum">This field must contain only alphanumeric characters!</p>
             </div>
         </div>
 
@@ -92,6 +92,9 @@
   color: #e13d61;
   font-size: 15px;
   text-align: center;
+    .input-error {
+        text-align: left;
+    }
 }
 
 .disclaimer {
