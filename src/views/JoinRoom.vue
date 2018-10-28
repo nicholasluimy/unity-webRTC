@@ -105,6 +105,9 @@
 import { required, alphaNum, minLength, maxLength } from 'vuelidate/lib/validators'
 
 export default {
+    mounted: function() {
+        document.documentElement.classList.add("no-scroll");
+    },
   methods: {
     goToConfirmInGame: function(event) {
       this.$router.push('confirm-in-game')

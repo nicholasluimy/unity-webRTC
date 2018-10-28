@@ -34,6 +34,10 @@
 </style>
 <script>
 export default {
+    mounted: function() {
+        document.documentElement.classList.add("no-scroll");
+    },
+
   methods: {
     goToJoinRoom: function(event) {
       this.$router.push('choose-display')

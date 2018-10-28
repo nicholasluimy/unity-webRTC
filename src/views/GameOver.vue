@@ -43,6 +43,9 @@
 
 <script>
 export default {
+    mounted: function() {
+        document.documentElement.classList.add("no-scroll");
+    },
   methods: {
     goToConfirmInGame: function(event) {
       this.$router.replace('confirm-in-game')

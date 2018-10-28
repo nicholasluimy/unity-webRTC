@@ -36,3 +36,10 @@
 }
 
 </style>
+<script>
+    export default {
+        mounted: function() {
+            document.documentElement.classList.add("no-scroll");
+        },
+    }
+</script>

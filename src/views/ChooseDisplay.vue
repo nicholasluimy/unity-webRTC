@@ -63,6 +63,10 @@ $desktop: 640px;
 
 <script>
 export default {
+    mounted: function() {
+        document.documentElement.classList.add("no-scroll");
+    },
+
   methods: {
     launchClient: function(event) {
       this.$router.push('join-room')

@@ -60,6 +60,7 @@ import purpleSumo from '@/assets/join-room/player4.png'
 
 export default {
   mounted: function() {
+    document.documentElement.classList.add("no-scroll");
     console.log("mounted")
 
     // has existing connection already

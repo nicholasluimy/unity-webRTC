@@ -42,3 +42,10 @@
   margin-right: 10px;
 }
 </style>
+<script>
+    export default {
+        mounted: function() {
+            document.documentElement.classList.remove("no-scroll");
+        },
+    }
+</script>
