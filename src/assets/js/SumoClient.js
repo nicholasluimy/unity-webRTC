@@ -53,6 +53,7 @@ export default class SumoClient {
         if (offer) {
             console.log(`Received offer from room "${this.roomKey}."`);
             this.player.signal(offer);
+            this.detachListener();
         }
     }
 
@@ -64,8 +65,6 @@ export default class SumoClient {
     handleConnect() {
         console.log(`Connected to ${this.roomKey}`);
         this.onConnected();
-
-        this.detachListener();
     }
 
     // playerDoc: the document snapshot in firestore that represents the player.
