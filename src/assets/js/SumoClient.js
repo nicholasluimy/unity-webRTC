@@ -64,6 +64,8 @@ export default class SumoClient {
     handleConnect() {
         console.log(`Connected to ${this.roomKey}`);
         this.onConnected();
+
+        this.detachListener();
     }
 
     // playerDoc: the document snapshot in firestore that represents the player.
@@ -116,16 +118,13 @@ export default class SumoClient {
                     }
                 });
 
-                this.receiveOffer(snapshot);
-
                 this.player.on('error', error => this.handleError(error));
                 this.player.on('connect', () => this.handleConnect());
                 this.player.on('close', () => this.handleDisconnect());
                 this.player.on('data', data => this.handleData(data));
-                this.player.on('signal', data => {
-                    this.sendAnswer(snapshot, data);
-                    this.detachListener();
-                });
+                this.player.on('signal', data => this.sendAnswer(snapshot, data));
+
+                this.receiveOffer(snapshot);
             });
     }
 
