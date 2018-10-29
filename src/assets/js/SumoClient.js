@@ -74,6 +74,7 @@ export default class SumoClient {
         this.onDisconnected();
 
         this.player = null;
+        this.detachAuthStateListener();
 
         return this.db.collection(`rooms/${this.roomKey}/players`).doc(this.playerName)
                 .delete()
@@ -134,7 +135,7 @@ export default class SumoClient {
             console.log(error);
         });
 
-        this.firebase.auth().onAuthStateChanged(player => {
+        this.detachAuthStateListener = this.firebase.auth().onAuthStateChanged(player => {
             if (player) {
                 console.log(`Initialized player "${this.playerName}:${player.uid}".`);
 
