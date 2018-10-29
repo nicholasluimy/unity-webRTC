@@ -158,7 +158,8 @@ export default {
       if(this.shakeListener) return
 
       this.shakeListener = new Shake({
-          timeout: 100
+          timeout: 100,
+          threshold: 10
       });
       this.shakeListener.start();
 
