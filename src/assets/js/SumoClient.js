@@ -30,6 +30,28 @@ export default class SumoClient {
         this.onConnected = new Function();
         this.onDisconnected = new Function();
         this.onHostData = new Function();
+
+        this.player = new SimplePeer({
+            initator: false,
+            trickle: false,
+            objectMode: true,
+            config: {
+                iceServers: [
+                    { urls: 'stun:stun.l.google.com:19302' },
+                    { urls: 'stun:global.stun.twilio.com:3478?transport=udp' },
+                    {
+                        urls: "turn:178.128.27.249:3478",
+                        username: "test",
+                        credential: "test"
+                    },
+                ]
+            },
+            channelConfig: {
+                //maxPacketLifeTime: 50,
+                maxRetransmits: 0,
+                ordered: false
+            }
+        });
     }
 
     joinRoom() {
@@ -50,7 +72,7 @@ export default class SumoClient {
 
     receiveOffer(playerDoc) {
         let offer = playerDoc.data().offer;
-        if (offer) {
+        if (offer != undefined) {
             console.log(`Received offer from room "${this.roomKey}."`);
             this.player.signal(offer);
             this.detachListener();
@@ -76,8 +98,8 @@ export default class SumoClient {
         this.detachAuthStateListener();
 
         return this.db.collection(`rooms/${this.roomKey}/players`).doc(this.playerName)
-                .delete()
-                .then(() => this.firebase.auth().signOut());
+            .delete()
+            .then(() => this.firebase.auth().signOut());
     }
 
     handleData(data) {
@@ -96,28 +118,6 @@ export default class SumoClient {
     handleListener() {
         this.detachListener = this.db.collection(`rooms/${this.roomKey}/players`).doc(this.playerName)
             .onSnapshot(snapshot => {
-                this.player = new SimplePeer({
-                    initator: false,
-                    trickle: false,
-                    objectMode: true,
-                    config: {
-                        iceServers: [
-                            { url: 'stun:stun.l.google.com:19302' },
-                            { urls: 'stun:global.stun.twilio.com:3478?transport=udp' },
-                            {
-                                urls: "turn:178.128.27.249:3478",
-                                username: "test",
-                                credential: "test"
-                            },
-                        ]
-                    },
-                    channelConfig: {
-                        //maxPacketLifeTime: 50,
-                        maxRetransmits: 0,
-                        ordered: false
-                    }
-                });
-
                 this.player.on('error', error => this.handleError(error));
                 this.player.on('connect', () => this.handleConnect());
                 this.player.on('close', () => this.handleDisconnect());
