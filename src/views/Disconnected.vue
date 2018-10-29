@@ -1,5 +1,5 @@
 <template>
-   <div class="center-vertical" id="disconnected">
+   <div class="center-vertical no-scroll" id="disconnected">
     <div class="disconnected-header">
         <span>Oops, you disconnected.</span>
     </div>
@@ -36,10 +36,3 @@
 }
 
 </style>
-<script>
-    export default {
-        mounted: function() {
-            document.documentElement.classList.add("no-scroll");
-        },
-    }
-</script>

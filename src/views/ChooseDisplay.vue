@@ -1,5 +1,5 @@
 <template>
-    <div class="center-vertical" id="choose-display">
+    <div class="center-vertical no-scroll" id="choose-display">
         <div class="display-header">
             <span>Who are you?</span>
         </div>
@@ -63,10 +63,6 @@ $desktop: 640px;
 
 <script>
 export default {
-    mounted: function() {
-        document.documentElement.classList.add("no-scroll");
-    },
-
   methods: {
     launchClient: function(event) {
       this.$router.push('join-room')

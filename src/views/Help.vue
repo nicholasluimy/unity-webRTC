@@ -31,11 +31,3 @@
   text-align: center;
 }
 </style>
-
-<script>
-    export default {
-        mounted: function() {
-            document.documentElement.classList.remove("no-scroll");
-        },
-    }
-</script>

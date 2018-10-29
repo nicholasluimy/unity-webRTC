@@ -1,5 +1,5 @@
 <template>
-  <div class="center-vertical" id="main-menu">
+  <div class="center-vertical no-scroll" id="main-menu">
     <img class="header-image" src="@/assets/main-menu/header.png">
     <img id="main-menu-play" class ="button" src="@/assets/main-menu/button_play.png" v-on:click="goToJoinRoom">
     <img id="about" class="button" src="@/assets/main-menu/button_about.png" v-on:click="goToAbout">
@@ -34,10 +34,6 @@
 </style>
 <script>
 export default {
-    mounted: function() {
-        document.documentElement.classList.add("no-scroll");
-    },
-
   methods: {
     goToJoinRoom: function(event) {
       this.$router.push('choose-display')

@@ -1,5 +1,5 @@
 <template>
-   <div class="center-vertical" id="confirmed-in-game">
+   <div class="center-vertical no-scroll" id="confirmed-in-game">
     <div class="confirmed-in-game-header">
         <span>You're in!</span>
         <br/>
@@ -60,7 +60,6 @@ import purpleSumo from '@/assets/join-room/player4.png'
 
 export default {
   mounted: function() {
-    document.documentElement.classList.add("no-scroll");
     console.log("mounted")
 
     // has existing connection already

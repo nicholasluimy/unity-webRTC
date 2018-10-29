@@ -1,5 +1,5 @@
 <template>
-<div class="center-vertical" id="in-game">
+<div class="center-vertical no-scroll" id="in-game">
     <div class="in-game-header">
         <h1>Game in Progress</h1>
         <!-- <span>Follow the instructions on the screen</span> -->
@@ -27,11 +27,3 @@
   max-width: 80%;
 }
 </style>
-
-<script>
-    export default {
-        mounted: function() {
-            document.documentElement.classList.add("no-scroll");
-        },
-    }
-</script>

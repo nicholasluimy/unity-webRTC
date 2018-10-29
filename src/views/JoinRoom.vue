@@ -1,5 +1,5 @@
 <template>
-   <div class="center-vertical" id="join-room">
+   <div class="center-vertical no-scroll" id="join-room">
         <div class="join-room-header centering-content">
             <span>Join your friends here!</span>
         </div>
@@ -34,7 +34,7 @@
 
 <style lang="scss" scoped>
 #join-room {
-  overflow-y: hidden;
+  overflow: hidden;
 }
 .join-room-header {
   font-size: 40px;
@@ -108,9 +108,6 @@
 import { required, alphaNum, minLength, maxLength } from 'vuelidate/lib/validators'
 
 export default {
-    mounted: function() {
-        document.documentElement.classList.add("no-scroll");
-    },
   methods: {
     goToConfirmInGame: function(event) {
       this.$router.push('confirm-in-game')

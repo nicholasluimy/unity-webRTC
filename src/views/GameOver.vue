@@ -1,5 +1,5 @@
 <template>
-<div class="center-vertical" id="game-over">
+<div class="center-vertical no-scroll" id="game-over">
     <div class="centering-content game-over-header">
         <span>Game Over</span>
     </div>
@@ -43,9 +43,6 @@
 
 <script>
 export default {
-    mounted: function() {
-        document.documentElement.classList.add("no-scroll");
-    },
   methods: {
     goToConfirmInGame: function(event) {
       this.$router.replace('confirm-in-game')
