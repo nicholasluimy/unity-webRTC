@@ -1,14 +1,21 @@
 <template>
     <div class="center-vertical no-scroll" id="choose-display">
         <div class="display-header">
-            <span>Who are you?</span>
+            <span>Before we start, </br>let's set up! </span>
+            <div class="sub-header">You need 1) a screen connected to the Internet, and 2) your mobile device(s) as your personal motion controller. Go to fomosumo.com on both.</div>
         </div>
         <div class="display-options">
             <div class="display-option center-vertical" v-on:click="launchClient">
+              <div>
+                Click me if you are reading this on your mobile device.
+              </div>
                 <img class="player" src="@/assets/display/player.png">
                 <div class="display-text">PLAYER</div>
             </div>
             <div class="display-option center-vertical" v-on:click="launchHost">
+              <div>
+                Click me if you are reading this on the shared screen.
+              </div>
                 <img class="screen" src="@/assets/display/screen.png">
                 <div class="display-text">SCREEN</div>
             </div>
@@ -27,10 +34,14 @@ $desktop: 640px;
 }
 
 .display-header {
-  font-size: 40px;
-  margin-top: 10%;
-  margin-bottom: 10%;
+  font-size: 28px;
+  margin-bottom: 7%;
   text-align: center;
+
+  .sub-header {
+    font-size: 14px;
+    padding-top: 2%;
+  }
 }
 
 .display-options {
@@ -47,16 +58,24 @@ $desktop: 640px;
 
 .display-option {
   display: inline-flex; /* inline can be centered with text-align*/
-  width: 300px;
+  /* width: 300px; */
 
   .display-text {
-    padding-top: 5%;
+    padding-top: 2%;
     font-size: 1.2em;
-    margin-bottom: 20%;
+    margin-bottom: 10%;
   }
 
   .player {
-    max-width: 45%;
+    max-width: 25%;
+  }
+
+  .screen {
+    max-width: 40%;
+  }
+
+  img {
+    padding-top: 2%;
   }
 }
 </style>
