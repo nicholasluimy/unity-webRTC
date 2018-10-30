@@ -1,7 +1,7 @@
 <template>
     <div class="center-vertical no-scroll" id="choose-display">
         <div class="display-header">
-            <span>Before we start, </br>let's set up! </span>
+            <span>Before we start, let's set up! </span>
             <div class="sub-header">You need 1) a screen connected to the Internet, and 2) your mobile device(s) as your personal motion controller. Go to fomosumo.com on both.</div>
         </div>
         <div class="display-options">
