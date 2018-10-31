@@ -64,7 +64,7 @@ class SumoDisplay {
     createPlayer(playerDoc) {
         console.log(`Creating player with name: ${playerDoc.id}.`);
         var player = new SimplePeer({ initiator: true, trickle: false, objectMode: true });
-
+        player.name = playerDoc.id
         this.players[playerDoc.id] = player;
 
         this.onPlayerCreated(playerDoc.id);
@@ -116,6 +116,17 @@ class SumoDisplay {
         this.players[playerDoc.id].destroy();
 
         if (playerDoc.exists) return playerDoc.ref.delete();
+        // Do callback after removing, otherwise will try to broadcast to disconnected player
+        // destroy peer connection
+        if (this.players[playerDoc.id]) {
+            this.players[playerDoc.id].destroy()
+            this.players[playerDoc.id] = null
+            delete this.players[playerDoc.id]
+        }
+
+        // delete firebase entry
+        if (playerDoc.exists) playerDoc.ref.delete()
+
         // Do callback after removing, otherwise will try to broadcast to disconnected player
         this.onPlayerDisconnected(playerDoc.id);
     }
@@ -189,7 +200,7 @@ class SumoDisplay {
             console.log(error);
         });
 
-        firebase.auth().onAuthStateChanged(authState => {
+        this.detachAuthStateListener = firebase.auth().onAuthStateChanged(authState => {
             if (authState) {
                 console.log(`Initialized display "${roomKey}:${authState.uid}".`);
 
@@ -231,9 +242,23 @@ class SumoDisplay {
 
     close() {
         console.log(`Closing room "${this.roomKey}".`);
-        this.db.collection("rooms").doc(this.roomKey).delete();
-        this.detachListener();
+
+        this.removeAllPlayers()
+        this.detachListener()
+        this.detachAuthStateListener()
+        this.db.collection("rooms").doc(this.roomKey).delete()
+        firebase.auth().signOut()
 
         return "Room closed."
+    }
+
+    removeAllPlayers() {
+        Object.keys(this.players).forEach((player, index) => {
+            console.log(`Closing connection to ${player}`)
+            this.players[player].destroy()
+            this.players[player] = null
+            delete this.players[player]
+        })
+        this.players = {}
     }
 }

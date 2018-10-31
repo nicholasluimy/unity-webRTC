@@ -43,6 +43,7 @@ display.onPlayerConnected = playerId => {
 };
 
 display.onPlayerDisconnected = playerId => {
+    console.log("player disconnected, passing to game state");
     this.gameState.dropPlayer(playerId);
 
     // // sample: Broadcast info to all clients about a new player has joined the game
