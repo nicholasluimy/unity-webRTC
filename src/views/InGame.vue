@@ -8,6 +8,11 @@
     <div class="in-game-footer">
         Flap those flabby arms, and don't fall!
     </div>
+
+    <!-- <img class="game-icon" src="@/assets/in-game/game2.gif">
+    <div class="in-game-footer">
+        Bump all the other sumos out!
+    </div> -->
 </div>
 </template>
 
