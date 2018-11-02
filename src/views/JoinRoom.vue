@@ -119,9 +119,10 @@ export default {
       this.shakeListener.stop()
       this.shakeListener = null
     }
+
   },
   methods: {
-    goToConfirmInGame: function(event) {
+    goToConfirmInGame: function() {
       this.$router.push('confirm-in-game')
     }
   },
