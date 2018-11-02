@@ -29,7 +29,7 @@
      data-value="35"
 ></div>
 
-<div class="webgl-content">
+<div class="webgl-content" id="webgl-container">
     <div id="gameContainer" style="width: 960px; height: 600px"></div>
     <div class="footer">
         <div class="webgl-logo"></div>
@@ -49,12 +49,10 @@
 
         var loadingBar = document.getElementById('ldBar');
         let webglContainer = document.getElementById('webgl-container');
-        loadingBar.style.display = "block";
-        webglContainer.style.display = "none";
-        console.log(loadingBar, webglContainer, progress);
-        console.log(loadingBar.ldBar);
         try {
             // sometimes ldBar is not ready yet >_>
+            loadingBar.style.display = "block";
+            webglContainer.style.display = "none";
             loadingBar.ldBar.set(parseInt(progress * 100));
         } catch (error) {
 
