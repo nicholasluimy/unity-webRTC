@@ -60,8 +60,6 @@ import purpleSumo from '@/assets/join-room/player4.png'
 
 export default {
   mounted: function() {
-    console.log("mounted")
-
     // has existing connection already
     if(this.clientConnection) return
 
@@ -119,10 +117,6 @@ export default {
                 this.roomId = payload.roomId
 
                 this.goToJoinRoom()
-
-                this.clientConnection.close()
-                this.clientConnection = null
-
                 break;
             case "gameStart":
                 this.goToInGame()
@@ -143,13 +137,13 @@ export default {
     this.clientConnection.start();
   },
   methods: {
-    goToJoinRoom: function(event) {
+    goToJoinRoom: function() {
       this.$router.replace('join-room')
     },
-    goToInGame: function(event) {
+    goToInGame: function() {
       this.$router.replace("in-game")
     },
-    goToGameOver: function(event) {
+    goToGameOver: function() {
       this.$router.replace('game-over')
     },
     startShakeDetection: function() {

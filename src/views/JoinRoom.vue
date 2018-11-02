@@ -92,9 +92,9 @@
   color: #e13d61;
   font-size: 15px;
   text-align: center;
-    .input-error {
-        text-align: left;
-    }
+  .input-error {
+    text-align: left;
+  }
 }
 
 .disclaimer {
@@ -108,6 +108,18 @@
 import { required, alphaNum, minLength, maxLength } from 'vuelidate/lib/validators'
 
 export default {
+  mounted: function() {
+    // clean up
+    if(this.clientConnection){
+      this.clientConnection.close()
+      this.clientConnection = null
+    }
+
+    if(this.shakeListener) {
+      this.shakeListener.stop()
+      this.shakeListener = null
+    }
+  },
   methods: {
     goToConfirmInGame: function(event) {
       this.$router.push('confirm-in-game')
@@ -121,6 +133,14 @@ export default {
     playerName: {
       get() { return this.$store.state.playerName },
       set(value) { this.$store.commit('updatePlayerName', value) }
+    },
+    clientConnection: {
+      get() { return this.$store.state.clientConnection },
+      set(value) { this.$store.commit('updateClientConnection', value) }
+    },
+    shakeListener: {
+      get() { return this.$store.state.shakeListener },
+      set(value) { this.$store.commit('updateShakeListener', value) }
     }
   },
   validations: {

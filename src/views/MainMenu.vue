@@ -71,13 +71,13 @@
 <script>
 export default {
   methods: {
-    goToJoinRoom: function(event) {
+    goToJoinRoom: function() {
       this.$router.push('choose-display')
     },
-    goToAbout: function(event) {
+    goToAbout: function() {
       this.$router.push('about')
     },
-    goToHelp: function(event) {
+    goToHelp: function() {
       this.$router.push('help')
     }
   }

@@ -110,10 +110,10 @@ $desktop: 768px;
 <script>
 export default {
   methods: {
-    launchClient: function(event) {
+    launchClient: function() {
       this.$router.push('join-room')
     },
-    launchHost: function(event){
+    launchHost: function(){
         window.location.href = "https://host.fomosumo.com";
     }
   }

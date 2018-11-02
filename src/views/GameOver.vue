@@ -44,17 +44,11 @@
 <script>
 export default {
   methods: {
-    goToConfirmInGame: function(event) {
+    goToConfirmInGame: function() {
       this.$router.replace('confirm-in-game')
     },
-    goToJoinRoom: function(event) {
-      // clean up
-      this.clientConnection.close()
-      this.shakeListener.stop()
-
+    goToJoinRoom: function() {
       this.roomId = null
-      this.clientConnection = null
-      this.shakeListener = null
     
       this.$router.replace('join-room')
     }
@@ -66,17 +60,9 @@ export default {
       roomId: {
         set(value) { this.$store.commit('updateRoomId', value) }
       },
-      clientConnection: {
-        get() { return this.$store.state.clientConnection },
-        set(value) { this.$store.commit('updateClientConnection', value) }
-      },
       playerAvatar: {
         set(value) { this.$store.commit('updatePlayerAvatar', value) }
       },
-      shakeListener: {
-        get() { return this.$store.state.shakeListener },
-        set(value) { this.$store.commit('updateShakeListener', value) }
-      }
   }
 }
 </script>
