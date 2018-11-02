@@ -33,7 +33,7 @@
 
 .room-code {
   font-size: 1.2em;
-  margin-top: 40%;
+  margin-top: 10%;
   color: #e13d61;
 }
 
