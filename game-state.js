@@ -11,6 +11,7 @@ class GameState {
         this.removeQueue = [];
 
         this.currentGame = null;
+        this.clearedQueue = new Function();
 
         // arrays of unity functions, idx by player num
         this.unityShakeFunctions = ["ShakePlayer1", "ShakePlayer2", "ShakePlayer3", "ShakePlayer4"];
@@ -74,6 +75,10 @@ class GameState {
     }
 
     dropPlayer(username) {
+        if (username == "") {
+            return;
+        }
+        console.log(username, this.gameStarted);
         if (this.gameStarted) {
             this.removeQueue.push(username);
             return;
@@ -125,18 +130,20 @@ class GameState {
     unblockAddPlayers() {
         this.gameStarted = false;
         while (!this.removeQueue.length == 0) {
+            console.log(this.removeQueue, this.removeQueue.length);
             this.dropPlayer(this.removeQueue.pop());
         }
+        this.clearedQueue();
     }
 
     restart() {
         this.maxGamePlayers = 4;
-        this.inGamePlayers = ["","","",""];
-        this.inGamePlayersHash = {};
-        this.inGamePlayersCount = 0;
+        this.inGamePlayers.forEach((playerName) => {
+            // It's ok to drop "" because we handle that in dropPlayer
+            this.dropPlayer((playerName));
+        });
 
         this.gameStarted = false;
-        this.removeQueue = [];
     }
 
     setCurrentGame(gameChangeDetails) {

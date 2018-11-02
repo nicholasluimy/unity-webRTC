@@ -112,8 +112,8 @@ window.addEventListener('restartRoom', function (e) {
     display.close()
 
     display.start(newRoomId);
+    setTimeout(gameState.restart(), 1000);
 
-    gameState.restart();
 }, false);
 
 window.addEventListener('gameStart', function (e) {
@@ -131,6 +131,10 @@ window.addEventListener('gameStop', function (e) {
 
     gameState.unblockAddPlayers();
 }, false);
+
+gameState.clearedQueue = () => {
+    gameInstance.SendMessage('GameController', 'ClearedQueue');
+};
 
 window.addEventListener('gameChanged', function (e) {
     // gameChangeDetails format
