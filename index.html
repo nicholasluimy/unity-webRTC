@@ -6,24 +6,29 @@
     <title>FomoSumo</title>
     <script src="%UNITY_WEBGL_LOADER_URL%"></script>
     <link rel='shortcut icon' type='image/x-icon' href='/favicon.ico' />
+    <link rel="stylesheet" type="text/css" href="loading-bar.css"/>
+    <script type="text/javascript" src="loading-bar.js"></script>
     <script src="simeplepeerfork.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.5.3/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.5.3/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.5.3/firebase-firestore.js"></script>
-    <script>
-        function loadHandler(gameInstance, progress) {
-            // Refer to https://docs.unity3d.com/Manual/webgl-templates.html
-            if (progress == 1) {
-                // Emits an event on window to signal load is complete
-                let event = new CustomEvent('loadComplete');
-                window.dispatchEvent(event);
-            }
+    <style>
+        .ldBar-label {
+            display: none;
         }
 
-        var gameInstance = UnityLoader.instantiate("gameContainer", "%UNITY_WEBGL_BUILD_URL%", {onProgress: loadHandler});
-    </script>
+    </style>
 </head>
 <body style="display:flex;align-items:center;justify-content:center;align-content:center;height:100vh;background-color:#fff8ec;">
+
+<div id="ldBar" class="ldBar" style="display:none;width:50%;height:50%;"
+     data-type="fill"
+     data-img="safari-pinned-tab.svg"
+     data-img-size="100,100"
+     data-fill-dir="btt"
+     data-value="35"
+></div>
+
 <div class="webgl-content">
     <div id="gameContainer" style="width: 960px; height: 600px"></div>
     <div class="footer">
@@ -39,6 +44,38 @@
 <script src="game-state.js"></script>
 <script src="display.js"></script>
 <script src="host-logic.js"></script>
+<script>
+    function loadHandler(gameInstance, progress) {
+
+        var loadingBar = document.getElementById('ldBar');
+        let webglContainer = document.getElementById('webgl-container');
+        loadingBar.style.display = "block";
+        webglContainer.style.display = "none";
+        console.log(loadingBar, webglContainer, progress);
+        console.log(loadingBar.ldBar);
+        try {
+            // sometimes ldBar is not ready yet >_>
+            loadingBar.ldBar.set(parseInt(progress * 100));
+        } catch (error) {
+
+        }
+
+        // Refer to https://docs.unity3d.com/Manual/webgl-templates.html
+        if (progress == 1) {
+
+            webglContainer.style.display = "block";
+            loadingBar.style.display = "none";
+            // Emits an event on window to signal load is complete
+            let event = new CustomEvent('loadComplete');
+            window.dispatchEvent(event);
+        }
+    }
+
+
+    var gameInstance = UnityLoader.instantiate("gameContainer", "Build/fomosumo.json", {onProgress: loadHandler});
+
+
+</script>
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-128076363-2"></script>
 <script>
