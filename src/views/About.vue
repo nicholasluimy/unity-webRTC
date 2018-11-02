@@ -18,7 +18,7 @@
       <img src="@/assets/main-menu/browserlogo.png" />
   </div>
   <div class="text">
-    <p>We are Nicholas, Hui Qi, Kang Fei and Charis, a bunch of NUS/Yale-NUS students from CS3216: Software Product Engineering for Digital Markets. This application is part of our final project. If you enjoyed our games, please vote for us at xxxxx. If you didn't, it would be greatly appreciated if you could head over to the Help section and let us know how we can improve.</p>
+    <p>We are Nicholas, Hui Qi, Kang Fei and Charis, a bunch of NUS/Yale-NUS students from CS3216: Software Product Engineering for Digital Markets. This application is part of our final project. If you enjoyed our games, please vote for us at <a target="_blank" href="http://isteps.comp.nus.edu.sg/event/13th-steps/module/CS3216/project/2">STePS!</a>. If you didn't, it would be greatly appreciated if you could head over to the Help section and let us know how we can improve.</p>
     <p>Thank you so much for playing FomoSumo!</p>
   </div>
 </div>
