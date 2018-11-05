@@ -73,8 +73,12 @@ export default {
         const payload = json.payload
         switch(type) {
             case "gameChanged":
+                // stop all sensors because we might switch games without going to joinRoom
+                this.stopAllSensors();
+
+
                 // json.payload is in form below.
-                // TODO: Set sensor polling mode, display game
+
                 /*
                     {
                         game: "Flappy Sumo / Sumo Ring",
@@ -87,6 +91,7 @@ export default {
 
                 if(payload.game === "Sumo Ring" && payload.mode === "tilt") {
                   // start tilt detection
+                    this.startTiltDetection();
                 }
 
                 console.log("Game was changed to", payload.game);
@@ -113,7 +118,6 @@ export default {
                 break;
             case "restartRoom":
                 // no payload
-                // TODO: Handle room closed and new room opened, prompt to re-enter roomKey
                 this.roomId = payload.roomId
 
                 this.goToJoinRoom()
@@ -148,15 +152,20 @@ export default {
     },
     startShakeDetection: function() {
       var self = this
-
-      if(this.shakeListener) return
+        console.log("in shake detection");
+      console.log(this.shakeListener);
+      if(this.shakeListener) {
+          this.shakeListener.start();
+          return;
+      }
 
       this.shakeListener = new Shake({
           timeout: 100,
           threshold: 10
       });
       this.shakeListener.start();
-
+        console.log("did try to start shake listener");
+        console.log(this.shakeListener);
       window.addEventListener('shake', function() {
           //function to call when shake occurs
           console.log("shake");
@@ -166,7 +175,49 @@ export default {
               payload: "shakeSent"
           }));
       }, false);
-    }
+    },
+      startTiltDetection: function() {
+        var self = this;
+        if (this.tiltListener) {
+            return;
+        }
+
+        // prevents adding more than one listener
+        if (!this.tiltEvent) {
+            // Listener to tilt event and stores data to a caching variable
+            window.addEventListener('deviceorientation', tiltHandler => {
+                self.tiltValues = tiltHandler;
+            }, false);
+            this.tiltEvent = true;
+        }
+
+        // Poll the caching variable at a required rate
+        this.tiltListener = setInterval(() => {
+            let tiltData = self.tiltValues;
+            if (tiltData != null) {
+                let tiltLR = tiltData.gamma;
+                let tiltFB = tiltData.beta;
+                let jsonPayload = tiltLR.toString() + "|" + tiltFB.toString();
+                self.$store.state.clientConnection.send(JSON.stringify({
+                    type: "tilt",
+                    user: self.playerName,
+                    payload: jsonPayload,
+                }));
+            }
+
+        }, 100);
+
+      },
+      stopAllSensors: function() {
+        if (this.shakeListener) {
+            this.shakeListener.stop();
+        }
+        if (this.tiltListener) {
+            clearInterval(this.tiltListener);
+            delete this.tiltListener;
+        }
+
+      }
   },
   computed: {
       playerName: {

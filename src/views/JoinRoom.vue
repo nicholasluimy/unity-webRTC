@@ -120,6 +120,11 @@ export default {
       this.shakeListener = null
     }
 
+    if(this.tiltListener) {
+        clearInterval(this.tiltListener);
+        delete this.tiltListener;
+    }
+
   },
   methods: {
     goToConfirmInGame: function() {
