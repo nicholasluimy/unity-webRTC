@@ -89,7 +89,7 @@ export default {
                   this.startShakeDetection();
                 }
 
-                if(payload.game === "Sumo Ring" && payload.mode === "tilt") {
+                if((payload.game === "Sumo Ring" || payload.game === "Sumo Ball") && payload.mode === "tilt") {
                   // start tilt detection
                     this.startTiltDetection();
                 }
