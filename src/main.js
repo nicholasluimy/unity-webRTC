@@ -8,7 +8,9 @@ import App from './App.vue'
 import router from './router'
 import './registerServiceWorker'
 import store from './store'
+import ToggleButton from 'vue-js-toggle-button'
 
+Vue.use(ToggleButton)
 Vue.use(Vuelidate)
 Vue.use(VueAnalytics, {
   id: 'UA-128076363-1',

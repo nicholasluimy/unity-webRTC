@@ -1,5 +1,5 @@
 <template>
-<div class="center-vertical" id="about">
+<div id="about">
   <div class="center-horizontal about-header">
       <span>The Game&nbsp;</span>
       <img src="@/assets/main-menu/browserlogo.png" />
@@ -25,6 +25,12 @@
 </template>
 
 <style lang="scss" scoped>
+
+#about {
+  height: 100%;
+  overflow-y: scroll;
+}
+
 .about-header {
   font-size: 36px;
   margin-top: 10%;

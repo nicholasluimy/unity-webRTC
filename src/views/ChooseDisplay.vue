@@ -1,23 +1,28 @@
 <template>
-    <div class="center-vertical no-scroll" id="choose-display">
+    <div id="choose-display">
         <div class="display-header">
             <span>Before we start, let's set up! </span>
             <div class="sub-header">You need 1) a screen connected to the Internet, and 2) your mobile device(s) as your personal motion controller. Go to fomosumo.com on both.</div>
+            <toggle-button id="switch" v-model="displayType" :value="false"
+               :color="{checked: '#dbb985', unchecked: '#dbb985'}"
+               :switchColor="{checked: '#e13d61', unchecked: '#e13d61'}"
+               :height="50"
+               :width="120"
+               :sync="true"
+               :labels="{checked: 'PLAYER', unchecked: 'SCREEN'}"/>
         </div>
         <div class="display-options">
-            <div class="display-option center-vertical option-left" v-on:click="launchClient">
+            <div class="display-option center-vertical option-left" v-on:click="launchClient" v-if="displayType === true">
               <div>
-                Click me if you are reading this on your mobile device.
+                This is my mobile device.
               </div>
                 <img class="player" src="@/assets/display/player.png">
-                <div class="display-text">PLAYER</div>
             </div>
-            <div class="display-option center-vertical option-right" v-on:click="launchHost">
+            <div class="display-option center-vertical option-right" v-on:click="launchHost" v-if="displayType === false">
               <div>
-                Click me if you are reading this on the shared screen.
+                This is the shared screen.
               </div>
                 <img class="screen" src="@/assets/display/screen.png">
-                <div class="display-text">SCREEN</div>
             </div>
         </div>
     </div>
@@ -31,6 +36,16 @@ $desktop: 768px;
   justify-content: center; /* center items vertically, in this case */
   align-items: center; /* center items horizontally, in this case */
   flex-direction: column;
+}
+
+#switch {
+  font-size: 14px;
+  margin-top: 15px;
+}
+
+#choose-display{
+  height: 100vh;
+  overflow-y: scroll;
 }
 
 .display-header {
@@ -115,6 +130,11 @@ export default {
     },
     launchHost: function(){
         window.location.href = "https://host.fomosumo.com";
+    }
+  },
+  data () {
+    return {
+      displayType: false
     }
   }
 }

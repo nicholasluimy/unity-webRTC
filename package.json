@@ -14,6 +14,7 @@
     "simple-peer": "feross/simple-peer#master",
     "vue": "^2.5.17",
     "vue-analytics": "^5.16.0",
+    "vue-js-toggle-button": "^1.3.0",
     "vue-router": "^3.0.1",
     "vuelidate": "^0.7.4",
     "vuex": "^3.0.1"
