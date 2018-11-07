@@ -161,6 +161,11 @@ export default {
         if (!value) return false
         if (value.trim() === '' || value.trim().length != 5) return false
 
+        // Disable deprecated features
+        this.$firebase.firestore().settings({
+            timestampsInSnapshots: true
+        });
+
         return this.$firebase.firestore().collection('rooms').doc(value).get().then( doc => {
           return doc.exists
         })
