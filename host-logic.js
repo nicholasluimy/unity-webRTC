@@ -116,7 +116,10 @@ window.addEventListener('restartRoom', function (e) {
 
 window.addEventListener('gameStart', function (e) {
     display.broadcast(JSON.stringify({
-        type: "gameStart"
+        type: "gameStart",
+        payload: {
+            game:gameState.gameName
+        }
     }));
     gameState.blockAddPlayers();
 }, false);
@@ -141,6 +144,7 @@ window.addEventListener('gameChanged', function (e) {
 		}
     */
     let gameChangeDetails = e.detail;
+    gameState.gameName = gameChangeDetails.game;
     gameState.setCurrentGame(gameChangeDetails);
     display.broadcast(JSON.stringify({
         type: "gameChanged",
@@ -153,7 +157,10 @@ window.addEventListener('gameChanged', function (e) {
 
 window.addEventListener('tutorialStart', function (e) {
     display.broadcast(JSON.stringify({
-        type: "tutorialStart"
+        type: "tutorialStart",
+        payload: {
+            game:gameState.gameName
+        }
     }));
 }, false);
 

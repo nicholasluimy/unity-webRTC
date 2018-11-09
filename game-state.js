@@ -13,6 +13,7 @@ class GameState {
         this.currentGame = null;
         this.clearedQueue = new Function();
 
+        this.gameName = "undefined";
         // arrays of unity functions, idx by player num
         this.unityShakeFunctions = ["ShakePlayer1", "ShakePlayer2", "ShakePlayer3", "ShakePlayer4"];
         this.unityTiltFunctions = ["TiltPlayer1", "TiltPlayer2", "TiltPlayer3", "TiltPlayer4"];
