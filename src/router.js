@@ -9,6 +9,7 @@ import GameOver from './views/GameOver.vue'
 import About from './views/About.vue'
 import Help from './views/Help.vue'
 import Disconnected from './views/Disconnected.vue'
+import Tutorial from './views/Tutorial.vue'
 
 Vue.use(Router)
 
@@ -60,6 +61,11 @@ export default new Router({
       path: '/disconnected',
       name: 'disconnected',
       component: Disconnected
+    },
+    {
+      path: '/tutorial',
+      name: 'tutorial',
+      component: Tutorial
     }
   ]
 })

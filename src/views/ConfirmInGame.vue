@@ -128,6 +128,9 @@ export default {
             case "gameStop":
                 this.goToGameOver();
                 break;
+            case "tutorialStart":
+                this.goToTutorial()
+                break;
             default:
                 break;
         }
@@ -149,6 +152,9 @@ export default {
     },
     goToGameOver: function() {
       this.$router.replace('game-over')
+    },
+    goToTutorial: function() {
+      this.$router.replace('tutorial')
     },
     startShakeDetection: function() {
       var self = this

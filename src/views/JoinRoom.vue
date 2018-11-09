@@ -10,7 +10,8 @@
               <p class="input-error" v-if="!$v.roomId.required">This field is required!</p>
               <p class="input-error" v-if="!$v.roomId.minLength || !$v.roomId.maxLength">The room code is 5 characters!</p>
               <p class="input-error" v-if="!$v.roomId.alphaNum">The room code is alphanumeric!</p>
-              <p class="input-error" v-if="!$v.roomId.isAvailable">The room code is unavailable!</p>
+              <p class="input-error" v-if="!$v.roomId.isAvailable && !$v.roomId.$pending">This room is unavailable!</p>
+              <p class="pending" v-if="$v.roomId.$pending">Checking room availability...</p>
             </div>
         </div>
         <div class="join-room-usercode center-vertical">
@@ -91,11 +92,15 @@
 
 
 .item-input-error-message {
-  color: #e13d61;
   font-size: 15px;
   text-align: center;
   .input-error {
+    color: #e13d61;
     text-align: left;
+  }
+
+  .pending {
+    color:gray;
   }
 }
 
