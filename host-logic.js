@@ -71,6 +71,7 @@ display.onRoomCreatedFail = roomKey => {
     display.start(generateRoomId());
 };
 
+display.start(generateRoomId());
 
 function generateRoomId() {
     // Temp fix method to auto-generate roomIDs, until we implement a firebase function
@@ -111,14 +112,12 @@ window.addEventListener('restartRoom', function (e) {
 
     display.start(newRoomId);
     setTimeout(gameState.restart(), 1000);
-
 }, false);
 
 window.addEventListener('gameStart', function (e) {
     display.broadcast(JSON.stringify({
         type: "gameStart"
     }));
-
     gameState.blockAddPlayers();
 }, false);
 
@@ -126,7 +125,6 @@ window.addEventListener('gameStop', function (e) {
     display.broadcast(JSON.stringify({
         type: "gameStop"
     }));
-
     gameState.unblockAddPlayers();
 }, false);
 
@@ -153,7 +151,17 @@ window.addEventListener('gameChanged', function (e) {
 
 
 
+window.addEventListener('tutorialStart', function (e) {
+    display.broadcast(JSON.stringify({
+        type: "tutorialStart"
+    }));
+}, false);
 
+window.addEventListener('backToLobby', function (e) {
+    display.broadcast(JSON.stringify({
+        type: "backToLobby"
+    }));
+}, false);
 
 
 
