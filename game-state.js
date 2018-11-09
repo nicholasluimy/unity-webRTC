@@ -16,6 +16,7 @@ class GameState {
         // arrays of unity functions, idx by player num
         this.unityShakeFunctions = ["ShakePlayer1", "ShakePlayer2", "ShakePlayer3", "ShakePlayer4"];
         this.unityTiltFunctions = ["TiltPlayer1", "TiltPlayer2", "TiltPlayer3", "TiltPlayer4"];
+        this.unityKeypressFunctions = ["PushByPlayer1", "PushByPlayer2", "PushByPlayer3", "PushByPlayer4"];
 
         // actionsSemaphore functions like a semaphore for each player
         // Each internal array is a queue that we dequeue at a constant rate
@@ -103,7 +104,8 @@ class GameState {
             if (data.type === 'shake') {
                 console.log(this.actionsSemaphore[sendingUserIdx]);
                 if ( sendingUserIdx != null && this.actionsSemaphore[sendingUserIdx].length < this.numSemaphores) {
-                    gameInstance.SendMessage('GameController', this.unityShakeFunctions[sendingUserIdx]);
+                    gameInstance.SendMessage('GameController',
+                        this.unityShakeFunctions[sendingUserIdx]);
                     this.actionsSemaphore[sendingUserIdx].push(1);
                 }
             } else if (data.type === 'tilt') {
@@ -113,6 +115,11 @@ class GameState {
                         this.unityTiltFunctions[sendingUserIdx],
                         data.payload);
                     this.actionsSemaphore[sendingUserIdx].push(1);
+                }
+            } else if (data.type === "keypress") {
+                if (sendingUserIdx != null) {
+                    gameInstance.SendMessage('GameController',
+                        this.unityKeypressFunctions[sendingUserIdx]);
                 }
             }
         }
