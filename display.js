@@ -227,6 +227,7 @@ class SumoDisplay {
     close() {
         console.log(`Closing room "${this.roomKey}".`);
 
+        this.retry = 0
         this.removeAllPlayers()
         this.detachListener()
         this.detachAuthStateListener()

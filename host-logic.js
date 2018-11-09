@@ -71,8 +71,6 @@ display.onRoomCreatedFail = roomKey => {
     display.start(generateRoomId());
 };
 
-display.start(generateRoomId());
-
 
 function generateRoomId() {
     // Temp fix method to auto-generate roomIDs, until we implement a firebase function
