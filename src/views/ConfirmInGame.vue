@@ -195,8 +195,8 @@ export default {
         this.tiltListener = setInterval(() => {
             let tiltData = self.tiltValues;
             if (tiltData != null) {
-                let tiltLR = tiltData.gamma;
-                let tiltFB = tiltData.beta;
+                let tiltLR = tiltData.beta;
+                let tiltFB = -tiltData.gamma;
                 let jsonPayload = tiltLR.toString() + "|" + tiltFB.toString();
                 self.$store.state.clientConnection.send(JSON.stringify({
                     type: "tilt",
