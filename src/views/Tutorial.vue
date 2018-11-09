@@ -1,29 +1,48 @@
 <template>
-<div class="center-vertical no-scroll" id="in-game">
+<div class="no-scroll" id="in-game">
     <div class="in-game-header">
-        <h1>Tutorial</h1>
+        <h1>SUMO RING IN PROGRESS</h1>
     </div>
     <!-- placeholder for tutorial -->
-    <img class="game-icon" src="@/assets/in-game/game1.gif">
     <div class="in-game-footer">
-        Flap those flabby arms, and don't fall!
+        Press the button to push other sumos!
+        <img id="push-button" src="@/assets/in-game/button_1.png" />
     </div>
 </div>
 </template>
 
 <style lang="scss" scoped>
+#in-game {
+  transform: rotate(90deg);
+  transform-origin:bottom left;
+  
+  position:absolute;
+  top: -100vw;
+  left: 0;
+  
+  height:100vw;
+  width:100vh;
+  margin: 0px !important;
+}
+
 .in-game-header {
   font-size: 18px;
   margin-top: 10%;
-  margin-bottom: 10%;
   text-align: center;
 }
 
 .in-game-footer {
-  margin-top: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .game-icon {
   max-width: 80%;
+}
+
+#push-button {
+  max-width: 50vw;
+  margin: 3%;
 }
 </style>

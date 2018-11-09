@@ -31,6 +31,11 @@ Vue.prototype.$firebase = firebase.initializeApp({
   messagingSenderId: "903886436512"
 })
 
+// Disable deprecated features
+Vue.prototype.$firebase.firestore().settings({
+  timestampsInSnapshots: true
+});
+
 Vue.config.productionTip = false
 
 new Vue({

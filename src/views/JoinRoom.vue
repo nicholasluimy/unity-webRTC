@@ -10,8 +10,6 @@
               <p class="input-error" v-if="!$v.roomId.required">This field is required!</p>
               <p class="input-error" v-if="!$v.roomId.minLength || !$v.roomId.maxLength">The room code is 5 characters!</p>
               <p class="input-error" v-if="!$v.roomId.alphaNum">The room code is alphanumeric!</p>
-              <p class="input-error" v-if="!$v.roomId.isAvailable && !$v.roomId.$pending">This room is unavailable!</p>
-              <p class="pending" v-if="$v.roomId.$pending">Checking room availability...</p>
             </div>
         </div>
         <div class="join-room-usercode center-vertical">
@@ -161,20 +159,16 @@ export default {
       required,
       alphaNum,
       minLength: minLength(5),
-      maxLength: maxLength(5),
+      maxLength: maxLength(5)/*,
       isAvailable(value) {
+        console.log("val: " + value)
         if (!value) return false
         if (value.trim() === '' || value.trim().length != 5) return false
-
-        // Disable deprecated features
-        this.$firebase.firestore().settings({
-            timestampsInSnapshots: true
-        });
 
         return this.$firebase.firestore().collection('rooms').doc(value).get().then( doc => {
           return doc.exists
         })
-      }
+      }*/
     },
     playerName : {
       required,
