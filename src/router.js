@@ -9,7 +9,8 @@ import GameOver from './views/GameOver.vue'
 import About from './views/About.vue'
 import Help from './views/Help.vue'
 import Disconnected from './views/Disconnected.vue'
-import Tutorial from './views/Tutorial.vue'
+import TutorialSumoRing from './views/TutorialSumoRing.vue'
+import InGameSumoRing from './views/InGameSumoRing.vue'
 
 Vue.use(Router)
 
@@ -63,9 +64,14 @@ export default new Router({
       component: Disconnected
     },
     {
-      path: '/tutorial',
-      name: 'tutorial',
-      component: Tutorial
+      path: '/tutorial-sumo-ring',
+      name: 'tutorial-sumo-ring',
+      component: TutorialSumoRing
+    },
+    {
+      path: '/in-game-sumo-ring',
+      name: 'in-game-sumo-ring',
+      component: InGameSumoRing
     }
   ]
 })
