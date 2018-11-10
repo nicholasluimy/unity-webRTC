@@ -99,11 +99,10 @@ class GameState {
         console.log("game state received data");
         try {
             var sendingUser = data.user;
-            console.log(data.user);
+            // console.log(data.user);
             var sendingUserIdx = this.inGamePlayersHash[sendingUser];
 
             if (data.type === 'shake') {
-                console.log(this.actionsSemaphore[sendingUserIdx]);
                 if ( sendingUserIdx != null && this.actionsSemaphore[sendingUserIdx].length < this.numSemaphores) {
                     gameInstance.SendMessage('GameController',
                         this.unityShakeFunctions[sendingUserIdx]);
