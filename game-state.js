@@ -144,6 +144,7 @@ class GameState {
     }
 
     restart() {
+        this.gameStarted = false;
         this.maxGamePlayers = 4;
         this.inGamePlayers.forEach((playerName) => {
             // It's ok to drop "" because we handle that in dropPlayer
