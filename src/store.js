@@ -10,7 +10,7 @@ export default new Vuex.Store({
     roomId: null,
     clientConnection: null,
     shakeListener: null,
-    tiltListener: null
+    tiltInterval: null
   },
   mutations: {
     updateRoomId(state, value) { state.roomId = value },
@@ -18,7 +18,7 @@ export default new Vuex.Store({
     updateClientConnection(state, value) { state.clientConnection = value },
     updatePlayerAvatar(state, value) { state.playerAvatar = value },
     updateShakeListener(state, value) { state.shakeListener = value },
-    updateTiltListener(state, value) { state.tiltListener = value }
+    updateTiltInterval(state, value) { state.tiltInterval = value }
   },
   actions: {
 

@@ -211,13 +211,13 @@ export default {
         }
 
         // Listener to tilt event and stores data to a caching variable
-        window.addEventListener('deviceorientation', this.tiltHandler, false);
-    },
-    tiltHandler: function(e) {
+        window.addEventListener('deviceorientation', e => {
+            this.tiltSensorVal = e
+        }, false);
 
-        // Poll the caching variable at a required rate
-        this.tiltListener = setInterval(() => {
-            let tiltData = e
+         // Poll the caching variable at a required rate
+        this.tiltInterval = setInterval(() => {
+            let tiltData = this.tiltSensorVal
             if (tiltData != null) {
                 // Beta is +-180, gamma is +-90
                 // Let's remap it to be +-45 for beta, and 22.5 for gamma
@@ -238,13 +238,12 @@ export default {
                 let jsonPayload = tiltLR.toString() + "|" + tiltFB.toString();
                 this.clientConnection.send(JSON.stringify({
                     type: "tilt",
-                    user: self.playerName,
+                    user: this.playerName,
                     payload: jsonPayload,
                 }));
             }
 
-        }, 100);
-        
+        }, 100);   
     },
     stopAllSensors: function() {
         if (this.shakeListener) {
@@ -253,7 +252,6 @@ export default {
         if (this.tiltInterval) {
             clearInterval(this.tiltInterval);
             this.tiltInterval = null;
-            removeEventListener('deviceorientation', this.tiltHandler, false)
         }
     }
   },
@@ -280,6 +278,11 @@ export default {
       tiltInterval: {
         get() { return this.$store.state.tiltInterval },
         set(value) { this.$store.commit('updateTiltInterval', value) }
+      }
+  },
+  data: function() {
+      return {
+          tiltSensorVal: null
       }
   }
 }
