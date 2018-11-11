@@ -1,12 +1,12 @@
 <template>
 <div class="no-scroll" id="in-game">
     <div class="in-game-header">
-        <h1>SUMO RING IN PROGRESS</h1>
+        <h1>SUMO BAll: HOW TO PLAY</h1>
     </div>
     <!-- placeholder for tutorial -->
     <div class="in-game-footer">
-        Press the button to push other sumos!
-        <img id="push-button" src="@/assets/in-game/button_1.png" v-on:click="this.pushButton"/>
+        Press the button to kick the ball!
+        <img id="push-button" src="@/assets/in-game/button_1.png" />
     </div>
 </div>
 </template>
@@ -46,23 +46,3 @@
   margin: 3%;
 }
 </style>
-<script>
-export default {
-  methods: {
-    pushButton: function() {
-      this.clientConnection.send(JSON.stringify({
-        type: "keypress",
-        user: this.playerName
-      }))
-    }
-  },
-  computed: {
-    clientConnection: {
-      get() { return this.$store.state.clientConnection }
-    },
-    playerName: {
-      get() { return this.$store.state.playerName }
-    }
-  }
-}
-</script>

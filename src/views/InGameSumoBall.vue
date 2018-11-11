@@ -1,11 +1,11 @@
 <template>
 <div class="no-scroll" id="in-game">
     <div class="in-game-header">
-        <h1>SUMO RING IN PROGRESS</h1>
+        <h1>SUMO BALL IN PROGRESS</h1>
     </div>
     <!-- placeholder for tutorial -->
     <div class="in-game-footer">
-        Press the button to push other sumos!
+        Press the button to kick the ball!
         <img id="push-button" src="@/assets/in-game/button_1.png" v-on:click="this.pushButton"/>
     </div>
 </div>
@@ -46,6 +46,7 @@
   margin: 3%;
 }
 </style>
+
 <script>
 export default {
   methods: {
@@ -66,3 +67,4 @@ export default {
   }
 }
 </script>
+
