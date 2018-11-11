@@ -91,7 +91,7 @@ export default {
 
                 if((payload.game === "Sumo Ring" || payload.game === "Sumo Ball") && payload.mode === "tilt") {
                   // start tilt detection
-                    this.startTiltDetection();
+                    //this.startTiltDetection();
                 }
 
                 console.log("Game was changed to", payload.game);

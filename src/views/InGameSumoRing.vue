@@ -51,13 +51,17 @@ export default {
   methods: {
     pushButton: function() {
       this.clientConnection.send(JSON.stringify({
-        type: "keypress"
+        type: "keypress",
+        user: this.playerName
       }))
     }
   },
   computed: {
     clientConnection: {
       get() { return this.$store.state.clientConnection }
+    },
+    playerName: {
+      get() { return this.$store.state.playerName }
     }
   }
 }
