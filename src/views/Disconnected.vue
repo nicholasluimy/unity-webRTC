@@ -9,8 +9,7 @@
     </div>
 
     <div class="center-vertical">
-        <img class="buttons" src="@/assets/game-over/button5.png" v-on:click="goToConfirmInGame">
-        <img class="buttons" src="@/assets/game-over/button6.png" v-on:click="goToJoinRoom">
+        <img class="buttons" src="@/assets/game-over/button5.png" v-on:click="goToJoinRoom">
     </div>
 </div>
 </template>
@@ -36,3 +35,24 @@
 }
 
 </style>
+
+<script>
+export default {
+  methods: {
+    goToJoinRoom: function() {
+      this.setFullScreen()
+      this.$router.push('join-room')
+    },
+    setFullScreen: function() {
+       var element = document.documentElement
+      if(element.requestFullScreen) {
+        element.requestFullScreen();
+      } else if(element.mozRequestFullScreen) {
+        element.mozRequestFullScreen();
+      } else if(element.webkitRequestFullScreen) {
+        element.webkitRequestFullScreen();
+      }
+    }
+  }
+}
+</script>

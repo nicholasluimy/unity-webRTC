@@ -142,7 +142,8 @@ export default class SumoClient {
     }
 
     close() {
-        this.player.destroy();
+
+        if(this.player) this.player.destroy();
 
         return "Player left."
     }

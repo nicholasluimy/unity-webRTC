@@ -5,11 +5,12 @@
         </div>
         <div class="join-room-roomcode center-vertical">
             <span>Room Code</span>
-            <input id="roomcode-input" type="text" tabindex="1" v-model="roomId" spellcheck="false">
+            <input id="roomcode-input" type="text" tabindex="1" v-model="roomId" spellcheck="false" v-on:input="reset">
             <div class="item-input-error-message">
               <p class="input-error" v-if="!$v.roomId.required">This field is required!</p>
               <p class="input-error" v-if="!$v.roomId.minLength || !$v.roomId.maxLength">The room code is 5 characters!</p>
               <p class="input-error" v-if="!$v.roomId.alphaNum">The room code is alphanumeric!</p>
+              <p class="input-error" v-if="!isRoomExists">This room is not available!</p>
             </div>
         </div>
         <div class="join-room-usercode center-vertical">
@@ -27,7 +28,7 @@
             <span>to our <a href="#">Terms of Service.</a></span>
         </div>
 
-        <img id="join-room-join" src="@/assets/join-room/button_join.png" tabindex="3" v-on:click="goToConfirmInGame" v-if="!$v.$invalid">
+        <img id="join-room-join" src="@/assets/join-room/button_join.png" tabindex="3" v-on:click="play" v-if="!$v.$invalid">
 
     </div>
 </template>
@@ -125,10 +126,43 @@ export default {
       this.shakeListener = null
     }
 
+    this.isRoomExists = true
+
   },
   methods: {
     goToConfirmInGame: function() {
       this.$router.push('confirm-in-game')
+    },
+    play: function() {
+      this.setFullScreen()
+      this.isRoomAvailable(this.roomId).then( doc => {
+        if(doc.exists){
+          this.goToConfirmInGame()
+        }else{
+          console.log("room not exists")
+          this.isRoomExists = false
+        }
+      })
+
+    },
+    reset: function(){
+      this.isRoomExists = true
+    },
+    isRoomAvailable: function(value) {
+      if (!value) return false
+      if (value.trim() === '' || value.trim().length != 5) return false
+
+      return this.$firebase.firestore().collection('rooms').doc(value).get()
+    },
+    setFullScreen: function() {
+       var element = document.documentElement
+      if(element.requestFullScreen) {
+        element.requestFullScreen();
+      } else if(element.mozRequestFullScreen) {
+        element.mozRequestFullScreen();
+      } else if(element.webkitRequestFullScreen) {
+        element.webkitRequestFullScreen();
+      }
     }
   },
   computed: {
@@ -154,21 +188,17 @@ export default {
       required,
       alphaNum,
       minLength: minLength(5),
-      maxLength: maxLength(5)/*,
-      isAvailable(value) {
-        console.log("val: " + value)
-        if (!value) return false
-        if (value.trim() === '' || value.trim().length != 5) return false
-
-        return this.$firebase.firestore().collection('rooms').doc(value).get().then( doc => {
-          return doc.exists
-        })
-      }*/
+      maxLength: maxLength(5)
     },
     playerName : {
       required,
       alphaNum,
       maxLength: maxLength(12)
+    }
+  },
+  data: function() {
+    return {
+      isRoomExists: true
     }
   }
 }

@@ -1,9 +1,11 @@
 <template>
    <div class="center-vertical no-scroll" id="confirmed-in-game">
     <div class="confirmed-in-game-header">
-        <span>You're in!</span>
+        <span v-if="!connected">Connecting...</span>
+        <span v-if="connected">Connected!</span>
         <br/>
-        <span class="sub-header">Waiting for your friends...</span>
+        <span class="sub-header" v-if="!connected">Establishing connection...</span>
+        <span class="sub-header" v-if="connected">Waiting for your friends...</span>
     </div>
     <div class="avatar">
         <!-- IMPT: Image and name will change according to what player is assigned -->
@@ -57,13 +59,24 @@ import orangeSumo from '@/assets/join-room/player1.png'
 import greenSumo from '@/assets/join-room/player2.png'
 import blueSumo from '@/assets/join-room/player3.png'
 import purpleSumo from '@/assets/join-room/player4.png'
+import loadingCat from '@/assets/confirm-in-game/loading-cat.svg'
 
 export default {
   mounted: function() {
     // has existing connection already
     if(this.clientConnection) return
 
+    this.playerAvatar = loadingCat
+
     this.clientConnection = new SumoClient(this.$firebase, this.playerName, this.roomId);
+    
+    this.clientConnection.onDisconnected = () => {
+        this.stopAllSensors();
+        this.goToDisconnected()
+    }
+    this.clientConnection.onConnected = () => {
+        this.connected = true
+    }
 
     this.clientConnection.onHostData = data => {
 
@@ -169,6 +182,9 @@ export default {
     },
     goToInGameSumoBall: function() {
       this.$router.replace("in-game-sumo-ball")
+    },
+    goToDisconnected: function() {
+      this.$router.replace('disconnected')
     },
     goToGameOver: function() {
       this.$router.replace('game-over')
@@ -282,7 +298,8 @@ export default {
   },
   data: function() {
       return {
-          tiltSensorVal: null
+          tiltSensorVal: null,
+          connected: false
       }
   }
 }
