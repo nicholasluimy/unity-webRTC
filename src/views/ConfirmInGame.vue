@@ -120,23 +120,37 @@ export default {
                 // no payload
                 this.roomId = payload.roomId
 
+                this.stopAllSensors()
+
                 this.goToJoinRoom()
                 break;
             case "gameStart":
-                this.goToInGame()
+                
+                if(payload.game === "Flappy Sumo") {
+                    this.goToInGame()
+                }else if(payload.game === "Sumo Ring"){
+                    this.goToInGameSumoRing()
+                }else if(payload.game === "Sumo Ball"){
+                    this.goToInGameSumoBall()
+                }
                 break;
             case "gameStop":
                 this.goToGameOver();
                 break;
             case "tutorialStart":
-                this.goToTutorial()
+                if(payload.game === "Flappy Sumo") {
+                    // do nothing
+                }else if(payload.game === "Sumo Ring"){
+                    this.goToSumoRingTutorial()
+                }else if(payload.game === "Sumo Ball"){
+                    this.goToSumoBallTutorial()
+                }
                 break;
             default:
                 break;
         }
       } catch (e) {
         console.log("cannot parse json:" + data );
-
       }
 
     };
@@ -150,11 +164,20 @@ export default {
     goToInGame: function() {
       this.$router.replace("in-game")
     },
+    goToInGameSumoRing: function() {
+      this.$router.replace("in-game-sumo-ring")
+    },
+    goToInGameSumoBall: function() {
+      this.$router.replace("in-game-sumo-ball")
+    },
     goToGameOver: function() {
       this.$router.replace('game-over')
     },
-    goToTutorial: function() {
-      this.$router.replace('tutorial')
+    goToSumoRingTutorial: function() {
+      this.$router.replace('tutorial-sumo-ring')
+    },
+    goToSumoBallTutorial: function() {
+      this.$router.replace('tutorial-sumo-ball')
     },
     startShakeDetection: function() {
       var self = this
@@ -182,24 +205,19 @@ export default {
           }));
       }, false);
     },
-      startTiltDetection: function() {
-        var self = this;
-        if (this.tiltListener) {
+    startTiltDetection: function() {
+        if (this.tiltInterval) {
             return;
         }
 
-        // prevents adding more than one listener
-        if (!this.tiltEvent) {
-            // Listener to tilt event and stores data to a caching variable
-            window.addEventListener('deviceorientation', tiltHandler => {
-                self.tiltValues = tiltHandler;
-            }, false);
-            this.tiltEvent = true;
-        }
+        // Listener to tilt event and stores data to a caching variable
+        window.addEventListener('deviceorientation', this.tiltHandler, false);
+    },
+    tiltHandler: function(e) {
 
         // Poll the caching variable at a required rate
         this.tiltListener = setInterval(() => {
-            let tiltData = self.tiltValues;
+            let tiltData = e
             if (tiltData != null) {
                 // Beta is +-180, gamma is +-90
                 // Let's remap it to be +-45 for beta, and 22.5 for gamma
@@ -218,7 +236,7 @@ export default {
                     tiltFB;
 
                 let jsonPayload = tiltLR.toString() + "|" + tiltFB.toString();
-                self.$store.state.clientConnection.send(JSON.stringify({
+                this.clientConnection.send(JSON.stringify({
                     type: "tilt",
                     user: self.playerName,
                     payload: jsonPayload,
@@ -226,18 +244,18 @@ export default {
             }
 
         }, 100);
-
-      },
-      stopAllSensors: function() {
+        
+    },
+    stopAllSensors: function() {
         if (this.shakeListener) {
             this.shakeListener.stop();
         }
-        if (this.tiltListener) {
-            clearInterval(this.tiltListener);
-            delete this.tiltListener;
+        if (this.tiltInterval) {
+            clearInterval(this.tiltInterval);
+            this.tiltInterval = null;
+            removeEventListener('deviceorientation', this.tiltHandler, false)
         }
-
-      }
+    }
   },
   computed: {
       playerName: {
@@ -258,6 +276,10 @@ export default {
       shakeListener: {
         get() { return this.$store.state.shakeListener },
         set(value) { this.$store.commit('updateShakeListener', value) }
+      },
+      tiltInterval: {
+        get() { return this.$store.state.tiltInterval },
+        set(value) { this.$store.commit('updateTiltInterval', value) }
       }
   }
 }

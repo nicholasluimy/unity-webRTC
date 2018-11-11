@@ -11,6 +11,8 @@ import Help from './views/Help.vue'
 import Disconnected from './views/Disconnected.vue'
 import TutorialSumoRing from './views/TutorialSumoRing.vue'
 import InGameSumoRing from './views/InGameSumoRing.vue'
+import TutorialSumoBall from './views/TutorialSumoBall.vue'
+import InGameSumoBall from './views/InGameSumoBall.vue'
 
 Vue.use(Router)
 
@@ -72,6 +74,16 @@ export default new Router({
       path: '/in-game-sumo-ring',
       name: 'in-game-sumo-ring',
       component: InGameSumoRing
+    },
+    {
+      path: '/tutorial-sumo-ball',
+      name: 'tutorial-sumo-ball',
+      component: TutorialSumoBall
+    },
+    {
+      path: '/in-game-sumo-ball',
+      name: 'in-game-sumo-ball',
+      component: InGameSumoBall
     }
   ]
 })
