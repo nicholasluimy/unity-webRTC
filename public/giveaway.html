@@ -2,9 +2,439 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Giveaway</title>
+    <title>FomoSumo</title>
 </head>
+<style>
+    @font-face {
+        font-family: Circular;
+        src: url("assets/landing-page/CircularStd-Medium.otf");
+    }
+    @font-face {
+        font-family: Fredoka;
+        src: url("assets/landing-page/FredokaOne-Regular.ttf");
+    }
+
+    body {
+        margin: 0px !important;
+
+        font-family: Circular, serif;
+    }
+
+    .background-color {
+        background-color: #FFF8ED;
+    }
+    .border-primary {
+        border-bottom: 4px solid #E13D61;
+    }
+    .border-secondary {
+        border-bottom: 4px solid #FDC546;
+    }
+
+    #header {
+        position: fixed;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-family: Fredoka, serif;
+        box-shadow: 4px 4px #999999;
+        font-size: 32px;
+        width: 100%;
+        height: 88px;
+    }
+
+    #header-buttons {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        width: 50%;
+    }
+
+    #header-buttons a {
+        color: black;
+        text-decoration: none;
+    }
+
+    #header #logo-a {
+        width: 12%;
+        padding: 24px;
+        max-height: 116px;
+        max-width: 168px;
+        margin-top: 12px;
+    }
+    #header img {
+        width: 100%;
+    }
+
+    #cta {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        box-shadow: 4px 4px #9999;
+        padding-top: 200px;
+    }
+    #cta img {
+        width: 40%;
+    }
+
+    #cta-content {
+        display: flex;
+        flex-direction: column;
+        font-family: Fredoka, serif;
+        padding-left: 24px;
+        width: 32%;
+    }
+
+    #cta-content-text {
+        padding: 12px 0;
+    }
+
+    #about {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-family: Fredoka, serif;
+        padding: 4% 4%;
+    }
+
+    #about-header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-size: 32px;
+        padding-top: 32px;
+    }
+
+    #about-header-text {
+        text-align: center;
+    }
+
+    #about-header-content {
+        padding: 32px;
+    }
+
+    .about-content-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+    }
+    .about-content {
+        display: flex;
+        flex-direction: column;
+        width: 60%;
+    }
+
+    .about-content-header {
+        font-size: 28px;
+    }
+    .about-content-text {
+        font-family: Circular, serif;
+        padding: 32px 0;
+        font-size: 20px;
+    }
+
+    .about-content-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+    }
+
+    #about-1 img {
+        width: 20%;
+        padding: 20px;
+    }
+
+    #about-2-image-container {
+        width: 40%;
+    }
+
+    #about-2 img {
+        width: 40%;
+        padding: 10px;
+    }
+
+    #about-3 img {
+        width: 20%;
+        padding: 20px;
+    }
+
+    #howtoplay {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-family: Fredoka, serif;
+        padding: 4% 4%;
+    }
+
+    #howtoplay-header {
+        font-size: 32px;
+    }
+
+    #howtoplay-subheader {
+        font-size: 20px;
+        margin-top: 20px;
+    }
+
+    .howtoplay-text {
+        margin-top: 20px;
+        font-size: 16px;
+        text-align: center;
+        font-family: Circular, serif;
+    }
+
+    #howtoplay-1-images img {
+        width: 10%;
+    }
+
+    #howtoplay-2-images img {
+        width: 20%;
+    }
+
+    #howtoplay-1-images, #howtoplay-2-images {
+        padding: 48px 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+
+    #giveaway {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-family: Fredoka, serif;
+        padding: 4% 4%;
+    }
+
+    #giveaway-header {
+        font-size: 32px;
+    }
+
+    #giveaway-subheader {
+        color: #8e0208;
+        font-size: 20px;
+        margin-top: 20px;
+        text-align: center;
+    }
+    .giveaway-instructions-container {
+        font-family: Circular, serif;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        margin: 32px;
+        font-size: 16px;
+        width: 100%;
+    }
+
+    .giveaway-instructions-container img {
+        width: 10%;
+    }
+    .giveaway-instructions-container div {
+        width: 85%;
+    }
+
+    #aboutus {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-family: Fredoka, serif;
+        padding: 4% 4%;
+    }
+    #aboutus-header {
+        font-size: 32px;
+    }
+
+    #aboutus-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        padding: 32px 12px 0 12px;
+        width: 100%;
+    }
+
+    #aboutus-qr {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #aboutus-qr img{
+        width: 60%;
+    }
+
+    #aboutus-content-text {
+        margin-top: 24px;
+        font-family: Circular, serif;
+        text-align: center;
+    }
+
+</style>
 <body>
-    giveaway test
+    <div id="header" class="background-color">
+        <a id="logo-a" href="#cta"><img src="assets/landing-page/logo.png"></a>
+        <div id="header-buttons">
+            <a href="#cta-content-text"><div id="header-button-about" class="border-primary">
+                About
+            </div></a>
+            <a href="#about-3"><div id="header-button-howtoplay">
+                How To Play
+            </div></a>
+            <a href="#howtoplay-2-images"><div id="header-button-giveaway">
+                Giveaway
+            </div></a>
+        </div>
+    </div>
+    <div id="cta" class="background-color">
+        <img src="assets/landing-page/sumo.png">
+        <div id="cta-content">
+            <span id="cta-content-text">
+                Enter into a world of endless fun with your friends!
+            </span>
+            <a href="fomosumo.com"><img src="assets/landing-page/playnow.png"></a>
+        </div>
+    </div>
+    <div id="about">
+        <div id="about-header">
+            <div id="about-header-text" class="border-secondary">
+                About the game
+            </div>
+            <div id="about-header-content">
+                Introducing the first of its kind, an open-source library for web-based motion-contro ed multiplayer games!
+            </div>
+        </div>
+        <div id="about-1" class="about-content-container">
+            <img src="assets/landing-page/webbased.png">
+            <div class="about-content">
+                <div class="about-content-header">
+                    Web-Based
+                </div>
+                <div class="about-content-text">
+                    Don't bother downloading anything onto your devices. We don't want to hog up any of that precious space. Instead, just simply key in <a href="https://fomosumo.com">fomosumo.com</a> on your shared screen and mobile browsers and start playing!
+                </div>
+            </div>
+        </div>
+        <div id="about-2" class="about-content-container">
+            <div class="about-content">
+                <div class="about-content-header">
+                    MOTION-CONTROLLED
+                </div>
+                <div class="about-content-text">
+                    We turned your mobile device into a motion controller. Remember the Nintendo Wii or Switch? Why spend money on those, when the only mobile controller you need is right there in your hands already?
+                </div>
+            </div>
+            <div id="about-2-image-container">
+                <img src="assets/landing-page/tilt.png">
+                <img src="assets/landing-page/shake.png">
+            </div>
+        </div>
+        <div id="about-3" class="about-content-container">
+            <img src="assets/landing-page/multiplayer.png">
+            <div class="about-content">
+                <div class="about-content-header">
+                    MULTIPLAYER
+                </div>
+                <div class="about-content-text">
+                    No more FOMO. Instead of staring at your phone, enjoy a multiplayer experience like no other!
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="howtoplay" class="background-color">
+        <div id="howtoplay-header" class="border-secondary">
+            How To Play
+        </div>
+        <div id="howtoplay-subheader">
+            It's really simple
+        </div>
+        <div id="howtoplay-1-text" class="howtoplay-text">
+            Go to <a href="https://fomosumo.com">fomosumo.com</a> on a shared screen (e.g. computer) and on up to 4 mobile devices.
+        </div>
+        <div id="howtoplay-1-images">
+            <img src="assets/landing-page/player.png">
+            <img src="assets/landing-page/player.png">
+            <img src="assets/landing-page/screen.png">
+            <img src="assets/landing-page/player.png">
+            <img src="assets/landing-page/player.png">
+        </div>
+        <div id="howtoplay-2-text" class="howtoplay-text">
+            Using your mobile phone as a motion controller, you and your friends can choose from any of our games, follow the instructions given and start playing!
+        </div>
+        <div id="howtoplay-2-images">
+            <img src="assets/landing-page/game1.gif">
+            <img src="assets/landing-page/game2.gif">
+            <img src="assets/landing-page/game3.gif">
+        </div>
+    </div>
+    <div id="giveaway">
+        <div id="giveaway-header" class="border-secondary">
+            Giveaway
+        </div>
+        <div id="giveaway-subheader">
+            We are giving away free Eng Wah Cinemas movie vouchers worth $50!
+        </div>
+        <img src="assets/landing-page/giveaway.png" style="width:200px;margin:12px 0;">
+        <div id="giveaway-instructions-header">
+            STAND A CHANCE TO WIN IN 3 EASY STEPS
+        </div>
+        <div class="giveaway-instructions-container">
+            <img src="assets/landing-page/1.png">
+            <div>
+                Play the first out of our three games, Flappy Sumo, at <a href="https://fomosumo.com">FomoSumo.com</a> (solo, or as a team)
+            </div>
+        </div>
+        <div class="giveaway-instructions-container">
+            <img src="assets/landing-page/2.png">
+            <div>
+                Submit your score at <a href="https://submit.fomosumo.com">submit.fomosumo.com</a>
+            </div>
+        </div>
+        <div class="giveaway-instructions-container">
+            <img src="assets/landing-page/3.png">
+            <div>
+                Receive your movie voucher on 14 November 2018, Wednesday (6-10pm) at STePS! (<i>Address: COM2-Level2, School of Computing, National University of Singapore)</i>
+            </div>
+        </div>
+    </div>
+    <div id="aboutus" class="background-color">
+        <div id="aboutus-header" class="border-secondary">
+            The creators
+        </div>
+        <div id="aboutus-content">
+            <div id="aboutus-qr">
+                <img src="assets/landing-page/qrcode.png">
+            </div>
+            <div id="aboutus-content-text">
+                We are Charis, Hui Qi, Kang Fei, and Nicholas, a bunch of NUS/Yale-NUS students from CS3216: Software Product Engineering for Digital Markets. This application is part of our final project.
+                <br><br>
+                If you enjoyed our games, please vote for us at STePS! To do so, scan the QR code or visit <a href="http://isteps.comp.nus.edu.sg/event/13th-steps">http:// isteps.comp.nus.edu.sg/event/13th-steps</a> and vote for us there. You need to sign up for the event first!
+                <br><br>
+                If you didn't enjoy our games, it would be greatly appreciated if you let us know how we can improve here.
+                <br><br>
+                Thank you so much for playing FomoSumo!
+            </div>
+        </div>
+    </div>
+    <script>
+        let aboutButton = document.getElementById("header-button-about");
+        let h2pButton = document.getElementById("header-button-howtoplay");
+        let giveawayButton = document.getElementById("header-button-giveaway");
+
+        function navBarHandler(e) {
+            console.log("clicked", e);
+            aboutButton.classList.remove("border-primary");
+            h2pButton.classList.remove("border-primary");
+            giveawayButton.classList.remove("border-primary");
+
+            this.classList.add("border-primary");
+        }
+
+        aboutButton.addEventListener('click', navBarHandler, false);
+        h2pButton.addEventListener('click', navBarHandler, false);
+        giveawayButton.addEventListener('click', navBarHandler, false);
+
+    </script>
 </body>
 </html>
