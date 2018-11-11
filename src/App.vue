@@ -19,10 +19,16 @@ html{
 
 #app {
   margin: 0;
-  padding: 10% 5%;
+  padding: 0% 5% 10% 5%;
   background-color: #fff8ed;
   box-sizing: border-box;
   height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+#app > div:first-child{
+  margin-top: 10%;
 }
 
 %center {

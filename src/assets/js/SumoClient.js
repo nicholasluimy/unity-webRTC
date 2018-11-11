@@ -18,11 +18,6 @@ export default class SumoClient {
         // Initialize Cloud Firestore through Firebase
         this.db = firebase.firestore();
 
-        // Disable deprecated features
-        this.db.settings({
-            timestampsInSnapshots: true
-        });
-
         this.playerName = playerName;
         this.roomKey = roomKey;
 

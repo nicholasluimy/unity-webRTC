@@ -88,12 +88,17 @@
   max-width: 80%;
 }
 
+
 .item-input-error-message {
-  color: #e13d61;
   font-size: 15px;
   text-align: center;
   .input-error {
+    color: #e13d61;
     text-align: left;
+  }
+
+  .pending {
+    color:gray;
   }
 }
 
@@ -154,7 +159,16 @@ export default {
       required,
       alphaNum,
       minLength: minLength(5),
-      maxLength: maxLength(5)
+      maxLength: maxLength(5)/*,
+      isAvailable(value) {
+        console.log("val: " + value)
+        if (!value) return false
+        if (value.trim() === '' || value.trim().length != 5) return false
+
+        return this.$firebase.firestore().collection('rooms').doc(value).get().then( doc => {
+          return doc.exists
+        })
+      }*/
     },
     playerName : {
       required,

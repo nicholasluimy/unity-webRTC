@@ -1,5 +1,5 @@
 <template>
-  <div id="desktop-container">
+  <div id="desktop-container" class="no-scroll">
     <img src="@/assets/main-menu/leftsumo.png" class="desktop-only leftsumo">
     <div class="center-vertical no-scroll" id="main-menu">
       <img class="header-image" src="@/assets/main-menu/header.png">
@@ -14,7 +14,6 @@
 
 <style lang="scss" scoped>
 #main-menu {
-  overflow-y: hidden;
   z-index: 1;
 }
 
