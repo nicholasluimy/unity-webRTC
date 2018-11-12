@@ -28,7 +28,7 @@ html{
 }
 
 #app > div:first-child{
-  margin-top: 10%;
+  margin-top: 5%;
 }
 
 %center {
@@ -55,4 +55,3 @@ html{
 }
 
 </style>
-
