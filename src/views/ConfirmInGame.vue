@@ -59,7 +59,7 @@ import orangeSumo from '@/assets/join-room/player1.png'
 import greenSumo from '@/assets/join-room/player2.png'
 import blueSumo from '@/assets/join-room/player3.png'
 import purpleSumo from '@/assets/join-room/player4.png'
-import loadingCat from '@/assets/confirm-in-game/loading-cat.svg'
+import loadingCat from '@/assets/confirm-in-game/loading.svg'
 
 export default {
   mounted: function() {

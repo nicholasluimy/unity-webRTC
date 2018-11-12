@@ -111,10 +111,21 @@ $desktop: 768px;
 export default {
   methods: {
     launchClient: function() {
+      this.setFullScreen()
       this.$router.push('join-room')
     },
     launchHost: function(){
       window.location.href = "https://host.fomosumo.com";
+    },
+    setFullScreen: function() {
+       var element = document.documentElement
+      if(element.requestFullScreen) {
+        element.requestFullScreen();
+      } else if(element.mozRequestFullScreen) {
+        element.mozRequestFullScreen();
+      } else if(element.webkitRequestFullScreen) {
+        element.webkitRequestFullScreen();
+      }
     }
   }
 }
