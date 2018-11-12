@@ -146,10 +146,10 @@ class GameState {
     restart() {
         this.gameStarted = false;
         this.maxGamePlayers = 4;
-        this.inGamePlayers.forEach((playerName) => {
-            // It's ok to drop "" because we handle that in dropPlayer
-            this.dropPlayer((playerName));
-        });
+        while (!this.removeQueue.length == 0) {
+            console.log(this.removeQueue, this.removeQueue.length);
+            this.dropPlayer(this.removeQueue.pop());
+        }
 
         this.gameStarted = false;
     }
