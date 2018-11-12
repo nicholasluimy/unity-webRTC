@@ -12,6 +12,11 @@
   color: #fff;
 }
 
+@font-face {
+  font-family: Fredoka;
+  src: url(../fonts/FredokaOne-Regular.ttf);
+}
+
 ::selection {
   background-color: #42d1ff;
   color: #fff;
@@ -118,7 +123,7 @@ a, a:focus, a:hover {
 
 h1, h2, h3,
 h4, h5, h6 {
-  font-family: "Poppins", sans-serif;
+  font-family: Fredoka, sans-serif;
   color: #222222;
   line-height: 1.2em !important;
   margin-bottom: 0;
@@ -130,7 +135,7 @@ h4, h5, h6 {
 .h4, .h5, .h6 {
   margin-bottom: 0;
   margin-top: 0;
-  font-family: "Poppins", sans-serif;
+  font-family: Fredoka, sans-serif;
   font-weight: 600;
   color: #222222;
 }
@@ -2175,8 +2180,8 @@ h1, h2, h3, h4, h5, h6 {
 
 .header-btn:hover {
   border: 1px solid #fff;
-  background: transparent;
-  color: #fff;
+  background-color: #E13D61;
+  color: black;
 }
 
 .cat-area #hexagon:hover {
