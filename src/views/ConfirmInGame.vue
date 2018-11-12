@@ -238,7 +238,7 @@ export default {
                 // Beta is +-180, gamma is +-90
                 // Let's remap it to be +-45 for beta, and 22.5 for gamma
                 let tiltLR = tiltData.beta * 4;
-                let tiltFB = -tiltData.gamma * 4;
+                let tiltFB = -tiltData.gamma * 8;
 
                 let tiltLRAbs = Math.abs(tiltLR);
                 let tiltFBAbs = Math.abs(tiltFB);
@@ -247,8 +247,8 @@ export default {
                     (tiltLR < 0 ? -180 : 180) :
                     tiltLR;
 
-                tiltFB = tiltFBAbs >= 90 ?
-                    (tiltFB < 0 ? -90 : 90) :
+                tiltFB = tiltFBAbs >= 180 ?
+                    (tiltFB < 0 ? -180 : 180) :
                     tiltFB;
 
                 let jsonPayload = tiltLR.toString() + "|" + tiltFB.toString();
