@@ -163,6 +163,16 @@ export default {
       } else if(element.webkitRequestFullScreen) {
         element.webkitRequestFullScreen();
       }
+
+      // jack this to lock orientation if available (sorry edge and safari)
+        var orientKey = 'orientation';
+        if ('mozOrientation' in screen) {
+            orientKey = 'mozOrientation';
+        } else if ('msOrientation' in screen) {
+            orientKey = 'msOrientation';
+        }
+        screen[orientKey].lock('portrait-primary');
+
     }
   },
   computed: {
