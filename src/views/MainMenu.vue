@@ -74,7 +74,7 @@ export default {
       this.$router.push('choose-display')
     },
     goToAbout: function() {
-        window.open('https://about.fomosumo.com','_blank');
+        window.open('//about.fomosumo.com','_blank');
     },
     goToHelp: function() {
       this.$router.push('help')
