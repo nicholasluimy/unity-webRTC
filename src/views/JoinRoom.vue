@@ -171,7 +171,7 @@ export default {
         } else if ('msOrientation' in screen) {
             orientKey = 'msOrientation';
         }
-        if (screen[orientKey].lock) {
+        if (screen[orientKey] != undefined) {
             screen[orientKey].lock('portrait-primary');
         }
 
