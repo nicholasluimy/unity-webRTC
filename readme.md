@@ -1,3 +1,17 @@
+# THIS REPO IS IN DISARRAY
+
+### The proof of concept for this project can be found at fomosumo.com
+
+However, the code for this project lies in two detached branches, `client` and `host`.
+
+A refactor is in the works but it is slow because there doesn't seem to really be a demand (?) for this (most use cases can get by with a socket server)
+
+Refactoring is currently WIP in the `refactorWIP` branch. If you're interested to contribute to this project and help make the package a reality, feel free to contact us!
+
+
+# END NOTICE
+
+
 This repo contains two separate applications:
  1) A JS layer to interface with a Unity3d compiled WebGL application
  2) A JS application to serve as a controller-client
