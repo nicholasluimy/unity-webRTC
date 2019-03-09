@@ -7,6 +7,9 @@
       <img id="about" class="button" src="@/assets/main-menu/button_about.png" v-on:click="goToAbout">
       <img id="help" class="button" src="@/assets/main-menu/button_help.png" v-on:click="goToHelp">
       <img class="sumo" src="@/assets/main-menu/sumo.png">
+      <a href="https://github.com/nicholasluimy/unity-webRTC/tree/refactorWIP" target="_blank">
+        <img src="img/landing/github-logo.png" style="height:30px;width:30px;">
+      </a>
     </div>
     <img src="@/assets/main-menu/rightsumo.png" class="desktop-only rightsumo">
   </div>
